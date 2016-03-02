@@ -30,4 +30,21 @@ require(['async!https://maps.googleapis.com/maps/api/js?v=3.24&libraries=geometr
       });
     }
     initializeMap();
+
+    /*
+      Bind page actions
+     */
+    function bindActions() {
+      google.maps.event.addDomListener(window, "resize", resizeMap);
+    }
+    bindActions();
+
+    /*
+      Event handler for making Google Map responsive
+     */
+    function resizeMap() {
+       var center = map.getCenter();
+       google.maps.event.trigger(map, "resize");
+       map.setCenter(center);
+    }
 });
