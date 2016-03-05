@@ -123,3 +123,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STORAGE_PATH = './storage'
 STATIC_ROOT = STORAGE_PATH + '/static'
+
+SOCRATA_DOMAIN = "data.cityofchicago.org"
+SOCRATA_APP_TOKEN = "IzCTOM2IOPCDEHpMNfGfscyb3"
+SOCRATA_DATASET_ENDPOINT = 'ijzp-q8t2'
