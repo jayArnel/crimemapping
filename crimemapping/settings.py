@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'crimemapping.map',
+    'crimemapping.crime',
 ]
 
 MIDDLEWARE_CLASSES = [
