@@ -2,7 +2,11 @@ require(['async!https://maps.googleapis.com/maps/api/js?v=3.24&libraries=geometr
         /*
       Initialize variables
      */
-    var map = new google.maps.Map(document.getElementById('map'));
+    var map = new google.maps.Map(document.getElementById('map'), {
+        mapTypeControlOptions: {
+            position: google.maps.ControlPosition.TOP_RIGHT,
+        }
+    });
     var boundariesGeoJSON = 'https://gist.githubusercontent.com/anonymous/0b1f9831d6d4941206f7/raw/b1c4dd632b4466e596169639dcba3bebda693d4e/map.geojson'
     // Chicago City box points
     var NorthEast = new google.maps.LatLng(42.023135, -87.523661);
