@@ -18,7 +18,10 @@ from django.conf.urls import url, include
 from django.contrib import admin
 
 from crimemapping.map import urls as map_urls
+from crimemapping.crime import urls as crime_urls
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url('', include(map_urls)),
+    url(r'^crime/', include(crime_urls)),
 ]
