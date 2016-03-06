@@ -62,3 +62,4 @@ docs/_build/
 target/
 
 node_modules/
+crimemapping/local_settings.py
