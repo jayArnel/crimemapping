@@ -61,8 +61,8 @@ class UpdateDBView(JSONResponseMixin, View):
                             'case_number': self.get_from_dict(
                                 record, 'case_number'),
                             'date': datetime.strptime(
-                                 self.get_from_dict(record, 'date'),
-                                 '%Y-%m-%dT%H:%M:%S'),
+                                self.get_from_dict(record, 'date'),
+                                '%Y-%m-%dT%H:%M:%S'),
                             'block': self.get_from_dict(record, 'block'),
                             'iucr': self.get_from_dict(record, 'iucr'),
                             'primary_type': self.get_from_dict(
@@ -71,8 +71,10 @@ class UpdateDBView(JSONResponseMixin, View):
                                 record, 'description'),
                             'location_description': self.get_from_dict(
                                 record, 'location_description'),
-                            'has_arrested': self.get_from_dict(record, 'arrest'),
-                            'is_domestic': self.get_from_dict(record, 'domestic'),
+                            'has_arrested': self.get_from_dict(
+                                record, 'arrest'),
+                            'is_domestic': self.get_from_dict(
+                                record, 'domestic'),
                             'beat': self.get_from_dict(record, 'beat'),
                             'district': self.get_from_dict(record, 'district'),
                             'ward': self.to_int(
@@ -81,14 +83,14 @@ class UpdateDBView(JSONResponseMixin, View):
                                 record, 'community_area'),
                             'fbi_code': self.get_from_dict(record, 'fbi_code'),
                             'x_coordinate': self.to_int(
-                                 self.get_from_dict(record, 'x_coordinate')),
+                                self.get_from_dict(record, 'x_coordinate')),
                             'y_coordinate': self.to_int(
-                                 self.get_from_dict(record, 'y_coordinate')),
+                                self.get_from_dict(record, 'y_coordinate')),
                             'year': self.to_int(
                                 self.get_from_dict(record, 'year')),
                             'updated_on': datetime.strptime(
-                                 self.get_from_dict(record, 'updated_on'),
-                                 '%Y-%m-%dT%H:%M:%S'),
+                                self.get_from_dict(record, 'updated_on'),
+                                '%Y-%m-%dT%H:%M:%S'),
                             'latitude': float(self.get_from_dict(
                                 record, 'latitude')),
                             'longitude': float(self.get_from_dict(
