@@ -28,3 +28,6 @@ class Crime(models.Model):
     updated_on = models.DateTimeField()
     latitude = models.FloatField()
     longitude = models.FloatField()
+
+    class Meta:
+        app_label = "crime"
