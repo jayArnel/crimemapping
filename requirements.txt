@@ -1,5 +1,6 @@
 Django==1.9.4
 future==0.15.0
+psycopg2==2.6.1
 py==1.4.31
 pytest==2.8.7
 pytz==2015.7
