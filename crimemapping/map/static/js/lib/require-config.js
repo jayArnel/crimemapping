@@ -5,9 +5,11 @@
         window.require = config;
     }
 })({
-    baseUrl: '/static/js/lib',
+    baseUrl: '/static/js',
     paths: {
-        jquery: 'jquery-1.11.3.min.js',
-        async: 'plugins/async',
+        jquery: 'lib/jquery-1.11.3.min',
+        async: 'lib/plugins/async',
+        stapes: 'lib/stapes-0.8.1-min',
+        model: 'model',
     }
 });
