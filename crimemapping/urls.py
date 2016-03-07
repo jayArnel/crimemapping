@@ -22,6 +22,6 @@ from crimemapping.crime import urls as crime_urls
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url('', include(map_urls)),
     url(r'^crime/', include(crime_urls)),
+    url(r'', include(map_urls)),
 ]
