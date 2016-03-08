@@ -1,4 +1,7 @@
-require(['async!https://maps.googleapis.com/maps/api/js?v=3.24&libraries=geometry&sensor=false'], function() {
+require([
+    'model',
+    'async!https://maps.googleapis.com/maps/api/js?v=3.24&libraries=geometry&sensor=false'
+], function(Model) {
         /*
       Initialize variables
      */
@@ -15,6 +18,7 @@ require(['async!https://maps.googleapis.com/maps/api/js?v=3.24&libraries=geometr
     var SouthEast = new google.maps.LatLng(41.644286, -87.523661);
     var grid_size = 1000;
     var rectArr = [];
+    var Crimes = new Model('crime');
     /*
       Set initial map properties
      */
@@ -32,6 +36,18 @@ require(['async!https://maps.googleapis.com/maps/api/js?v=3.24&libraries=geometr
                 strokeColor: color,
                 strokeWeight: 2,
             });
+        });
+        Crimes.objects.filter({}, function (data){
+            for (var i = 0; i < data.length; i++) {
+                var crime = data[i];
+                var lat = crime.latitude;
+                var long = crime.longitude;
+                new google.maps.Marker({
+                    position: new google.maps.LatLng(lat, long),
+                    map: map,
+                    icon: 'https://maps.gstatic.com/intl/en_us/mapfiles/markers2/measle_blue.png',
+                  });
+            }
         });
         drawGrid();
       });
