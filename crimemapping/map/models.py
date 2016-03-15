@@ -1,5 +1,6 @@
 # This is an auto-generated Django model module created by ogrinspect.
 from django.contrib.gis.db import models
+from django.core.serializers import serialize
 
 
 class CityBorder(models.Model):
@@ -11,6 +12,12 @@ class CityBorder(models.Model):
 
     def __str__(self):
         return self.name
+
+    @property
+    def geojson(self):
+        return serialize(
+            'geojson', CityBorder.objects.filter(pk=self.pk),
+            geometry_field='geom', fields=('name',))
 
 # Auto-generated `LayerMapping` dictionary for CityBorder model
 cityborder_mapping = {
