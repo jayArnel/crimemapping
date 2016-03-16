@@ -130,6 +130,8 @@ SOCRATA_DOMAIN = "data.cityofchicago.org"
 SOCRATA_APP_TOKEN = "IzCTOM2IOPCDEHpMNfGfscyb3"
 SOCRATA_DATASET_ENDPOINT = 'ijzp-q8t2'
 
+TASTYPIE_DEFAULT_FORMATS = ['json']
+
 try:
     from local_settings import *
 except ImportError:
