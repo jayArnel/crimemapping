@@ -21,11 +21,13 @@ from crimemapping.map import urls as map_urls
 from crimemapping.crime import urls as crime_urls
 
 from crimemapping.crime.api.crime_api import CrimeResource
+from crimemapping.map.api import CityBorderResource
 from tastypie.api import Api
 
 api = Api(api_name='api')
 
 api.register(CrimeResource())
+api.register(CityBorderResource())
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
