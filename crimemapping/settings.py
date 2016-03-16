@@ -39,8 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.gis',
 
-    'tastypie',
-
     'crimemapping.map',
     'crimemapping.crime',
 ]
