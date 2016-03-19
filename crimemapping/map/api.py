@@ -7,6 +7,7 @@ from crimemapping.map.models import CityBorder
 class CityBorderResource(ModelResource):
 
     geojson = fields.CharField(attribute='geojson', readonly=True)
+    center = fields.CharField(attribute='center', readonly=True)
 
     class Meta:
         queryset = CityBorder.objects.all()
