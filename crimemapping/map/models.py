@@ -19,6 +19,10 @@ class CityBorder(models.Model):
             'geojson', CityBorder.objects.filter(pk=self.pk),
             geometry_field='geom', fields=('name',))
 
+    @property
+    def center(self):
+        return self.geom.centroid.geojson
+
 # Auto-generated `LayerMapping` dictionary for CityBorder model
 cityborder_mapping = {
     'objectid': 'OBJECTID',
