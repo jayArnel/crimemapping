@@ -7,8 +7,8 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.generic import View
 
-from crimemapping.map.views import JSONResponseMixin
-from crimemapping.crime.models import Crime
+from map.views import JSONResponseMixin
+from crime.models import Crime
 
 # Create your views here.
 

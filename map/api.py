@@ -1,7 +1,7 @@
 from tastypie.resources import ModelResource
 from tastypie import fields
 
-from crimemapping.map.models import CityBorder
+from models import CityBorder
 
 
 class CityBorderResource(ModelResource):

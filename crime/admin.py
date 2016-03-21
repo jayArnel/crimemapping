@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from crimemapping.crime import models
+import models
 
 
 class CrimeAdmin(admin.ModelAdmin):
