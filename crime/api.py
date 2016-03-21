@@ -1,5 +1,5 @@
 from tastypie.resources import ModelResource
-from crimemapping.crime.models import Crime
+from models import Crime
 
 
 class CrimeResource(ModelResource):
