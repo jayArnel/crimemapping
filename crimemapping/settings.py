@@ -39,8 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.gis',
 
-    'crimemapping.map',
-    'crimemapping.crime',
+    'map',
+    'crime',
 ]
 
 MIDDLEWARE_CLASSES = [
