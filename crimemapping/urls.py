@@ -17,11 +17,11 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 
-from crimemapping.map import urls as map_urls
-from crimemapping.crime import urls as crime_urls
+from map import urls as map_urls
+from crime import urls as crime_urls
 
-from crimemapping.crime.api.crime_api import CrimeResource
-from crimemapping.map.api import CityBorderResource
+from crime.api import CrimeResource
+from map.api import CityBorderResource
 from tastypie.api import Api
 
 api = Api(api_name='api')

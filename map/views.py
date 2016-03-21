@@ -1,13 +1,5 @@
-from datetime import datetime
-
-from sodapy import Socrata
-
-from django.conf import settings
 from django.http import JsonResponse
-from django.shortcuts import render
-from django.views.generic import TemplateView, View
-
-from crimemapping.crime.models import Crime
+from django.views.generic import TemplateView
 # Create your views here.
 
 
