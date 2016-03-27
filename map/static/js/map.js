@@ -10,7 +10,7 @@ require([
     // // Chicago City box points
     var NorthEast = new google.maps.LatLng(42.023135, -87.523661);
     var NorthWest = new google.maps.LatLng(42.023135, -87.940101);
-    var SouthWest = new google.maps.LatLng(41.644286, -87.940101 );
+    var SouthWest = new google.maps.LatLng(41.644286, -87.940101);
     var SouthEast = new google.maps.LatLng(41.644286, -87.523661);
     var Crimes = new Model('crime');
     var CityBorder = new Model('cityborder');
@@ -26,8 +26,11 @@ require([
                 {lat:sw[0], lng:sw[1]}, {lat:ne[0], lng:ne[1]}));
             var center = JSON.parse(chicago.center).coordinates
             map.setCenter(new google.maps.LatLng(center[1], center[0]));
-            var feat = map.data.addGeoJson(JSON.parse(chicago.geojson))[0]; 
-        })
+            feat = map.data.addGeoJson(JSON.parse(chicago.geojson));
+            boundary = feat[0].getGeometry();
+            var citybounds = new google.maps.Polygon({paths:boundary.getAt(0).getAt(0).getArray()});
+            drawGrid(citybounds, 1000);
+        });
         Crimes.objects.filter({}, function (data){
             for (var i = 0; i < data.length; i++) {
                 var crime = data[i];
@@ -40,7 +43,6 @@ require([
                   });
             }
         });
-        // drawGrid();
     }
     initializeMap();
 
@@ -61,7 +63,8 @@ require([
        map.setCenter(center);
     }
 
-    function drawGrid() {
+    function drawGrid(citybounds, grid_size) {
+        var rectArr = [];
         var rect_number = 0;
         var distance = grid_size;  // grid size distance, you can change this value from grid_size (in meters)
         var dist_coords_long = google.maps.geometry.spherical.computeOffset(NorthWest, distance, 90);
@@ -118,5 +121,4 @@ require([
             }
         }
     }
-
 });
