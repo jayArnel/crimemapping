@@ -3,6 +3,7 @@ Django==1.9.4
 django-tastypie==0.13.3
 future==0.15.0
 GDAL==1.11.2
+geopy==1.11.0
 ipython==4.1.2
 ipython-genutils==0.1.0
 path.py==8.1.2
