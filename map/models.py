@@ -1,6 +1,9 @@
 # This is an auto-generated Django model module created by ogrinspect.
 from django.contrib.gis.db import models
+from django.contrib.gis.geos import Point, LinearRing, Polygon
 from django.core.serializers import serialize
+
+from map.utils import getNextPoint
 
 
 class CityBorder(models.Model):
@@ -41,6 +44,26 @@ class CityBorder(models.Model):
         lat = point.y
         lon = point.x
         return xmin <= lon and lon <= xmax and ymin <= lat and lat <= ymax
+
+    def generateGrid(self, size):
+        grid = []
+        start = Point(self.box['nw']['lon'], self.box['nw']['lat'])
+        lat = lon = start
+        while self.isWithinBox(lat):
+            nw = lat
+            ne = getNextPoint(nw, size, 90)
+            se = getNextPoint(nw, size, 180)
+            sw = getNextPoint(ne, size, 180)
+            linearRing = LinearRing(nw, ne, se, sw, nw)
+            polygon = Polygon(linearRing)
+            if polygon.overlaps(self.geom):
+                grid.append(polygon)
+            lat = ne
+            if not self.isWithinBox(lat):
+                lon = getNextPoint(start, size, 180)
+                lat = lon
+            print grid
+        return grid
 
 # Auto-generated `LayerMapping` dictionary for CityBorder model
 cityborder_mapping = {
