@@ -24,14 +24,14 @@ class CityBorder(models.Model):
         return self.geom.centroid.geojson
 
     @property
-    def bounds(self):
-        bounds = {}
+    def box(self):
+        boxPoints = {}
         extent = self.geom.extent
-        bounds['nw'] = {'lat': extent[3], 'lon': extent[0]}
-        bounds['ne'] = {'lat': extent[3], 'lon': extent[2]}
-        bounds['se'] = {'lat': extent[1], 'lon': extent[2]}
-        bounds['sw'] = {'lat': extent[1], 'lon': extent[0]}
-        return bounds
+        boxPoints['nw'] = {'lat': extent[3], 'lon': extent[0]}
+        boxPoints['ne'] = {'lat': extent[3], 'lon': extent[2]}
+        boxPoints['se'] = {'lat': extent[1], 'lon': extent[2]}
+        boxPoints['sw'] = {'lat': extent[1], 'lon': extent[0]}
+        return boxPoints
 
 # Auto-generated `LayerMapping` dictionary for CityBorder model
 cityborder_mapping = {

@@ -20,8 +20,8 @@ require([
     function initializeMap() {
         CityBorder.objects.filter({'name': 'Chicago'}, function(data){
             var chicago = data[0];
-            var sw = chicago.bounds.sw;
-            var ne = chicago.bounds.ne;
+            var sw = chicago.box.sw;
+            var ne = chicago.box.ne;
             map.fitBounds(new google.maps.LatLngBounds(
                 {lat:sw.lat, lng:sw.lon}, {lat:ne.lat, lng:ne.len}));
             var center = JSON.parse(chicago.center).coordinates
