@@ -33,6 +33,15 @@ class CityBorder(models.Model):
         boxPoints['sw'] = {'lat': extent[1], 'lon': extent[0]}
         return boxPoints
 
+    def isWithinBox(self, point):
+        xmin = self.geom.extent[0]
+        ymin = self.geom.extent[1]
+        xmax = self.geom.extent[2]
+        ymax = self.geom.extent[3]
+        lat = point.y
+        lon = point.x
+        return xmin <= lon and lon <= xmax and ymin <= lat and lat <= ymax
+
 # Auto-generated `LayerMapping` dictionary for CityBorder model
 cityborder_mapping = {
     'objectid': 'OBJECTID',
