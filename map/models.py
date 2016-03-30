@@ -27,10 +27,10 @@ class CityBorder(models.Model):
     def bounds(self):
         bounds = {}
         extent = self.geom.extent
-        bounds['nw'] = [extent[3], extent[0]]
-        bounds['ne'] = [extent[3], extent[2]]
-        bounds['se'] = [extent[1], extent[2]]
-        bounds['sw'] = [extent[1], extent[0]]
+        bounds['nw'] = {'lat': extent[3], 'lon': extent[0]}
+        bounds['ne'] = {'lat': extent[3], 'lon': extent[2]}
+        bounds['se'] = {'lat': extent[1], 'lon': extent[2]}
+        bounds['sw'] = {'lat': extent[1], 'lon': extent[0]}
         return bounds
 
 # Auto-generated `LayerMapping` dictionary for CityBorder model

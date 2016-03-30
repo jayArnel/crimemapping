@@ -23,7 +23,7 @@ require([
             var sw = chicago.bounds.sw;
             var ne = chicago.bounds.ne;
             map.fitBounds(new google.maps.LatLngBounds(
-                {lat:sw[0], lng:sw[1]}, {lat:ne[0], lng:ne[1]}));
+                {lat:sw.lat, lng:sw.lon}, {lat:ne.lat, lng:ne.len}));
             var center = JSON.parse(chicago.center).coordinates
             map.setCenter(new google.maps.LatLng(center[1], center[0]));
             feat = map.data.addGeoJson(JSON.parse(chicago.geojson));
