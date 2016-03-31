@@ -1,6 +1,6 @@
 import geopy
 from geopy import distance
-import json
+import yaml
 
 from django.contrib.gis import geos
 
@@ -20,12 +20,12 @@ def generateGeoJson(geometry):
     features = []
     for geom in geometry:
         if isinstance(geom, geos.GEOSGeometry):
-            geom_json = json.loads(geom.json)
+            geom_json = yaml.safe_load(geom.json)
             feature = {
-                'type': 'Feature',
-                'geometry': geom_json,
-                'properties': {
-                    'name': geom_json['type']
+                "type": "Feature",
+                "geometry": geom_json,
+                "properties": {
+                    "name": geom_json['type']
                 }
             }
             features.append(feature)
