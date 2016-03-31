@@ -54,13 +54,13 @@ class CityBorder(models.Model):
             ne = getNextPoint(nw, size, 90)
             se = getNextPoint(nw, size, 180)
             sw = getNextPoint(ne, size, 180)
+            lat = ne
             linearRing = LinearRing(nw, ne, se, sw, nw)
             polygon = Polygon(linearRing)
             if polygon.overlaps(self.geom):
                 grid.append(polygon)
-            lat = ne
             if not self.isWithinBox(lat):
-                lon = getNextPoint(start, size, 180)
+                lon = getNextPoint(lon, size, 180)
                 lat = lon
             print grid
         return grid
