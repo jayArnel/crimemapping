@@ -3,15 +3,15 @@ from datetime import datetime
 from sodapy import Socrata
 
 from django.conf import settings
+from django.http import HttpResponse
 from django.views.generic import View
 
-from map.views import JSONResponseMixin
 from crime.models import Crime
 
 # Create your views here.
 
 
-class FetchCrimesView(JSONResponseMixin, View):
+class FetchCrimesView(View):
 
     def get(self, request, *args, **kwargs):
         ids = Crime.objects.values_list('case_id', flat=True)
@@ -80,7 +80,7 @@ class FetchCrimesView(JSONResponseMixin, View):
         except Exception, e:
             print e
             status = 400
-        return self.render_to_json_response(status=status)
+        return HttpResponse(status=status)
 
     def get_from_dict(self, dic, key):
         return dic.get(key) if dic.get(key) else ''
