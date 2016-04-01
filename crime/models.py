@@ -1,6 +1,6 @@
 from __future__ import unicode_literals
 
-from django.db import models
+from django.contrib.gis.db import models
 
 # Create your models here.
 
@@ -28,6 +28,7 @@ class Crime(models.Model):
     updated_on = models.DateTimeField()
     latitude = models.FloatField()
     longitude = models.FloatField()
+    location = models.PointField(srid=4326)
 
     class Meta:
         app_label = "crime"
