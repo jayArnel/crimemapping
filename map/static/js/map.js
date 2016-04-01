@@ -23,13 +23,13 @@ require([
             var sw = chicago.box.sw;
             var ne = chicago.box.ne;
             map.fitBounds(new google.maps.LatLngBounds(
-                {lat:sw.lat, lng:sw.lon}, {lat:ne.lat, lng:ne.len}));
+                {lat:sw.lat, lng:sw.lon}, {lat:ne.lat, lng:ne.lon}));
             var center = JSON.parse(chicago.center).coordinates
             map.setCenter(new google.maps.LatLng(center[1], center[0]));
             feat = map.data.addGeoJson(JSON.parse(chicago.geojson));
             boundary = feat[0].getGeometry();
             var citybounds = new google.maps.Polygon({paths:boundary.getAt(0).getAt(0).getArray()});
-            drawGrid(citybounds, 1000);
+            drawGrid(chicago.id, 1);
         });
         Crimes.objects.filter({}, function (data){
             for (var i = 0; i < data.length; i++) {
@@ -63,62 +63,16 @@ require([
        map.setCenter(center);
     }
 
-    function drawGrid(citybounds, grid_size) {
-        var rectArr = [];
-        var rect_number = 0;
-        var distance = grid_size;  // grid size distance, you can change this value from grid_size (in meters)
-        var dist_coords_long = google.maps.geometry.spherical.computeOffset(NorthWest, distance, 90);
-        dist_coords_long = dist_coords_long.lng() - NorthWest.lng();
-        var dist_coords_lat = google.maps.geometry.spherical.computeOffset(NorthWest, distance, 180);
-        dist_coords_lat = NorthWest.lat() - dist_coords_lat.lat();
-
-        var NW = google.maps.geometry.spherical.computeOffset(NorthWest, distance, 270);
-
-        // check if current square is has not reached the southwest border.
-        while(NW.lat() >= SouthWest.lat()) {
-            curr_NE = new google.maps.LatLng(NW.lat(), NW.lng() + dist_coords_long);
-            curr_SW = new google.maps.LatLng(NW.lat() - dist_coords_lat, NW.lng());
-            curr_NW = NW;
-            NW = new google.maps.LatLng(NW.lat() - dist_coords_lat, NW.lng());
-            // check if current square has not reached the northeast border
-            while(curr_NW.lng() <= NorthEast.lng()) {
-                // create new southwest and northeast coordnates for a new square
-                NE = new google.maps.LatLng(curr_NE.lat(), curr_NE.lng() + dist_coords_long);
-                SW = new google.maps.LatLng(curr_SW.lat(), curr_SW.lng() + dist_coords_long);
-                // save current square coordinates
-                curr_NW = NE;
-                curr_NE = NE;
-                curr_SW = SW;
-
-                // create bounds from southwest and northeast coordinates
-                var bounds = new google.maps.LatLngBounds(SW,NE)
-                var bound_NW = new google.maps.LatLng(NE.lat(),SW.lng());
-                var bound_SE = new google.maps.LatLng(SW.lat(), NE.lng());
-
-                //check if any of the new bounds vertices is within the city bounds
-                if (google.maps.geometry.poly.containsLocation(bound_NW, citybounds) || 
-                    google.maps.geometry.poly.containsLocation(NE, citybounds) || 
-                    google.maps.geometry.poly.containsLocation(SW, citybounds) || 
-                    google.maps.geometry.poly.containsLocation(bound_SE, citybounds)){
-
-                    var rectangle = new google.maps.Rectangle();
-                    var rectOptions = {
-                        strokeColor: "gray",
-                        strokeOpacity: 0.8,
-                        strokeWeight: 2,
-                        fillOpacity: 0,
-                        map: map,
-                        bounds: bounds,
-                        counts: 0,
-                        number: rect_number,
-                        merged: false,
-                    };
-                    rectangle.setOptions(rectOptions);
-                    rectangle.getBounds().extend(bound_NW);
-                    rectangle.getBounds().extend(bound_SE);
-                    rectArr.push(rectangle);
-                }
+    function drawGrid(pk, size) {
+        $.ajax({
+            url: '/grid',
+            type: 'get',
+            data: {pk: pk, size: size},
+            success: function(response) {
+                console.log(response);
+                data = JSON.parse(response);
+                map.data.addGeoJson(data);
             }
-        }
+        })
     }
 });
