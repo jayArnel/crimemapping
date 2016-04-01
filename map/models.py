@@ -52,17 +52,16 @@ class CityBorder(models.Model):
         while self.isWithinBox(lat):
             nw = lat
             ne = getNextPoint(nw, size, 90)
-            se = getNextPoint(nw, size, 180)
-            sw = getNextPoint(ne, size, 180)
+            sw = getNextPoint(nw, size, 180)
+            se = getNextPoint(ne, size, 180)
             lat = ne
             linearRing = LinearRing(nw, ne, se, sw, nw)
             polygon = Polygon(linearRing)
-            if polygon.overlaps(self.geom):
+            if polygon.intersects(self.geom):
                 grid.append(polygon)
             if not self.isWithinBox(lat):
                 lon = getNextPoint(lon, size, 180)
                 lat = lon
-            print grid
         return grid
 
 # Auto-generated `LayerMapping` dictionary for CityBorder model
