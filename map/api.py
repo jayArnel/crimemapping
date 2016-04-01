@@ -8,7 +8,7 @@ class CityBorderResource(ModelResource):
 
     geojson = fields.CharField(attribute='geojson', readonly=True)
     center = fields.CharField(attribute='center', readonly=True)
-    bounds = fields.DictField(attribute='bounds', readonly=True)
+    box = fields.DictField(attribute='box', readonly=True)
 
     class Meta:
         queryset = CityBorder.objects.all()
