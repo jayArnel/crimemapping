@@ -36,20 +36,11 @@ class CityBorder(models.Model):
         boxPoints['sw'] = {'lat': extent[1], 'lon': extent[0]}
         return boxPoints
 
-    def isWithinBox(self, point):
-        xmin = self.geom.extent[0]
-        ymin = self.geom.extent[1]
-        xmax = self.geom.extent[2]
-        ymax = self.geom.extent[3]
-        lat = point.y
-        lon = point.x
-        return xmin <= lon and lon <= xmax and ymin <= lat and lat <= ymax
-
     def generateGrid(self, size):
         grid = []
         start = Point(self.box['nw']['lon'], self.box['nw']['lat'])
         lat = lon = start
-        while self.isWithinBox(lat):
+        while self.geom.envelope.intersects(lat):
             nw = lat
             ne = getNextPoint(nw, size, 90)
             sw = getNextPoint(nw, size, 180)
@@ -59,7 +50,7 @@ class CityBorder(models.Model):
             polygon = Polygon(linearRing)
             if polygon.intersects(self.geom):
                 grid.append(polygon)
-            if not self.isWithinBox(lat):
+            if not self.geom.envelope.intersects(lat):
                 lon = getNextPoint(lon, size, 180)
                 lat = lon
         return grid
