@@ -1,6 +1,11 @@
+import json
+
 from django.http import JsonResponse
-from django.views.generic import TemplateView
-# Create your views here.
+from django.http import HttpResponse
+from django.views.generic import TemplateView, View
+
+from map.models import CityBorder
+from map.utils import generateGeoJson
 
 
 class JSONResponseMixin(object):
@@ -26,3 +31,14 @@ class JSONResponseMixin(object):
 
 class MapView(TemplateView):
     template_name = 'map.html'
+
+
+class FetchGridView(JSONResponseMixin, View):
+
+    def get(self, request, *args, **kwargs):
+        pk = self.request.GET.get('pk')
+        size = int(self.request.GET.get('size'))
+        city = CityBorder.objects.get(pk=pk)
+        grid = city.generateGrid(size)
+        geojson = generateGeoJson(grid)
+        return HttpResponse(json.dumps(geojson))
