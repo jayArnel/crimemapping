@@ -3,6 +3,7 @@ from datetime import datetime
 from sodapy import Socrata
 
 from django.conf import settings
+from django.contrib.gis.geos import Point
 from django.http import HttpResponse
 from django.views.generic import View
 
@@ -70,6 +71,9 @@ class FetchCrimesView(View):
                                 record, 'latitude')),
                             'longitude': float(self.get_from_dict(
                                 record, 'longitude')),
+                            'location': Point(
+                                float(self.get_from_dict(record, 'longitude')),
+                                float(self.get_from_dict(record, 'latitude')))
                         }
                         c = Crime.objects.create(**attrs)
                 offset += limit
