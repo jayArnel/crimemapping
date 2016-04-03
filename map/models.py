@@ -63,3 +63,10 @@ cityborder_mapping = {
     'shape_len': 'SHAPE_LEN',
     'geom': 'MULTIPOLYGON',
 }
+
+
+class Grid(models.Model):
+    city = models.ForeignKey('CityBorder', related_name='grids')
+    number = models.PositiveIntegerField(default=1)
+    size = models.PositiveIntegerField(default=1000)
+    geom = models.PolygonField(srid=4326)
