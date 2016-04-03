@@ -41,6 +41,7 @@ INSTALLED_APPS = [
 
     'map',
     'crime',
+    'crimemodel',
 ]
 
 MIDDLEWARE_CLASSES = [
