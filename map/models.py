@@ -37,7 +37,8 @@ class CityBorder(models.Model):
         return boxPoints
 
     def generateGrid(self, size):
-        grid = []
+        grids = []
+        count = 0
         start = Point(self.box['nw']['lon'], self.box['nw']['lat'])
         lat = lon = start
         while self.geom.envelope.intersects(lat):
@@ -49,11 +50,19 @@ class CityBorder(models.Model):
             linearRing = LinearRing(nw, ne, se, sw, nw)
             polygon = Polygon(linearRing)
             if polygon.intersects(self.geom):
-                grid.append(polygon)
+                count += 1
+                attrs = {
+                    'city': self,
+                    'number': count,
+                    'size': size,
+                    'geom': polygon,
+                }
+                grid = Grid.objects.get_or_create(**attrs)
+                grids.append(grid)
             if not self.geom.envelope.intersects(lat):
                 lon = getNextPoint(lon, size, 180)
                 lat = lon
-        return grid
+        return grids
 
 # Auto-generated `LayerMapping` dictionary for CityBorder model
 cityborder_mapping = {
