@@ -2,4 +2,8 @@ from __future__ import unicode_literals
 
 from django.db import models
 
-# Create your models here.
+from crime import models
+
+
+class Crime(models.Crime):
+    grid = models.ForeignKey('Grid', related_name='crimes')
