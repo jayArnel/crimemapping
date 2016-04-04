@@ -133,6 +133,8 @@ SOCRATA_DATASET_ENDPOINT = 'ijzp-q8t2'
 
 TASTYPIE_DEFAULT_FORMATS = ['json']
 
+GRID_SIZES = [250, 500, 750]
+
 try:
     from local_settings import *
 except ImportError:
