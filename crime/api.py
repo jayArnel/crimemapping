@@ -1,8 +1,8 @@
 from tastypie.resources import ModelResource
-from models import Crime
+from models import CriminalRecord
 
 
-class CrimeResource(ModelResource):
+class CriminalRecordResource(ModelResource):
     class Meta:
-        queryset = Crime.objects.all()
+        queryset = CriminalRecord.objects.all()
         resource_name = 'crime'
