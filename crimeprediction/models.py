@@ -8,4 +8,4 @@ from map.models import Grid
 
 class CrimeSample(models.Model):
     crime = models.OneToOneField(CriminalRecord, related_name='sample')
-    grid = models.ManyToManyField(Grid, related_name='grids')
+    grids = models.ManyToManyField(Grid, related_name='grids')
