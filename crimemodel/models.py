@@ -7,4 +7,4 @@ from map.models import Grid
 
 
 class Crime(Crime):
-    grid = models.ForeignKey(Grid, related_name='crimes')
+    grid = models.ManyToManyField(Grid, related_name='crimes')
