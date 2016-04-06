@@ -5,7 +5,7 @@ from django.contrib.gis.db import models
 # Create your models here.
 
 
-class Crime(models.Model):
+class CriminalRecord(models.Model):
     """ a model for a single criminal record """
     case_id = models.IntegerField()
     case_number = models.CharField(max_length=10)
