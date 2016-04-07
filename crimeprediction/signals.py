@@ -10,4 +10,5 @@ from map.models import Grid
 def createCrimeSamples(sender, instance, created, *args, **kwargs):
     grids = Grid.objects.filter(geom__intersects=instance.location)
     sample, created = CrimeSample.objects.get_or_create(crime=instance)
-    sample.grids.add(grids)
+    if created:
+        sample.grids.add(*list(grids))
