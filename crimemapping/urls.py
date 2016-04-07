@@ -20,13 +20,13 @@ from django.contrib import admin
 from map import urls as map_urls
 from crime import urls as crime_urls
 
-from crime.api import CrimeResource
+from crime.api import CriminalRecordResource
 from map.api import CityBorderResource
 from tastypie.api import Api
 
 api = Api(api_name='api')
 
-api.register(CrimeResource())
+api.register(CriminalRecordResource())
 api.register(CityBorderResource())
 
 urlpatterns = [

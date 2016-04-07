@@ -9,7 +9,7 @@ def getNextPoint(point, offset, bearing):
     lat = point.y
     lon = point.x
     pnt = Point(latitude=lat, longitude=lon)
-    d = distance.VincentyDistance(kilometers=offset)
+    d = distance.VincentyDistance(meters=offset)
     newPnt = d.destination(point=pnt, bearing=bearing)
     return geos.Point(newPnt.longitude, newPnt.latitude)
 
