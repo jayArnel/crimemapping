@@ -63,3 +63,6 @@ target/
 
 node_modules/
 crimemapping/local_settings.py
+
+# pickles
+*.p
