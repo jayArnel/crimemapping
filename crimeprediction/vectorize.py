@@ -28,5 +28,6 @@ def vectorize():
             vectors.append(vector)
             month += 1
         year += 1
+        month = 0
     print vectors
     return vectors
