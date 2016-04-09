@@ -15,7 +15,7 @@ def vectorize():
     while year <= last_year:
         while month <= last_month and month <= 12:
             print 'month: ' + str(month), 'year: ' + str(year)
-            vector = [(month, year)]
+            vector = []
             for i in xrange(len(grid)):
                 g = grid[i]
                 crimes = CriminalRecord.objects.filter(
