@@ -29,3 +29,4 @@ def vectorize():
             month += 1
         year += 1
     print vectors
+    return vectors
