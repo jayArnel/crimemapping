@@ -1,15 +1,15 @@
 from map.models import CityBorder
-from crime.models import Crime
+from crime.models import CriminalRecord
 
 
 def vectorize():
     city = CityBorder.objects.get(name='Chicago')
-    grid = city.generateGrid(1)
+    grid = city.generateGrid(1000)
     vectors = []
-    first_data = Crime.objects.first()
+    first_data = CriminalRecord.objects.first()
     month = first_data.date.month
     year = first_data.date.year
-    last_data = Crime.objects.last()
+    last_data = CriminalRecord.objects.last()
     last_month = last_data.date.month
     last_year = last_data.date.year
     while year <= last_year or month <= last_month:
@@ -17,7 +17,7 @@ def vectorize():
         vector = [(month, year)]
         for i in xrange(len(grid)):
             g = grid[i]
-            crimes = Crime.objects.filter(
+            crimes = CriminalRecord.objects.filter(
                 date__month=month, date__year=year,
                 location__intersects=g).count()
             has_crime = int(crimes > 0)
