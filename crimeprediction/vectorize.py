@@ -14,7 +14,6 @@ def vectorize():
     last_year = last_data.date.year
     while year <= last_year:
         while month <= last_month and month <= 12:
-            print 'month: ' + str(month), 'year: ' + str(year)
             vector = []
             for i in xrange(len(grid)):
                 g = grid[i]
@@ -22,12 +21,9 @@ def vectorize():
                     date__month=month, date__year=year,
                     location__intersects=g).count()
                 has_crime = int(crimes > 0)
-                print('grid: ' + str(i), 'count: ' + str(crimes),
-                      'has_crime: ' + str(has_crime))
                 vector.append(has_crime)
             vectors.append(vector)
             month += 1
         year += 1
         month = 0
-    print vectors
     return vectors
