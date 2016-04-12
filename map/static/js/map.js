@@ -33,7 +33,7 @@ require([
             feat = map.data.addGeoJson(JSON.parse(chicago.geojson));
             boundary = feat[0].getGeometry();
             var citybounds = new google.maps.Polygon({paths:boundary.getAt(0).getAt(0).getArray()});
-            drawGrid(chicago.id, 1);
+            drawGrid(chicago.id, 1000);
         });
         Crimes.objects.filter({}, function (data){
             for (var i = 0; i < data.length; i++) {
