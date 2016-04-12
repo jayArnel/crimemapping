@@ -55,6 +55,9 @@ require([
      */
     function bindActions() {
       google.maps.event.addDomListener(window, "resize", resizeMap);
+      google.maps.event.addListenerOnce(map, 'tilesloaded', function() {
+            $('.loading-overlay').remove();
+      });
     }
     bindActions();
 
