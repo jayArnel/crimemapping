@@ -1,9 +1,9 @@
 from django.contrib import admin
 
-from crimemapping.crime import models
+import models
 
 
-class CrimeAdmin(admin.ModelAdmin):
+class CriminalRecordAdmin(admin.ModelAdmin):
     list_display = (
         'primary_type', 'crime_description', 'location_description', 'date',
         'latitude', 'longitude')
@@ -13,4 +13,4 @@ class CrimeAdmin(admin.ModelAdmin):
     list_filter = ('date',)
     date_hierarchy = 'date'
 
-admin.site.register(models.Crime, CrimeAdmin)
+admin.site.register(models.CriminalRecord, CriminalRecordAdmin)

@@ -37,11 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.gis',
 
-    'tastypie',
-
-    'crimemapping.map',
-    'crimemapping.crime',
+    'map',
+    'crime',
+    'crimeprediction',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -130,6 +130,10 @@ STATIC_ROOT = STORAGE_PATH + '/static'
 SOCRATA_DOMAIN = "data.cityofchicago.org"
 SOCRATA_APP_TOKEN = "IzCTOM2IOPCDEHpMNfGfscyb3"
 SOCRATA_DATASET_ENDPOINT = 'ijzp-q8t2'
+
+TASTYPIE_DEFAULT_FORMATS = ['json']
+
+GRID_SIZES = [250, 500, 750, 1000]
 
 try:
     from local_settings import *

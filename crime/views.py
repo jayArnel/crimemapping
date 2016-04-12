@@ -3,20 +3,19 @@ from datetime import datetime
 from sodapy import Socrata
 
 from django.conf import settings
-from django.http import JsonResponse
-from django.shortcuts import render
+from django.contrib.gis.geos import Point
+from django.http import HttpResponse
 from django.views.generic import View
 
-from crimemapping.map.views import JSONResponseMixin
-from crimemapping.crime.models import Crime
+from crime.models import CriminalRecord
 
 # Create your views here.
 
 
-class FetchCrimesView(JSONResponseMixin, View):
+class FetchCrimesView(View):
 
     def get(self, request, *args, **kwargs):
-        ids = Crime.objects.values_list('case_id', flat=True)
+        ids = CriminalRecord.objects.values_list('case_id', flat=True)
         domain = settings.SOCRATA_DOMAIN
         token = settings.SOCRATA_APP_TOKEN
         endpoint = settings.SOCRATA_DATASET_ENDPOINT
@@ -72,8 +71,11 @@ class FetchCrimesView(JSONResponseMixin, View):
                                 record, 'latitude')),
                             'longitude': float(self.get_from_dict(
                                 record, 'longitude')),
+                            'location': Point(
+                                float(self.get_from_dict(record, 'longitude')),
+                                float(self.get_from_dict(record, 'latitude')))
                         }
-                        c = Crime.objects.create(**attrs)
+                        CriminalRecord.objects.create(**attrs)
                 offset += limit
                 data = client.get(
                     endpoint, order=order, where=where,
@@ -82,7 +84,7 @@ class FetchCrimesView(JSONResponseMixin, View):
         except Exception, e:
             print e
             status = 400
-        return self.render_to_json_response(status=status)
+        return HttpResponse(status=status)
 
     def get_from_dict(self, dic, key):
         return dic.get(key) if dic.get(key) else ''
