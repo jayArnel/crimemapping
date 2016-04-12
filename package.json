@@ -1,0 +1,26 @@
+{
+  "name": "crimemapping",
+  "version": "1.0.0",
+  "description": "Crime Prediction and Modelling using Recurrent Neural Networks with Long Short-term Memory Architecture(LSTM)",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jayArnel/crimemapping.git"
+  },
+  "author": "Jay Arnel Bilocura",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jayArnel/crimemapping/issues"
+  },
+  "homepage": "https://github.com/jayArnel/crimemapping#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^3.1.0",
+    "gulp-plumber": "^1.1.0",
+    "gulp-sass": "^2.2.0",
+    "gulp-watch": "^4.3.5"
+  }
+}
