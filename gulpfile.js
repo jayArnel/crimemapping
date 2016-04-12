@@ -6,11 +6,11 @@ var autoprefixer = require('gulp-autoprefixer');
 
 var paths = {
     watch: [
-        'map/static/css/*.scss',
+        'map/static/scss/*.scss',
         ],
-    style: 'storage/static/css/base.scss',
-    base: 'storage/static',
-    build: 'map/static/build'
+    style: 'storage/static/scss/base.scss',
+    base: 'storage/static/scss',
+    build: 'map/static/css'
 }
 
 
