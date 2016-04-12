@@ -1,0 +1,14 @@
+#menu {
+    position: absolute;
+    z-index: 10;
+    left: 10px;
+    top: 10px;
+    background: white;
+    font-family: sans-serif;
+    padding: 20px;
+    border-radius: 3px;
+}
+
+#menu-list {
+    list-style-type: none;
+}

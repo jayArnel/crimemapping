@@ -5,7 +5,11 @@ require([
     /*
       Initialize variables
      */
-    var map = new google.maps.Map(document.getElementById('map'));
+    var map = new google.maps.Map(document.getElementById('map'), {
+        mapTypeControlOptions: {
+            position: google.maps.ControlPosition.TOP_RIGHT,
+        }
+    });
 
     // // Chicago City box points
     var NorthEast = new google.maps.LatLng(42.023135, -87.523661);
