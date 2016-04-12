@@ -1,6 +1,13 @@
 {% extends 'base.html' %}
 {% block page_content %}
-    <div class="loading-overlay"></div>
+    <div class="loading-overlay">
+        <div class="loading-content">
+            <div class="progress">
+                <div class="indeterminate"></div>
+            </div>
+            <h5>Initializing map. Please wait...</h5>
+        </div>
+    </div>
     {% include 'menu.html' %}
     <div id="map"></div>
 {% endblock %}
