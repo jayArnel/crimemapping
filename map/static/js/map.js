@@ -5,7 +5,11 @@ require([
     /*
       Initialize variables
      */
-    var map = new google.maps.Map(document.getElementById('map'));
+    var map = new google.maps.Map(document.getElementById('map'), {
+        mapTypeControlOptions: {
+            position: google.maps.ControlPosition.TOP_RIGHT,
+        }
+    });
 
     // // Chicago City box points
     var NorthEast = new google.maps.LatLng(42.023135, -87.523661);
@@ -29,7 +33,6 @@ require([
             feat = map.data.addGeoJson(JSON.parse(chicago.geojson));
             boundary = feat[0].getGeometry();
             var citybounds = new google.maps.Polygon({paths:boundary.getAt(0).getAt(0).getArray()});
-            drawGrid(chicago.id, 1);
         });
         Crimes.objects.filter({}, function (data){
             for (var i = 0; i < data.length; i++) {
@@ -51,6 +54,9 @@ require([
      */
     function bindActions() {
       google.maps.event.addDomListener(window, "resize", resizeMap);
+      google.maps.event.addListenerOnce(map, 'tilesloaded', function() {
+            $('.loading-overlay').remove();
+      });
     }
     bindActions();
 

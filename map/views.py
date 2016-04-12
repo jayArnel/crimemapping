@@ -17,6 +17,6 @@ class FetchGridView(View):
         pk = self.request.GET.get('pk')
         size = int(self.request.GET.get('size'))
         city = CityBorder.objects.get(pk=pk)
-        grid = city.grids.filter(size=size).values_list('geom', flat=True)
+        grid = city.generateGrid(size)
         geojson = generateGeoJson(list(grid))
         return HttpResponse(json.dumps(geojson))

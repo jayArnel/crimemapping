@@ -1,4 +1,3 @@
-{% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -6,14 +5,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block page_title %} Crime Modelling and Prediction {% endblock %}</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/base.css">
     {% block page_css %}
     {% endblock %}
   </head>
   <body>
     {% block page_content %}{% endblock %}
   </body>
-  <script src="{% static 'js/lib/require.js' %}"></script>
-  <script src="{% static 'js/lib/require-config.js' %}"></script>
+  <script src="{{ STATIC_URL }}js/lib/jquery-1.11.3.min.js"></script>
+  <script src="{{ STATIC_URL }}js/materialize.min.js"></script>
+  <script src="{{ STATIC_URL }}js/lib/require.js"></script>
+  <script src="{{ STATIC_URL }}js/lib/require-config.js"></script>
   {% block page_javascript %}{% endblock %}
 </html>
