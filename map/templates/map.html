@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block page_content %}
+    {% include 'menu.html' %}
     <div id="map"></div>
 {% endblock %}
 {% block page_javascript %}<script src="{{ STATIC_URL }}js/map.js"></script>{% endblock %}
