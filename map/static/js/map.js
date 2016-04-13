@@ -1,7 +1,7 @@
 require([
-    'model',
-    'async!https://maps.googleapis.com/maps/api/js?v=3.24&libraries=geometry&key=AIzaSyBUGs5RiAn6ao_JS4hV5wCXSIlGZ5qlC1U'
-], function(Model) {
+    'model', 'jquery', 'materialize',
+    'goog!maps,3.24,other_params:key=AIzaSyBUGs5RiAn6ao_JS4hV5wCXSIlGZ5qlC1U',
+], function(Model, $) {
     /*
       Initialize variables
      */
