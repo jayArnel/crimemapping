@@ -1,7 +1,9 @@
 <div id="menu">
-    Menu
-    <ul id="menu-list">
-        <li> Database </li>
-        <li> Documentation </li>
-    </ul>
+    Crimes
+    {% for type in crime_types %}
+    <p>
+      <input type="checkbox" class="filled-in" id="{{type}}"/>
+      <label for="{{type}}">{{type|lower|capfirst}}</label>
+    </p>
+    {% endfor %}
 </div>
