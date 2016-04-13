@@ -16,7 +16,7 @@ require([
     var NorthWest = new google.maps.LatLng(42.023135, -87.940101);
     var SouthWest = new google.maps.LatLng(41.644286, -87.940101);
     var SouthEast = new google.maps.LatLng(41.644286, -87.523661);
-    var Crimes = new Model('crime');
+    var Crimes = new Model('criminalrecord');
     var CityBorder = new Model('cityborder');
     /*
       Set initial map properties
@@ -45,6 +45,8 @@ require([
       google.maps.event.addListenerOnce(map, 'tilesloaded', function() {
             $('.loading-overlay').remove();
       });
+
+      $('input[type=checkbox]').on('change', filterCrimes);
     }
     bindActions();
 
@@ -68,5 +70,25 @@ require([
                 map.data.addGeoJson(data);
             }
         })
+    }
+
+    function filterCrimes() {
+        var checked = $( "input[type=checkbox]:checked");
+        var types = [];
+        checked.each(function() {
+            types.push($(this).val());
+        })
+        Crimes.objects.filter({primary_type__in: types}, function(data) {
+            for (var i = 0; i < data.length; i++) {
+                var crime = data[i];
+                var lat = crime.latitude;
+                var long = crime.longitude;
+                new google.maps.Marker({
+                    position: new google.maps.LatLng(lat, long),
+                    map: map,
+                    icon: 'https://maps.gstatic.com/intl/en_us/mapfiles/markers2/measle_blue.png',
+                  });
+            }
+        });
     }
 });
