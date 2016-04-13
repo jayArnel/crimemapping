@@ -1,6 +1,6 @@
 require([
     'model',
-    'async!https://maps.googleapis.com/maps/api/js?v=3.24&libraries=geometry&sensor=false'
+    'async!https://maps.googleapis.com/maps/api/js?v=3.24&libraries=geometry'
 ], function(Model) {
     /*
       Initialize variables
