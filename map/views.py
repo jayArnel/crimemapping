@@ -3,12 +3,19 @@ import json
 from django.http import HttpResponse
 from django.views.generic import TemplateView, View
 
+from crime.models import CriminalRecord
 from map.models import CityBorder
 from map.utils import generateGeoJson
 
 
 class MapView(TemplateView):
     template_name = 'map.html'
+
+    def get_context_data(self, **kwargs):
+        context = {}
+        context['crime_types'] = CriminalRecord.objects.all().order_by(
+            'primary_type').distinct().values_list('primary_type', flat=True)
+        return context
 
 
 class FetchGridView(View):
