@@ -2,7 +2,7 @@
     Crimes
     {% for type in crime_types %}
     <p>
-      <input type="checkbox" class="filled-in" id="{{type}}"/>
+      <input type="checkbox" class="filled-in" id="{{type}}" value="{{type}}"/>
       <label for="{{type}}">{{type|lower|capfirst}}</label>
     </p>
     {% endfor %}
