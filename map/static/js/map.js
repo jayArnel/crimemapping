@@ -34,18 +34,6 @@ require([
             boundary = feat[0].getGeometry();
             var citybounds = new google.maps.Polygon({paths:boundary.getAt(0).getAt(0).getArray()});
         });
-        Crimes.objects.filter({}, function (data){
-            for (var i = 0; i < data.length; i++) {
-                var crime = data[i];
-                var lat = crime.latitude;
-                var long = crime.longitude;
-                new google.maps.Marker({
-                    position: new google.maps.LatLng(lat, long),
-                    map: map,
-                    icon: 'https://maps.gstatic.com/intl/en_us/mapfiles/markers2/measle_blue.png',
-                  });
-            }
-        });
     }
     initializeMap();
 
