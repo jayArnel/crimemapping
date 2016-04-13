@@ -80,6 +80,7 @@ require([
         for(var i=0; i < types.length; i++) {
             if(types[i] === type) {
               crimeTypes.splice(i, 1);
+              filterCrimes();
               return;
             }
         }
