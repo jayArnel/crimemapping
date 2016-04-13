@@ -76,15 +76,14 @@ require([
 
     function updateCrimeTypes() {
         var type = $(this).val();
-        for(var i=0; i < crimeTypes.length; i++) {
-            if(crimeTypes[i] === type) {
-              crimeTypes.pop(type);
-              console.log(crimeTypes);
+        var types = crimeTypes;
+        for(var i=0; i < types.length; i++) {
+            if(types[i] === type) {
+              crimeTypes.splice(i, 1);
               return;
             }
         }
         crimeTypes.push(type);
-        console.log(crimeTypes);
         filterCrimes();
     }
 
