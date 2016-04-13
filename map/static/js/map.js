@@ -11,6 +11,8 @@ require([
         }
     });
 
+    var crimeTypes = [];
+
     // // Chicago City box points
     var NorthEast = new google.maps.LatLng(42.023135, -87.523661);
     var NorthWest = new google.maps.LatLng(42.023135, -87.940101);
@@ -46,7 +48,7 @@ require([
             $('.loading-overlay').remove();
       });
 
-      $('input[type=checkbox]').on('change', filterCrimes);
+      $('input[type=checkbox]').on('change', updateCrimeTypes);
     }
     bindActions();
 
@@ -72,13 +74,22 @@ require([
         })
     }
 
+    function updateCrimeTypes() {
+        var type = $(this).val();
+        for(var i=0; i < crimeTypes.length; i++) {
+            if(crimeTypes[i] === type) {
+              crimeTypes.pop(type);
+              console.log(crimeTypes);
+              return;
+            }
+        }
+        crimeTypes.push(type);
+        console.log(crimeTypes);
+        filterCrimes();
+    }
+
     function filterCrimes() {
-        var checked = $( "input[type=checkbox]:checked");
-        var types = [];
-        checked.each(function() {
-            types.push($(this).val());
-        })
-        Crimes.objects.filter({primary_type__in: types}, function(data) {
+        Crimes.objects.filter({primary_type__in: crimeTypes}, function(data) {
             for (var i = 0; i < data.length; i++) {
                 var crime = data[i];
                 var lat = crime.latitude;
