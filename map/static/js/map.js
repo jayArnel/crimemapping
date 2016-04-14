@@ -94,21 +94,23 @@ require([
     }
 
     function filterCrimes() {
-        $('input[type=checkbox]').prop('disabled', true);
         var types = Object.keys(crimeMarkers);
-        Crimes.objects.filter({primary_type__in: types}, function(data) {
-            for (var i = 0; i < data.length; i++) {
-                var crime = data[i];
-                var lat = crime.latitude;
-                var long = crime.longitude;
-                var marker = new google.maps.Marker({
-                    position: new google.maps.LatLng(lat, long),
-                    map: map,
-                    icon: 'https://maps.gstatic.com/intl/en_us/mapfiles/markers2/measle_blue.png',
-                  });
-                crimeMarkers[crime.primary_type].push(marker);
-            }
-            $('input[type=checkbox]').prop('disabled', false);
-        });
+        if (types.length > 0) {
+          $('input[type=checkbox]').prop('disabled', true);
+          Crimes.objects.filter({primary_type__in: types}, function(data) {
+              for (var i = 0; i < data.length; i++) {
+                  var crime = data[i];
+                  var lat = crime.latitude;
+                  var long = crime.longitude;
+                  var marker = new google.maps.Marker({
+                      position: new google.maps.LatLng(lat, long),
+                      map: map,
+                      icon: 'https://maps.gstatic.com/intl/en_us/mapfiles/markers2/measle_blue.png',
+                    });
+                  crimeMarkers[crime.primary_type].push(marker);
+              }
+              $('input[type=checkbox]').prop('disabled', false);
+          });
+        }
     }
 });
