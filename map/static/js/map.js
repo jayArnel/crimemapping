@@ -12,6 +12,7 @@ require([
     });
 
     var crimeMarkers = {};
+    var grid;
 
     // // Chicago City box points
     var NorthEast = new google.maps.LatLng(42.023135, -87.523661);
@@ -49,6 +50,7 @@ require([
       });
 
       $('input[type=checkbox].crime-type').on('change', updateCrimeTypes);
+      $('input[type=checkbox].grid-toggle').on('change', toggleGrid);
     }
     bindActions();
 
@@ -61,15 +63,24 @@ require([
        map.setCenter(center);
     }
 
+    function toggleGrid(){
+        if ($(this).is(':checked')){
+          drawGrid(1, 1000);
+        } else {
+          for (var i = 0; i < grid.length; i++){
+            map.data.remove(grid[i]);
+          }
+        }
+    }
+
     function drawGrid(pk, size) {
         $.ajax({
             url: '/grid',
             type: 'get',
             data: {pk: pk, size: size},
             success: function(response) {
-                console.log(response);
                 data = JSON.parse(response);
-                map.data.addGeoJson(data);
+                grid = map.data.addGeoJson(data);
             }
         })
     }
