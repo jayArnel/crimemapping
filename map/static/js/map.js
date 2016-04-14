@@ -50,7 +50,7 @@ require([
       });
 
       $('input[type=checkbox].crime-type').on('change', updateCrimeTypes);
-      $('input[type=checkbox].grid-toggle').on('change', toggleGrid);
+      $('input[type=checkbox].grid-toggle').on('change', toggleGridSizeChoices);
     }
     bindActions();
 
@@ -61,6 +61,14 @@ require([
        var center = map.getCenter();
        google.maps.event.trigger(map, "resize");
        map.setCenter(center);
+    }
+
+    function toggleGridSizeChoices(){
+        if ($(this).is(':checked')){
+          $('.grid-sizes').removeClass('hide');
+        } else {
+          $('.grid-sizes').addClass('hide');
+        }
     }
 
     function toggleGrid(){
@@ -83,6 +91,7 @@ require([
                 data = JSON.parse(response);
                 grid = map.data.addGeoJson(data);
                 $('input[type=checkbox]').prop('disabled', false);
+                $('.grid-sizes').removeClass('hide');
             }
         })
     }
