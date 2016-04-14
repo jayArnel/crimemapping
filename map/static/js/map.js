@@ -12,6 +12,7 @@ require([
     });
 
     var crimeTypes = [];
+    var crimeMarkers = {};
 
     // // Chicago City box points
     var NorthEast = new google.maps.LatLng(42.023135, -87.523661);
@@ -80,11 +81,18 @@ require([
         for(var i=0; i < types.length; i++) {
             if(types[i] === type) {
               crimeTypes.splice(i, 1);
+              var markers = crimeMarkers[type];
+              for (var j = 0; j< markers.length; j++) {
+                var marker = markers[j];
+                marker.setMap(null);
+              }
+              delete crimeMarkers[type];
               filterCrimes();
               return;
             }
         }
         crimeTypes.push(type);
+        crimeMarkers[type] = [];
         filterCrimes();
     }
 
@@ -94,11 +102,12 @@ require([
                 var crime = data[i];
                 var lat = crime.latitude;
                 var long = crime.longitude;
-                new google.maps.Marker({
+                var marker = new google.maps.Marker({
                     position: new google.maps.LatLng(lat, long),
                     map: map,
                     icon: 'https://maps.gstatic.com/intl/en_us/mapfiles/markers2/measle_blue.png',
                   });
+                crimeMarkers[crime.primary_type].push(marker);
             }
         });
     }
