@@ -11,7 +11,6 @@ require([
         }
     });
 
-    var crimeTypes = [];
     var crimeMarkers = {};
 
     // // Chicago City box points
@@ -77,10 +76,9 @@ require([
 
     function updateCrimeTypes() {
         var type = $(this).val();
-        var types = crimeTypes;
+        var types = Object.keys(crimeMarkers);
         for(var i=0; i < types.length; i++) {
             if(types[i] === type) {
-              crimeTypes.splice(i, 1);
               var markers = crimeMarkers[type];
               for (var j = 0; j< markers.length; j++) {
                 var marker = markers[j];
@@ -91,14 +89,14 @@ require([
               return;
             }
         }
-        crimeTypes.push(type);
         crimeMarkers[type] = [];
         filterCrimes();
     }
 
     function filterCrimes() {
         $('input[type=checkbox]').prop('disabled', true);
-        Crimes.objects.filter({primary_type__in: crimeTypes}, function(data) {
+        var types = Object.keys(crimeMarkers);
+        Crimes.objects.filter({primary_type__in: types}, function(data) {
             for (var i = 0; i < data.length; i++) {
                 var crime = data[i];
                 var lat = crime.latitude;
