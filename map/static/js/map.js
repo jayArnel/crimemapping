@@ -74,6 +74,7 @@ require([
     }
 
     function drawGrid(pk, size) {
+        $('input[type=checkbox]').prop('disabled', true);
         $.ajax({
             url: '/grid',
             type: 'get',
@@ -81,6 +82,7 @@ require([
             success: function(response) {
                 data = JSON.parse(response);
                 grid = map.data.addGeoJson(data);
+                $('input[type=checkbox]').prop('disabled', false);
             }
         })
     }
