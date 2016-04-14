@@ -48,7 +48,7 @@ require([
             $('.loading-overlay').remove();
       });
 
-      $('input[type=checkbox]').on('change', updateCrimeTypes);
+      $('input[type=checkbox].crime-type').on('change', updateCrimeTypes);
     }
     bindActions();
 
