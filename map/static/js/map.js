@@ -97,6 +97,7 @@ require([
     }
 
     function filterCrimes() {
+        $('input[type=checkbox]').prop('disabled', true);
         Crimes.objects.filter({primary_type__in: crimeTypes}, function(data) {
             for (var i = 0; i < data.length; i++) {
                 var crime = data[i];
@@ -109,6 +110,7 @@ require([
                   });
                 crimeMarkers[crime.primary_type].push(marker);
             }
+            $('input[type=checkbox]').prop('disabled', false);
         });
     }
 });
