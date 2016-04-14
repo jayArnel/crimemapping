@@ -76,20 +76,16 @@ require([
 
     function updateCrimeTypes() {
         var type = $(this).val();
-        var types = Object.keys(crimeMarkers);
-        for(var i=0; i < types.length; i++) {
-            if(types[i] === type) {
-              var markers = crimeMarkers[type];
-              for (var j = 0; j< markers.length; j++) {
-                var marker = markers[j];
-                marker.setMap(null);
-              }
-              delete crimeMarkers[type];
-              filterCrimes();
-              return;
-            }
+        if ($(this).is(':checked')){
+          crimeMarkers[type] = [];
+        } else {
+          var markers = crimeMarkers[type];
+          for (var j = 0; j< markers.length; j++) {
+            var marker = markers[j];
+            marker.setMap(null);
+          }
+          delete crimeMarkers[type];
         }
-        crimeMarkers[type] = [];
         filterCrimes();
     }
 
