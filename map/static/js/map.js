@@ -12,7 +12,7 @@ require([
     });
 
     var crimeMarkers = {};
-    var grid;
+    var grid = [];
 
     // // Chicago City box points
     var NorthEast = new google.maps.LatLng(42.023135, -87.523661);
@@ -51,6 +51,7 @@ require([
 
       $('input[type=checkbox].crime-type').on('change', updateCrimeTypes);
       $('input[type=checkbox].grid-toggle').on('change', toggleGridSizeChoices);
+      $('input[type=radio].grid-size').on('change', drawGrid);
     }
     bindActions();
 
@@ -71,18 +72,13 @@ require([
         }
     }
 
-    function toggleGrid(){
-        if ($(this).is(':checked')){
-          drawGrid(1, 1000);
-        } else {
-          for (var i = 0; i < grid.length; i++){
-            map.data.remove(grid[i]);
-          }
+    function drawGrid() {
+        $('input').prop('disabled', true);
+        for (var i = 0; i < grid.length; i++){
+          map.data.remove(grid[i]);
         }
-    }
-
-    function drawGrid(pk, size) {
-        $('input[type=checkbox]').prop('disabled', true);
+        var pk = 1;
+        var size = +$(this).val();
         $.ajax({
             url: '/grid',
             type: 'get',
@@ -90,8 +86,7 @@ require([
             success: function(response) {
                 data = JSON.parse(response);
                 grid = map.data.addGeoJson(data);
-                $('input[type=checkbox]').prop('disabled', false);
-                $('.grid-sizes').removeClass('hide');
+                $('input').prop('disabled', false);
             }
         })
     }
