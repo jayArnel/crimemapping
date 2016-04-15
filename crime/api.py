@@ -8,4 +8,5 @@ class CriminalRecordResource(ModelResource):
         resource_name = 'criminalrecord'
         filtering = {
             'primary_type': ['exact', 'in'],
+            'date': ['range', 'exact', 'gt', 'gte', 'lt', 'lte'],
         }
