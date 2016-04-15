@@ -27,7 +27,16 @@
         </p>
     </div>
     Crimes
-    <input type="date" class="datepicker"/>
+    <p class="row">
+        <span class="col s12 m6">
+        <label for="start-date">From</label>
+        <input type="date" class="datepicker" placeholder="From" id="start-date"/>
+        </span>
+        <span class="col s12 m6">
+        <label for="end-date">To</label>
+        <input type="date" class="datepicker" placeholder="To" id="end-date"/>
+        </span>
+    </p>
     {% for type in crime_types %}
     <p>
       <input type="checkbox" class="filled-in crime-type" id="{{type}}" value="{{type}}"/>
