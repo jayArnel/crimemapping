@@ -2,7 +2,11 @@ require([
     'model', 'jquery', 'materialize',
     'goog!maps,3.24,other_params:key=AIzaSyBUGs5RiAn6ao_JS4hV5wCXSIlGZ5qlC1U',
 ], function(Model, $) {
-    $('.datepicker').pickadate();
+    $('.datepicker').pickadate({
+        onClose: function() {
+            $(document.activeElement).blur();
+        }
+    });
     /*
       Initialize variables
      */
