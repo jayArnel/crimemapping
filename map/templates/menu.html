@@ -30,11 +30,11 @@
     <p class="row">
         <span class="col s12 m6">
         <label for="start-date">From</label>
-        <input type="date" class="datepicker" placeholder="From" id="start-date"/>
+        <input type="date" class="datepicker" placeholder="From" id="start-date" data-initial="{{start}}"/>
         </span>
         <span class="col s12 m6">
         <label for="end-date">To</label>
-        <input type="date" class="datepicker" placeholder="To" id="end-date"/>
+        <input type="date" class="datepicker" placeholder="To" id="end-date" data-initial="{{end}}"/>
         </span>
     </p>
     {% for type in crime_types %}

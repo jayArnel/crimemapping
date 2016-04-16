@@ -13,8 +13,11 @@ class MapView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = {}
-        context['crime_types'] = CriminalRecord.objects.all().order_by(
+        crimes = CriminalRecord.objects.all()
+        context['crime_types'] = crimes.order_by(
             'primary_type').distinct().values_list('primary_type', flat=True)
+        context['start'] = str(crimes.order_by('date').first().date.date())
+        context['end'] = str(crimes.order_by('date').last().date.date())
         return context
 
 

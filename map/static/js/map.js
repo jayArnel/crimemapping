@@ -5,6 +5,10 @@ require([
     $('.datepicker').pickadate({
         onClose: function() {
             $(document.activeElement).blur();
+        },
+        onStart: function() {
+          var initial = this.$node.data('initial');
+          this.set('select', new Date(initial));
         }
     });
     /*
