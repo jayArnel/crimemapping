@@ -13,15 +13,18 @@ require([
             var end = $('.datepicker#end-date');
             var min = start.val() ? start.val() : start.data('initial');
             var max = end.val() ? end.val() : end.data('initial');
-            this.set('max', new Date(max));
-            this.set('min', new Date(min));
+            if (_this.is('#start-date')) {
+                this.set('max', new Date(max));
+            } else if (_this.is('#end-date')) {
+                this.set('min', new Date(min));
+            }
         },
         onClose: function() {
             $(document.activeElement).blur();
             filterCrimes();
         },
-        // min: new Date($('.datepicker#start-date').data('initial')),
-        // max: new Date($('.datepicker#end-date').data('initial')),
+        min: new Date($('.datepicker#start-date').data('initial')),
+        max: new Date($('.datepicker#end-date').data('initial')),
         today: false,
         selectYears: 20,
         selectMonths: true,
