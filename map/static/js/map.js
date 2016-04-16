@@ -22,6 +22,7 @@ require([
         max: new Date($('.datepicker#end-date').data('initial')),
         selectYears: 20,
         selectMonths: true,
+        format: 'mmmm d, yyyy'
     });
     /*
       Initialize variables
