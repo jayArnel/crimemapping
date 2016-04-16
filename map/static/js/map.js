@@ -126,6 +126,7 @@ require([
         var type = $(this).val();
         if ($(this).is(':checked')){
           crimeMarkers[type] = [];
+          $('#load-crimes').removeClass('disabled');
         } else {
           var markers = crimeMarkers[type];
           for (var j = 0; j< markers.length; j++) {
@@ -133,13 +134,21 @@ require([
             marker.setMap(null);
           }
           delete crimeMarkers[type];
+          var types = Object.keys(crimeMarkers);
+          console.log(types);
+          if (types.length === 0) {
+              $('#load-crimes').addClass('disabled');
+          }
         }
     }
 
     function filterCrimes() {
+        var $this = $(this);
         var types = Object.keys(crimeMarkers);
         if (types.length > 0) {
           $('input[type=checkbox]').prop('disabled', true);
+          $this.find('i').removeClass('hide');
+          $this.addClass('disabled');
           var filters = getCrimeFilters();
           Crimes.objects.filter(filters, function(data) {
               for (var i = 0; i < data.length; i++) {
@@ -154,6 +163,8 @@ require([
                   crimeMarkers[crime.primary_type].push(marker);
               }
               $('input[type=checkbox]').prop('disabled', false);
+              $this.find('i').addClass('hide');
+              $this.removeClass('disabled');
           });
         }
     }
