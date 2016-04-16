@@ -21,7 +21,6 @@ require([
         },
         onClose: function() {
             $(document.activeElement).blur();
-            filterCrimes();
         },
         min: new Date($('.datepicker#start-date').data('initial')),
         max: new Date($('.datepicker#end-date').data('initial')),
@@ -80,6 +79,7 @@ require([
       $('input[type=checkbox].crime-type').on('change', updateCrimeTypes);
       $('input[type=checkbox].grid-toggle').on('change', toggleGridSizeChoices);
       $('input[type=radio].grid-size').on('change', drawGrid);
+      $('#load-crimes').on('click', filterCrimes);
     }
     bindActions();
 
@@ -134,7 +134,6 @@ require([
           }
           delete crimeMarkers[type];
         }
-        filterCrimes();
     }
 
     function filterCrimes() {
