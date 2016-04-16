@@ -77,6 +77,7 @@ require([
       });
 
       $('input[type=checkbox].crime-type').on('change', updateCrimeTypes);
+      $('input[type=checkbox]#all-types').on('change', toggleAllTypes);
       $('input[type=checkbox].grid-toggle').on('change', toggleGridSizeChoices);
       $('input[type=radio].grid-size').on('change', drawGrid);
       $('#load-crimes').on('click', filterCrimes);
@@ -140,6 +141,15 @@ require([
               $('#load-crimes').addClass('disabled');
           }
         }
+    }
+
+    function toggleAllTypes(){
+        if ($(this).is(':checked')){
+            $('input[type=checkbox].crime-type').prop('checked', true);
+        } else {
+            $('input[type=checkbox].crime-type').prop('checked', false);
+        }
+        $('input[type=checkbox].crime-type').trigger('change');
     }
 
     function filterCrimes() {

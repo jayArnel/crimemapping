@@ -38,6 +38,10 @@
         <input type="date" class="datepicker" placeholder="End date" id="end-date" data-initial="{{end}}"/>
         </span>
     </p>
+    <p>
+      <input type="checkbox" id="all-types" value="ALL"/>
+      <label for="all-types">All</label>
+    </p>
     {% for type in crime_types %}
     <p>
       <input type="checkbox" class="filled-in crime-type" id="{{type}}" value="{{type}}"/>
