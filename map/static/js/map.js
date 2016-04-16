@@ -3,6 +3,14 @@ require([
     'goog!maps,3.24,other_params:key=AIzaSyBUGs5RiAn6ao_JS4hV5wCXSIlGZ5qlC1U',
 ], function(Model, $) {
     $('.datepicker').pickadate({
+        onOpen: function() {
+          var _this = this.$node;
+          if (_this.is('#start-date')) {
+              this.set('max', new Date($('.datepicker#end-date').val()));
+          } else if (_this.is('#end-date')) {
+              this.set('min', new Date($('.datepicker#start-date').val()));
+          }
+        },
         onClose: function() {
             $(document.activeElement).blur();
         },
