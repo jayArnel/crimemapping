@@ -12,6 +12,8 @@ require([
         },
         min: new Date($('.datepicker#start-date').data('initial')),
         max: new Date($('.datepicker#end-date').data('initial')),
+        selectYears: true,
+        selectMonths: true,
     });
     /*
       Initialize variables
