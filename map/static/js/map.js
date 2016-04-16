@@ -9,7 +9,9 @@ require([
         onStart: function() {
           var initial = this.$node.data('initial');
           this.set('select', new Date(initial));
-        }
+        },
+        min: new Date($('.datepicker#start-date').data('initial')),
+        max: new Date($('.datepicker#end-date').data('initial')),
     });
     /*
       Initialize variables
