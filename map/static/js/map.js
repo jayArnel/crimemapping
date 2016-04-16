@@ -20,9 +20,10 @@ require([
         },
         min: new Date($('.datepicker#start-date').data('initial')),
         max: new Date($('.datepicker#end-date').data('initial')),
+        today: false,
         selectYears: 20,
         selectMonths: true,
-        format: 'mmmm d, yyyy'
+        format: 'mmmm d, yyyy',
     });
     /*
       Initialize variables
