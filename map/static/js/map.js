@@ -167,11 +167,15 @@ require([
         }
 
         if ($('#start-date').val()) {
-            filters['date_gte'] = new Date($('#start-date').val()).toISOString();
+            var start = new Date($('#start-date').val());
+            var adjusted = new Date(Date.UTC(start.getFullYear(), start.getMonth(), start.getDate()));
+            filters['date__gte'] = adjusted.toISOString();
         }
 
         if ($('#end-date').val()) {
-            filters['date_lte'] = new Date($('#end-date').val()).toISOString();
+            var end = new Date($('#end-date').val());
+            var adjusted = new Date(Date.UTC(end.getFullYear(), end.getMonth(), end.getDate()));
+            filters['date__lte'] = adjusted.toISOString();
         }
 
         if (Object.keys(filters).length > 0) {
