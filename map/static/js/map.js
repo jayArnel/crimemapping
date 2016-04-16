@@ -135,11 +135,18 @@ require([
             marker.setMap(null);
           }
           delete crimeMarkers[type];
-          var types = Object.keys(crimeMarkers);
-          console.log(types);
-          if (types.length === 0) {
-              $('#load-crimes').addClass('disabled');
-          }
+        }
+        var types = Object.keys(crimeMarkers);
+        if (types.length === 0) {
+            $('#load-crimes').addClass('disabled');
+            $('input[type=checkbox]#all-types').prop('checked', false);
+            $('input[type=checkbox]#all-types').prop('indeterminate', false);
+        } else if (types.length === $('input[type=checkbox].crime-type').length) {
+            $('input[type=checkbox]#all-types').prop('checked', true);
+            $('input[type=checkbox]#all-types').prop('indeterminate', false);
+        } else {
+            $('input[type=checkbox]#all-types').prop('checked', false);
+            $('input[type=checkbox]#all-types').prop('indeterminate', true);
         }
     }
 
