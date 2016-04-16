@@ -6324,9 +6324,28 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
   background: white;
   font-family: sans-serif;
   padding: 20px;
-  border-radius: 3px; }
-  #menu #menu-list {
-    list-style-type: none; }
+  border-radius: 3px;
+  height: 400px;
+  overflow: auto; }
+  #menu #load-crimes i {
+    -webkit-transform-origin: 50% 50%;
+            transform-origin: 50% 50%;
+    -webkit-animation: spin 1s infinite linear;
+            animation: spin 1s infinite linear; }
+
+@-webkit-keyframes spin {
+  from {
+    -webkit-transform: rotate(0deg); }
+  to {
+    -webkit-transform: rotate(360deg); } }
+
+@keyframes spin {
+  from {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg); }
+  to {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg); } }
 
 html, body {
   height: 100%;
