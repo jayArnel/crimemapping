@@ -18,6 +18,7 @@ require([
         },
         onClose: function() {
             $(document.activeElement).blur();
+            filterCrimes();
         },
         // min: new Date($('.datepicker#start-date').data('initial')),
         // max: new Date($('.datepicker#end-date').data('initial')),
@@ -137,7 +138,8 @@ require([
         var types = Object.keys(crimeMarkers);
         if (types.length > 0) {
           $('input[type=checkbox]').prop('disabled', true);
-          Crimes.objects.filter({primary_type__in: types}, function(data) {
+          var filters = getCrimeFilters();
+          Crimes.objects.filter(filters, function(data) {
               for (var i = 0; i < data.length; i++) {
                   var crime = data[i];
                   var lat = crime.latitude;
@@ -152,5 +154,26 @@ require([
               $('input[type=checkbox]').prop('disabled', false);
           });
         }
+    }
+
+    function getCrimeFilters() {
+        var filters = {};
+        var types = Object.keys(crimeMarkers);
+        if (types.length > 0) {
+            filters['primary_type__in'] = types;
+        }
+
+        if ($('#start-date').val()) {
+            filters['date_gte'] = new Date($('#start-date').val()).toISOString();
+        }
+
+        if ($('#end-date').val()) {
+            filters['date_lte'] = new Date($('#end-date').val()).toISOString();
+        }
+
+        if (Object.keys(filters).length > 0) {
+          return filters;
+        }
+        return false;
     }
 });
