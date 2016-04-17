@@ -1,46 +1,48 @@
-#menu {
-    position: absolute;
-    z-index: 1;
-    left: 10px;
-    top: 10px;
-    background: white;
-    font-family: sans-serif;
+.menu {
     padding: 20px;
-    border-radius: 3px;
-    height: 400px;
+    height: 100%;
     overflow: auto;
 
-    #load-crimes {
-        i {
-            transform-origin:50% 50%;
-            animation: spin 1s infinite linear;
+    .grid-options {
+        .option-heading {
+            margin-right: 15px;
         }
 
-        @-moz-keyframes spin {
-          from {
-            -moz-transform: rotate(0deg);
-          }
-          to {
-            -moz-transform: rotate(360deg);
-          }
+        .grid-sizes {
+            margin-bottom: 0px;
+
+            label {
+                padding-left: 22px;
+            }
+        }
+        
+    }
+
+    .crime-options {
+
+        #load-crimes {
+            i {
+                transform-origin:50% 50%;
+                animation: spin 1s infinite linear;
+            }
+
+            @keyframes spin {
+              from {
+                transform: rotate(0deg);
+              }
+              to {
+                transform: rotate(360deg);
+              }
+            }
         }
 
-        @-webkit-keyframes spin {
-          from {
-            -webkit-transform: rotate(0deg);
-          }
-          to {
-            -webkit-transform: rotate(360deg);
-          }
-        }
+        .type-filters {
 
-        @keyframes spin {
-          from {
-            transform: rotate(0deg);
-          }
-          to {
-            transform: rotate(360deg);
-          }
+            label {
+                font-size: 0.9em;
+            }
         }
     }
+
+
 }

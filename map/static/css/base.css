@@ -6316,18 +6316,17 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
       -ms-flex-align: center;
           align-items: center; }
 
-#menu {
-  position: absolute;
-  z-index: 1;
-  left: 10px;
-  top: 10px;
-  background: white;
-  font-family: sans-serif;
+.menu {
   padding: 20px;
-  border-radius: 3px;
-  height: 400px;
+  height: 100%;
   overflow: auto; }
-  #menu #load-crimes i {
+  .menu .grid-options .option-heading {
+    margin-right: 15px; }
+  .menu .grid-options .grid-sizes {
+    margin-bottom: 0px; }
+    .menu .grid-options .grid-sizes label {
+      padding-left: 22px; }
+  .menu .crime-options #load-crimes i {
     -webkit-transform-origin: 50% 50%;
             transform-origin: 50% 50%;
     -webkit-animation: spin 1s infinite linear;
@@ -6335,9 +6334,11 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
 
 @-webkit-keyframes spin {
   from {
-    -webkit-transform: rotate(0deg); }
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg); }
   to {
-    -webkit-transform: rotate(360deg); } }
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg); } }
 
 @keyframes spin {
   from {
@@ -6346,6 +6347,8 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
   to {
     -webkit-transform: rotate(360deg);
             transform: rotate(360deg); } }
+  .menu .crime-options .type-filters label {
+    font-size: 0.9em; }
 
 html, body {
   height: 100%;
