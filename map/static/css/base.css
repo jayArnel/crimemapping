@@ -6326,7 +6326,9 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
   height: 100%;
   overflow: auto;
   width: 400px; }
-  #menu .grid-sizes {
+  #menu .grid-options .option-heading {
+    margin-right: 15px; }
+  #menu .grid-options .grid-sizes {
     margin-bottom: 0px; }
   #menu .crime-options #load-crimes i {
     -webkit-transform-origin: 50% 50%;
