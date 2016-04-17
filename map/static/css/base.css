@@ -6319,13 +6319,11 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
 #menu {
   position: absolute;
   z-index: 1;
-  left: 10px;
-  top: 10px;
   background: white;
   font-family: sans-serif;
   padding: 20px;
   border-radius: 3px;
-  height: 400px;
+  height: 100%;
   overflow: auto; }
   #menu #load-crimes i {
     -webkit-transform-origin: 50% 50%;
