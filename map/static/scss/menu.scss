@@ -8,19 +8,31 @@
     height: 100%;
     overflow: auto;
 
-    #load-crimes {
-        i {
-            transform-origin:50% 50%;
-            animation: spin 1s infinite linear;
+    .crime-options {
+
+        #load-crimes {
+            i {
+                transform-origin:50% 50%;
+                animation: spin 1s infinite linear;
+            }
+
+            @keyframes spin {
+              from {
+                transform: rotate(0deg);
+              }
+              to {
+                transform: rotate(360deg);
+              }
+            }
         }
 
-        @keyframes spin {
-          from {
-            transform: rotate(0deg);
-          }
-          to {
-            transform: rotate(360deg);
-          }
+        .type-filters {
+
+            label {
+                font-size: 0.9em;
+            }
         }
     }
+
+
 }

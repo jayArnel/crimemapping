@@ -6325,7 +6325,7 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
   border-radius: 3px;
   height: 100%;
   overflow: auto; }
-  #menu #load-crimes i {
+  #menu .crime-options #load-crimes i {
     -webkit-transform-origin: 50% 50%;
             transform-origin: 50% 50%;
     -webkit-animation: spin 1s infinite linear;
@@ -6346,6 +6346,8 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
   to {
     -webkit-transform: rotate(360deg);
             transform: rotate(360deg); } }
+  #menu .crime-options .type-filters label {
+    font-size: 0.9em; }
 
 html, body {
   height: 100%;
