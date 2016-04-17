@@ -1,13 +1,7 @@
-#menu {
-    position: absolute;
-    z-index: 1;
-    background: white;
-    font-family: sans-serif;
+.menu {
     padding: 20px;
-    border-radius: 3px;
     height: 100%;
     overflow: auto;
-    width: 400px;
 
     .grid-options {
         .option-heading {

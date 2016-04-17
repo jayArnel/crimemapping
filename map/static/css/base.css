@@ -6316,7 +6316,7 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
       -ms-flex-align: center;
           align-items: center; }
 
-#menu {
+.menu {
   position: absolute;
   z-index: 1;
   background: white;
@@ -6326,11 +6326,11 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
   height: 100%;
   overflow: auto;
   width: 400px; }
-  #menu .grid-options .option-heading {
+  .menu .grid-options .option-heading {
     margin-right: 15px; }
-  #menu .grid-options .grid-sizes {
+  .menu .grid-options .grid-sizes {
     margin-bottom: 0px; }
-  #menu .crime-options #load-crimes i {
+  .menu .crime-options #load-crimes i {
     -webkit-transform-origin: 50% 50%;
             transform-origin: 50% 50%;
     -webkit-animation: spin 1s infinite linear;
@@ -6351,7 +6351,7 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
   to {
     -webkit-transform: rotate(360deg);
             transform: rotate(360deg); } }
-  #menu .crime-options .type-filters label {
+  .menu .crime-options .type-filters label {
     font-size: 0.9em; }
 
 html, body {
