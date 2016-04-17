@@ -6317,19 +6317,15 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
           align-items: center; }
 
 .menu {
-  position: absolute;
-  z-index: 1;
-  background: white;
-  font-family: sans-serif;
   padding: 20px;
-  border-radius: 3px;
   height: 100%;
-  overflow: auto;
-  width: 400px; }
+  overflow: auto; }
   .menu .grid-options .option-heading {
     margin-right: 15px; }
   .menu .grid-options .grid-sizes {
     margin-bottom: 0px; }
+    .menu .grid-options .grid-sizes label {
+      padding-left: 22px; }
   .menu .crime-options #load-crimes i {
     -webkit-transform-origin: 50% 50%;
             transform-origin: 50% 50%;
