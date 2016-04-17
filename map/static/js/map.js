@@ -1,7 +1,12 @@
 require([
-    'model', 'jquery', 'materialize',
+    'model', 'jquery', 'hammerjs', 'jquery-hammerjs', 'materialize',
     'goog!maps,3.24,other_params:key=AIzaSyBUGs5RiAn6ao_JS4hV5wCXSIlGZ5qlC1U',
 ], function(Model, $) {
+
+    $(".button-collapse").sideNav({
+       menuWidth: 310,
+    });
+    $('.collapsible').collapsible();
     $('.datepicker').pickadate({
         onOpen: function() {
             var _this = this.$node;
