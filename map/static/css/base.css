@@ -6333,9 +6333,11 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
 
 @-webkit-keyframes spin {
   from {
-    -webkit-transform: rotate(0deg); }
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg); }
   to {
-    -webkit-transform: rotate(360deg); } }
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg); } }
 
 @keyframes spin {
   from {
