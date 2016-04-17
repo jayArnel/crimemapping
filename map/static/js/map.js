@@ -33,6 +33,7 @@ require([
         selectYears: 20,
         selectMonths: true,
         format: 'mmmm d, yyyy',
+        container: 'body'
     });
     /*
       Initialize variables
