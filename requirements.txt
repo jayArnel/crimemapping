@@ -5,6 +5,7 @@ future==0.15.0
 geopy==1.11.0
 ipython==4.1.2
 ipython-genutils==0.1.0
+numpy==1.11.0
 path.py==8.1.2
 pexpect==4.0.1
 pickleshare==0.6
@@ -18,7 +19,9 @@ pytz==2015.7
 PyYAML==3.11
 requests==2.7.0
 requests-mock==0.6.0
+scipy==0.17.0
 simplegeneric==0.8.1
 six==1.9.0
 sodapy==1.2.0
+Theano==0.8.1
 traitlets==4.2.1
