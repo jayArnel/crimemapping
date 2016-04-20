@@ -10,7 +10,7 @@ var paths = {
         ],
     style: 'storage/static/scss/base.scss',
     base: 'storage/static/scss',
-    build: 'map/static/css'
+    build: 'storage/static/css'
 }
 
 
