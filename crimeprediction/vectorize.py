@@ -7,23 +7,24 @@ def vectorize():
     grid = city.generateGrid(1000)
     vectors = []
     first_data = CriminalRecord.objects.first()
-    month = first_data.date.month
-    year = first_data.date.year
     last_data = CriminalRecord.objects.last()
-    last_month = last_data.date.month
-    last_year = last_data.date.year
-    while year <= last_year:
-        while month <= last_month and month <= 12:
-            vector = []
-            for i in xrange(len(grid)):
-                g = grid[i]
-                crimes = CriminalRecord.objects.filter(
-                    date__month=month, date__year=year,
-                    location__intersects=g).count()
-                has_crime = int(crimes > 0)
-                vector.append(has_crime)
-            vectors.append(vector)
-            month += 1
-        year += 1
-        month = 0
-    return vectors
+    first_year = first_data.date.year
+    first_month = first_data.date.month
+    last_year = 2003
+    last_month = 3
+    start = 12 * first_year + first_month - 1
+    end = 12 * last_year + last_month
+    for ym in range(start, end ):
+        year, month = divmod( ym, 12 )
+        month += 1
+        print year, month
+        vector = []
+        for i in xrange(len(grid)):
+            g = grid[i]
+            crimes = CriminalRecord.objects.filter(
+                date__month=month, date__year=year,
+                location__intersects=g).count()
+            has_crime = int(crimes > 0)
+            vector.append(has_crime)
+        vectors.append(vector)
+    # return vectors
