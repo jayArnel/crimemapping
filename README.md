@@ -106,6 +106,10 @@ server {
     }
 }
 ```
+enable configuration
+``` shell
+sudo ln -s /etc/nginx/sites-available/crimemapping /etc/nginx/sites-enabled/crimemapping
+``
 check for errors, then restart nginx
 ``` nginx
 sudo nginx -t
