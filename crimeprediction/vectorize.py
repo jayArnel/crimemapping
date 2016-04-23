@@ -27,4 +27,4 @@ def vectorize(grid_size=1000, period='monthly'):
             has_crime = int(crimes > 0)
             vector.append(has_crime)
         vectors.append(vector)
-    # return vectors
+    return vectors
