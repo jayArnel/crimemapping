@@ -1,8 +1,11 @@
+import cPickle as pickle
+
 from map.models import CityBorder
 from crime.models import CriminalRecord
 
 
 def vectorize(grid_size=1000, period='monthly'):
+    file = grid_size + 'grid_size_' + period + 'period_vector.p'
     city = CityBorder.objects.get(name='Chicago')
     grid = city.generateGrid(grid_size)
     vectors = []
@@ -27,4 +30,5 @@ def vectorize(grid_size=1000, period='monthly'):
             has_crime = int(crimes > 0)
             vector.append(has_crime)
         vectors.append(vector)
+    pickle.dump(vectors, open(file, "wb"))
     return vectors
