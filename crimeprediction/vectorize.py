@@ -10,8 +10,8 @@ def vectorize(grid_size=1000, period='monthly'):
     last_data = CriminalRecord.objects.last()
     first_year = first_data.date.year
     first_month = first_data.date.month
-    last_year = 2003
-    last_month = 3
+    last_year = last_data.date.year
+    last_month = last_data.date.month
     start = 12 * first_year + first_month - 1
     end = 12 * last_year + last_month
     for ym in range(start, end ):
