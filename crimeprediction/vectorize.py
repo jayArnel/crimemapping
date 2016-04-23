@@ -2,7 +2,7 @@ from map.models import CityBorder
 from crime.models import CriminalRecord
 
 
-def vectorize(grid_size=1000):
+def vectorize(grid_size=1000, period='monthly'):
     city = CityBorder.objects.get(name='Chicago')
     grid = city.generateGrid(grid_size)
     vectors = []
