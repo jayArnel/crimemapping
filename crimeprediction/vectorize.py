@@ -62,4 +62,4 @@ def vectorize(grid_size, period, new=False):
                 vector.append(has_crime)
             vectors.append(vector)
         pickle.dump(vectors, open(file, "wb"))
-
+        return vectors
