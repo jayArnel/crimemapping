@@ -4,7 +4,7 @@ from map.models import CityBorder
 from crime.models import CriminalRecord
 
 
-def vectorize(grid_size=1000, period='monthly', new=False):
+def vectorize(grid_size, period, new=False):
     file = grid_size + 'grid_size_' + period + 'period_vector.p'
     if new:
         try:
