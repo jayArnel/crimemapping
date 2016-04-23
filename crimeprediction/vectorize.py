@@ -8,9 +8,9 @@ def vectorize(grid_size, period, new=False):
     file = str(grid_size) + 'grid_size_' + period + 'period_vector.p'
     try:
         if new:
-            vectors = pickle.load(open(file, "rb"))
-        else:
             raise EnvironmentError()
+        else:
+            vectors = pickle.load(open(file, "rb"))
     except EnvironmentError as e:
         print "here"
         city = CityBorder.objects.get(name='Chicago')
