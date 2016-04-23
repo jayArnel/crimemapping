@@ -2,9 +2,9 @@ from map.models import CityBorder
 from crime.models import CriminalRecord
 
 
-def vectorize():
+def vectorize(grid_size=1000):
     city = CityBorder.objects.get(name='Chicago')
-    grid = city.generateGrid(1000)
+    grid = city.generateGrid(grid_size)
     vectors = []
     first_data = CriminalRecord.objects.first()
     last_data = CriminalRecord.objects.last()
