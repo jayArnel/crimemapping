@@ -1,16 +1,19 @@
 import cPickle as pickle
 
+from django.conf import settings
+
 from map.models import CityBorder
 from crime.models import CriminalRecord
 
 
 def vectorize(grid_size, period, new=False):
     file = str(grid_size) + 'grid_size_' + period + 'period_vector.p'
+    path = settings.VECTORS_DIR + file
     try:
         if new:
             raise EnvironmentError()
         else:
-            vectors = pickle.load(open(file, "rb"))
+            vectors = pickle.load(open(path, "rb"))
     except EnvironmentError as e:
         city = CityBorder.objects.get(name='Chicago')
         grid = city.generateGrid(grid_size)
@@ -18,7 +21,7 @@ def vectorize(grid_size, period, new=False):
             vectors = vectorize_monthly(grid)
         if period == 'yearly':
             vectors = vectorize_yearly(grid)
-        pickle.dump(vectors, open(file, "wb"))
+        pickle.dump(vectors, open(path, "wb"))
     return vectors
 
 def vectorize_monthly(grid):
