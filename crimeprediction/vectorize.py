@@ -28,6 +28,7 @@ def vectorize_monthly(grid):
     last_month = last_data.date.month
     start = 12 * first_year + first_month - 1
     end = 12 * last_year + last_month
+    vectors = []
     for ym in range(start, end ):
         year, month = divmod( ym, 12 )
         month += 1
@@ -41,4 +42,4 @@ def vectorize_monthly(grid):
             has_crime = int(crimes > 0)
             vector.append(has_crime)
         vectors.append(vector)
-    return vector
+    return vectors
