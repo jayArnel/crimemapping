@@ -16,6 +16,8 @@ def vectorize(grid_size, period, new=False):
         grid = city.generateGrid(grid_size)
         if period == 'monthly':
             vectors = vectorize_monthly(grid)
+        if period == 'yearly':
+            vectors = vectorize_yearly(grid)
         pickle.dump(vectors, open(file, "wb"))
     return vectors
 
@@ -39,6 +41,24 @@ def vectorize_monthly(grid):
             crimes = CriminalRecord.objects.filter(
                 date__month=month, date__year=year,
                 location__intersects=g).count()
+            has_crime = int(crimes > 0)
+            vector.append(has_crime)
+        vectors.append(vector)
+    return vectors
+
+def vectorize_yearly(grid):
+    first_data = CriminalRecord.objects.first()
+    last_data = CriminalRecord.objects.last()
+    first_year = first_data.date.year
+    last_year = last_data.date.year
+    vectors = []
+    for year in range(first_year, last_year + 1):
+        print year
+        vector = []
+        for i in xrange(len(grid)):
+            g = grid[i]
+            crimes = CriminalRecord.objects.filter(
+                date__year=year, location__intersects=g).count()
             has_crime = int(crimes > 0)
             vector.append(has_crime)
         vectors.append(vector)
