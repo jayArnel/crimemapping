@@ -29,6 +29,10 @@ def vectorize(grid_size, period, new=False):
             vectors = vectorize_monthly(grid)
         if period == 'yearly':
             vectors = vectorize_yearly(grid)
+        else:
+            raise NotImplementedError(
+                'Vectorization by "{0}" time step is not yet implemented.'\
+                .format(period))
         pickle.dump(vectors, open(path, "wb"))
     return vectors
 
