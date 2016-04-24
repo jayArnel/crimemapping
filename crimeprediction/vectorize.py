@@ -12,7 +12,6 @@ def vectorize(grid_size, period, new=False):
         else:
             vectors = pickle.load(open(file, "rb"))
     except EnvironmentError as e:
-        print "here"
         city = CityBorder.objects.get(name='Chicago')
         grid = city.generateGrid(grid_size)
         vectors = []
