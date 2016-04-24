@@ -1,4 +1,5 @@
 import cPickle as pickle
+import os
 
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
@@ -9,6 +10,8 @@ from crime.models import CriminalRecord
 if not hasattr(settings, 'VECTORS_DIR'):
     raise ImproperlyConfigured(
         'The directory to save vector pickles is missing from your settings')
+elif not os.path.exists(settings.VECTORS_DIR):
+    os.makedirs(settings.VECTORS_DIR)
 
 
 def vectorize(grid_size, period, new=False):
