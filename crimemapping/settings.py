@@ -136,6 +136,9 @@ TASTYPIE_DEFAULT_FORMATS = ['json']
 
 GRID_SIZES = [250, 500, 750, 1000]
 
+VECTORS_DIR = 'crimeprediction/data/vectors/'
+
+
 try:
     from local_settings import *
 except ImportError:
