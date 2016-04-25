@@ -31,10 +31,11 @@ def vectorize(grid_size, period, new=False):
             vectors = vectorize_yearly(grid)
         else:
             raise NotImplementedError(
-                'Vectorization by "{0}" time step is not yet implemented.'\
-                .format(period))
+                'Vectorization by "{0}" time step is not yet implemented.'.
+                format(period))
         pickle.dump(vectors, open(path, "wb"))
     return vectors
+
 
 def vectorize_monthly(grid):
     first_data = CriminalRecord.objects.first()
@@ -46,8 +47,8 @@ def vectorize_monthly(grid):
     start = 12 * first_year + first_month - 1
     end = 12 * last_year + last_month
     vectors = []
-    for ym in range(start, end ):
-        year, month = divmod( ym, 12 )
+    for ym in range(start, end):
+        year, month = divmod(ym, 12)
         month += 1
         print year, month
         vector = []
@@ -60,6 +61,7 @@ def vectorize_monthly(grid):
             vector.append(has_crime)
         vectors.append(vector)
     return vectors
+
 
 def vectorize_yearly(grid):
     first_data = CriminalRecord.objects.first()
