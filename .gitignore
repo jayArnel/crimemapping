@@ -66,3 +66,12 @@ crimemapping/local_settings.py
 
 # pickles
 *.p
+
+# LaTeX files
+*.aux
+*.idx
+*.lof
+*.lot
+*.nlo
+*.out
+*.toc
