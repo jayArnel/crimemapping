@@ -75,3 +75,4 @@ crimemapping/local_settings.py
 *.nlo
 *.out
 *.toc
+*.pdf
