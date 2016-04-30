@@ -1,7 +1,8 @@
 require([
-    'model','jquery', 'mustache', 'strftime', 'text!mustachetemplates/crime-info.html',
-    'hammerjs', 'jquery-hammerjs', 'materialize', 'gmaps'
-], function(Model, $, Mustache, strftime, crimeInfoTemplate) {
+    'model','jquery', 'mustache', 'strftime', 'map/js/overlay/overlay',
+    'text!mustachetemplates/crime-info.html', 'hammerjs', 'jquery-hammerjs',
+    'materialize', 'gmaps'
+], function(Model, $, Mustache, strftime, overlay, crimeInfoTemplate) {
 
     $(".button-collapse").sideNav({
        menuWidth: 310,
@@ -53,6 +54,7 @@ require([
       Set initial map properties
      */
     function initializeMap() {
+        overlay.indeterminate('Initializing map... Please');
         $('input').prop('disabled', true);
         CityBorder.objects.filter({'name': 'Chicago'}, function(data){
             var chicago = data[0];
@@ -75,11 +77,11 @@ require([
      */
     function bindActions() {
       google.maps.event.addDomListener(window, "resize", resizeMap);
+
       google.maps.event.addListenerOnce(map, 'tilesloaded', function() {
             $('.loading-overlay').remove();
             $('input').prop('disabled', false);
       });
-
       $('input[type=checkbox].crime-type').on('change', updateCrimeTypes);
       $('input[type=checkbox]#all-types').on('change', toggleAllTypes);
       $('input[type=checkbox].grid-toggle').on('change', toggleGridSizeChoices);
