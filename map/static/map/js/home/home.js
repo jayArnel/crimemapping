@@ -2,7 +2,7 @@ require([
     'model',
     'jquery',
     'mustache',
-    'strftime/strftime',
+    'strftime',
     'hammerjs',
     'jquery-hammerjs',
     'materialize',
