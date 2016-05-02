@@ -6,6 +6,7 @@ django-tastypie==0.13.3
 future==0.15.0
 geopy==1.11.0
 gunicorn==19.4.5
+h5py==2.6.0
 ipython==4.2.0
 ipython-genutils==0.1.0
 Keras==1.0.1
