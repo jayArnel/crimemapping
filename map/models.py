@@ -1,9 +1,15 @@
-# This is an auto-generated Django model module created by ogrinspect.
+from django.conf import settings
 from django.contrib.gis.db import models
 from django.contrib.gis.geos import Point, LinearRing, Polygon
 from django.core.serializers import serialize
 
 from map.utils import getNextPoint
+
+if not hasattr(settings, 'GRIDS_DIR'):
+    raise ImproperlyConfigured(
+        'The directory to save grid pickles is missing from your settings')
+elif not os.path.exists(settings.GRIDS_DIR):
+    os.makedirs(settings.GRIDS_DIR)
 
 
 class CityBorder(models.Model):
