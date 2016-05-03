@@ -11,7 +11,7 @@ cityborder_mapping = {
 }
 
 city_shp = os.path.abspath(os.path.join(
-    os.path.dirname(__file__), 'data', 'City_Boundary.shp'))
+    os.path.dirname(__file__), 'data', 'boundaries', 'City_Boundary.shp'))
 
 
 def run(verbose=True):
