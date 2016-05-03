@@ -33,7 +33,7 @@ def vectorize(grid_size, period, crime_type, new=False):
         elif period == 'yearly':
             vectors = vectorize_yearly(grid, crime_type)
         elif period == 'weekly':
-            vectors = vectorize_weekly(grid)
+            vectors = vectorize_weekly(grid, crime_type)
         else:
             raise NotImplementedError(
                 'Vectorization by "{0}" time step is not yet implemented.'.
@@ -108,3 +108,13 @@ def vectorize_weekly(grid, crime_type):
         start = dt
         vectors.append(vector)
     return vectors
+
+
+def generate_all_data(new=False):
+    crime_types = list(
+        CriminalRecord.objects.order_by('primary_type').distinct().values_list(
+            'primary_type', flat=True))
+    for size in settings.GRID_SIZES:
+        for period in settings.PERIODS:
+            for crime_type in crime_types:
+                vectorize(size, period, crime_type, new=False)
