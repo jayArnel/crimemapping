@@ -1,4 +1,6 @@
 import cPickle as pickle
+from dateutil import rrule
+from datetime import datetime, timedelta
 import os
 
 from django.conf import settings
@@ -27,8 +29,10 @@ def vectorize(grid_size, period, new=False):
         grid = city.generateGrid(grid_size)
         if period == 'monthly':
             vectors = vectorize_monthly(grid)
-        if period == 'yearly':
+        elif period == 'yearly':
             vectors = vectorize_yearly(grid)
+        elif period == 'weekly':
+            vectors = vectorize_weekly(grid)
         else:
             raise NotImplementedError(
                 'Vectorization by "{0}" time step is not yet implemented.'.
@@ -78,5 +82,26 @@ def vectorize_yearly(grid):
                 date__year=year, location__intersects=g).count()
             has_crime = int(crimes > 0)
             vector.append(has_crime)
+        vectors.append(vector)
+    return vectors
+
+
+def vectorize_weekly(grid):
+    first_data = CriminalRecord.objects.first()
+    last_data = CriminalRecord.objects.last()
+    start = first_data.date
+    dtstart = start + timedelta(days=7)
+    end = last_data.date
+    vectors = []
+    for dt in rrule.rrule(rrule.WEEKLY, dtstart=dtstart, until=end):
+        vector = []
+        print start, dt
+        for i in xrange(len(grid)):
+            g = grid[i]
+            crimes = CriminalRecord.objects.filter(
+                date__range=(start, dt), location__intersects=g).count()
+            has_crime = int(crimes > 0)
+            vector.append(has_crime)
+        start = dt
         vectors.append(vector)
     return vectors
