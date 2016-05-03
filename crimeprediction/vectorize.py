@@ -67,7 +67,7 @@ def vectorize_monthly(grid, crime_type=None):
             filters['date__year'] = year
             filters['location__intersects'] = g
             crimes = CriminalRecord.objects.filter(**filters).count()
-            has_crime = int(crimes > 0)
+            has_crime = 1 if crimes > 0 else -1
             vector.append(has_crime)
         vectors.append(vector)
     return vectors
@@ -90,7 +90,7 @@ def vectorize_yearly(grid, crime_type=None):
             filters['date__year'] = year
             filters['location__intersects'] = g
             crimes = CriminalRecord.objects.filter(**filters).count()
-            has_crime = int(crimes > 0)
+            has_crime = 1 if crimes > 0 else -1
             vector.append(has_crime)
         vectors.append(vector)
     return vectors
@@ -114,7 +114,7 @@ def vectorize_weekly(grid, crime_type=None):
             filters['date__range'] = (start, dt)
             filters['location__intersects'] = g
             crimes = CriminalRecord.objects.filter(**filters).count()
-            has_crime = int(crimes > 0)
+            has_crime = 1 if crimes > 0 else -1
             vector.append(has_crime)
         start = dt
         vectors.append(vector)
