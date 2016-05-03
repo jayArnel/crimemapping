@@ -46,7 +46,7 @@ class CityBorder(models.Model):
         return boxPoints
 
     def generateGrid(self, size):
-        file = 'city-{0}_size-{1}.p'.format(self.name, size)
+        file = 'city-{0}_size-{1}m.p'.format(self.name, size)
         path = settings.GRIDS_DIR + file
         grids = []
         try:
