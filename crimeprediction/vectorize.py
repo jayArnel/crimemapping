@@ -17,8 +17,9 @@ elif not os.path.exists(settings.VECTORS_DIR):
 
 
 def vectorize(grid_size, period, crime_type=None, new=False):
+    type_verbose = 'ALL' if crime_type is None else crime_type
     file = 'type-{0}_grid_size-{1}_period-{2}.p'.format(
-        'ALL' if crime_type is None, grid_size, period)
+        type_verbose, grid_size, period)
     path = settings.VECTORS_DIR + file
     try:
         if new:
