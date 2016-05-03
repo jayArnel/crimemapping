@@ -1,3 +1,4 @@
+import cPickle as pickle
 import os
 
 from django.conf import settings
@@ -45,22 +46,28 @@ class CityBorder(models.Model):
         return boxPoints
 
     def generateGrid(self, size):
+        file = 'city-{0}_size-{1}.p'.format(self.name, size)
+        path = settings.GRIDS_DIR + file
         grids = []
-        start = Point(self.box['nw']['lon'], self.box['nw']['lat'])
-        lat = lon = start
-        while self.geom.envelope.intersects(lat):
-            nw = lat
-            ne = getNextPoint(nw, size, 90)
-            sw = getNextPoint(nw, size, 180)
-            se = getNextPoint(ne, size, 180)
-            lat = ne
-            linearRing = LinearRing(nw, ne, se, sw, nw)
-            polygon = Polygon(linearRing)
-            if polygon.intersects(self.geom):
-                grids.append(polygon)
-            if not self.geom.envelope.intersects(lat):
-                lon = getNextPoint(lon, size, 180)
-                lat = lon
+        try:
+            grids = pickle.load(open(path, "rb"))
+        except EnvironmentError:
+            start = Point(self.box['nw']['lon'], self.box['nw']['lat'])
+            lat = lon = start
+            while self.geom.envelope.intersects(lat):
+                nw = lat
+                ne = getNextPoint(nw, size, 90)
+                sw = getNextPoint(nw, size, 180)
+                se = getNextPoint(ne, size, 180)
+                lat = ne
+                linearRing = LinearRing(nw, ne, se, sw, nw)
+                polygon = Polygon(linearRing)
+                if polygon.intersects(self.geom):
+                    grids.append(polygon)
+                if not self.geom.envelope.intersects(lat):
+                    lon = getNextPoint(lon, size, 180)
+                    lat = lon
+            pickle.dump(grids, open(path, "wb"))
         return grids
 
 
