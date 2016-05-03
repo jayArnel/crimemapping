@@ -138,6 +138,7 @@ GRID_SIZES = [250, 500, 750, 1000]
 PERIODS = ['weekly', 'monthly', 'yearly']
 
 VECTORS_DIR = 'crimeprediction/data/vectors/'
+GRIDS_DIR = 'map/data/vectors/'
 
 
 try:
