@@ -16,7 +16,7 @@ elif not os.path.exists(settings.VECTORS_DIR):
     os.makedirs(settings.VECTORS_DIR)
 
 
-def vectorize(grid_size, period, crime_type, new=False):
+def vectorize(grid_size, period, crime_type=None, new=False):
     file = 'type-{0}_grid_size-{1}_period-{2}.p'.format(
         crime_type, grid_size, period)
     path = settings.VECTORS_DIR + file
@@ -42,7 +42,10 @@ def vectorize(grid_size, period, crime_type, new=False):
     return vectors
 
 
-def vectorize_monthly(grid, crime_type):
+def vectorize_monthly(grid, crime_type=None):
+    filters = {}
+    if crime_type is not None:
+        filters['primary_type'] = crime_type
     first_data = CriminalRecord.objects.first()
     last_data = CriminalRecord.objects.last()
     first_year = first_data.date.year
@@ -59,16 +62,20 @@ def vectorize_monthly(grid, crime_type):
         vector = []
         for i in xrange(len(grid)):
             g = grid[i]
-            crimes = CriminalRecord.objects.filter(
-                date__month=month, date__year=year,
-                location__intersects=g, primary_type=crime_type).count()
+            filters['date__month'] = month
+            filters['date__year'] = year
+            filters['location__intersects'] = g
+            crimes = CriminalRecord.objects.filter(**filters).count()
             has_crime = int(crimes > 0)
             vector.append(has_crime)
         vectors.append(vector)
     return vectors
 
 
-def vectorize_yearly(grid, crime_type):
+def vectorize_yearly(grid, crime_type=None):
+    filters = {}
+    if crime_type is not None:
+        filters['primary_type'] = crime_type
     first_data = CriminalRecord.objects.first()
     last_data = CriminalRecord.objects.last()
     first_year = first_data.date.year
@@ -79,16 +86,19 @@ def vectorize_yearly(grid, crime_type):
         vector = []
         for i in xrange(len(grid)):
             g = grid[i]
-            crimes = CriminalRecord.objects.filter(
-                date__year=year, location__intersects=g,
-                primary_type=crime_type).count()
+            filters['date__year'] = year
+            filters['location__intersects'] = g
+            crimes = CriminalRecord.objects.filter(**filters).count()
             has_crime = int(crimes > 0)
             vector.append(has_crime)
         vectors.append(vector)
     return vectors
 
 
-def vectorize_weekly(grid, crime_type):
+def vectorize_weekly(grid, crime_type=None):
+    filters = {}
+    if crime_type is not None:
+        filters['primary_type'] = crime_type
     first_data = CriminalRecord.objects.first()
     last_data = CriminalRecord.objects.last()
     start = first_data.date
@@ -100,9 +110,9 @@ def vectorize_weekly(grid, crime_type):
         print start, dt
         for i in xrange(len(grid)):
             g = grid[i]
-            crimes = CriminalRecord.objects.filter(
-                date__range=(start, dt), location__intersects=g,
-                primary_type=crime_type).count()
+            filters['date__range'] = (start, dt)
+            filters['location__intersects'] = g
+            crimes = CriminalRecord.objects.filter(**filters).count()
             has_crime = int(crimes > 0)
             vector.append(has_crime)
         start = dt
