@@ -6,20 +6,29 @@
 
 
 %********************************** %First Section  **************************************
-\section{Application Development} %Section - 4.1
-    
-    The application was built using Django, a Python-based web framework.
+\section{Application Development}
+    \subsection{Framework}
+        The application was developed using Django, a Python-based Web framework. More specifically, the application is build atop GeoDjango, a module in Django that turns it into mult-featured GIS Web framework. This allows the creation and manipulation of spatially enabled data especially that the application is dealing with city boundaries, crime locations and grids.
 
+    \subsection{Database}
+        The application's database backend is PostGIS, a kind of PostgreSQL database for geospatial data. It has the best support for GeoDjango.
 
-%********************************** %Second Section  **************************************
-\section{Area Boundaries and Grid Layout} %Section - 4.2
+\section{Datasets}
+    \subsection{City Boundaries}
+        The data for the boundaries of the Chicago City was downloaded from data.cityofchicago.org. The downloaded file is of zip format containing the different shape files representing the data for the city boundaries. The data was imported to the database via GeoDjango's LayerMapping data import utility. The boundary of Chicago city are saved in the database as a CityBorder model instance.
+    \subsection{Criminal Records}
+        The criminal records of the Chicago is from their dataset that is also on data.cityofchicago.org. The dataset can be accessed using Socrata. The criminal records were fetched and saved in the database via sodapy, a package that binds Socrata with Python. These records are represented by the CriminalRecord model.
 
-    The boundaries for the study area, Chicago, was accessed through MapTechnica.com. Since the boundaries is not easily accessible, the page’s JavaScript file was edited and injected with lines in order to get the boundaries of Chicago City. The boundaries are represented in GeoJSON file so that it can also be loaded to the Google Maps. The whole city is divided into grids of fixed sizes, each representing an area where prediction of an occurrence of criminal activity will be based upon.
+\section{Generating the Grid}
+    The map grid is created using GeoDjango methods. GeoDjango's geometry objects, such as Polygon and Point, are wrapped with the GEOS (Geometry Engine - Open Source) API. The GEOS API implements SQL spatial functions and operators that allows us to create geometry objects and perform operations and comparisons between location, area and length of objects. However, GeoDjango lacks the support for geodetic functions to deal with distances with respect to the spherical nature of the Earth. Distances cannot be handled linearly and the curvature of the Earth must be taken into consideration. To support this, a library of Geopy will be used.
 
+    The grid is represented by a list of boxes with dimension based on the given size. To create the grid, the NorthWest point of the city boundary is obtained by wrapping the city boundary in the smallest box that can fit the whole city and getting the coordinate of the top-left vertex of the box. This will be the starting point in generating the grid. A square box will be created by calculating the other vertices of the box with the dimension based on the given grid size. The box will only be included to the grid's list when it intersects the boundary of the city. The starting point for the next box will be the top-right corner of the previous box. This will continue until a whole row is completed. The next box will then be generated in the next row. This process is repeated until the whole city area is covered. The list of boxes which represents the grid will be saved in a pickle file so that the grid will be easily fetched next time instead of having to perform the caculations again.
 
-%********************************** %Third Section  **************************************
-\section{Dataset Representation} %Section - 4.3
+\section{Data Collection and Preprocessing}
+    The input data for our learning model is a sequence of periodic snapshots by week, month or year of the presence or absence of a crime type per grid. A row of data has the same number of entries as the number of cells in the grid. For each cell in the grid, CriminalRecord objects are fetched and filtered as to which records happened within the boundaries of that cell for the given crime type. If no crime type is given, all types of crime will be considered. If there is a crime in that cell, the corresponding index in the row of data will have 1. If none, -1 will be entered. So, a row of data is a series of 1 or -1 that corresponds to the presence or absence of a crime type in each grid. This will be repeated for each year, month or week. So the final data is a 2-dimensional array of different months, years or weeks, each of which has a row of data for each grid.
 
-    The data fetched from the dataset of Chicago’s criminal records is stored in a database where each row  contains the date and coordinates of each crime. Further processing of the data will create a vector array where each row contains a series of -1s and 1s for each grid in the map representing the absence and presence, respectively, of criminal activity.
+\section{Model}
+    The learning model used is built using a library called Keras because it implements the original LSTM proposed by Hochreiter. The input of the model is the sequence of periodic snapshots of the states of each cell in the crid. It is divided into training and validation sets with 0.7 ratio. The model contains a layer of LSTM cells, one for each input in the data. The model's training will be done through 1000 epochs.
 
-    The dataset will be divided into three partitions – training, validation and testing.
+\section{Performance Metrics}
+    To measure and evaluate the performance of the model, several performance metrics is implemented. The Mean Square of Errors (MSE) is used to measure the precision of the models output value to the target values. Accuracy and F1 Score values is used to measure the accuracy of the model when predicting the next state of the cells in the grid.
