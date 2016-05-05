@@ -135,7 +135,7 @@ SOCRATA_DATASET_ENDPOINT = 'ijzp-q8t2'
 TASTYPIE_DEFAULT_FORMATS = ['json']
 
 GRID_SIZES = [250, 500, 750, 1000]
-PERIODS = ['weekly', 'monthly', 'yearly']
+PERIODS = ['daily', 'weekly', 'monthly', 'yearly']
 
 VECTORS_DIR = 'crimeprediction/data/vectors/'
 GRIDS_DIR = 'map/data/grids/'
