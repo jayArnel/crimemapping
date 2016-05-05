@@ -35,6 +35,8 @@ def vectorize(grid_size, period, crime_type=None, new=False):
             vectors = vectorize_yearly(grid, crime_type)
         elif period == 'weekly':
             vectors = vectorize_weekly(grid, crime_type)
+        elif period == 'daily':
+            vectors = vectorize_daily(grid, crime_type)
         else:
             raise NotImplementedError(
                 'Vectorization by "{0}" time step is not yet implemented.'.
@@ -112,6 +114,32 @@ def vectorize_weekly(grid, crime_type=None):
         for i in xrange(len(grid)):
             g = grid[i]
             filters['date__range'] = (start, dt)
+            filters['location__intersects'] = g
+            crimes = CriminalRecord.objects.filter(**filters).count()
+            has_crime = 1 if crimes > 0 else -1
+            vector.append(has_crime)
+        start = dt
+        vectors.append(vector)
+    return vectors
+
+
+def vectorize_daily(grid, crime_type=None):
+    filters = {}
+    if crime_type is not None:
+        filters['primary_type'] = crime_type
+    first_data = CriminalRecord.objects.first()
+    last_data = CriminalRecord.objects.last()
+    start = first_data.date
+    end = last_data.date
+    vectors = []
+    for dt in rrule.rrule(rrule.DAILY, dtstart=start, until=end):
+        vector = []
+        print dt
+        for i in xrange(len(grid)):
+            g = grid[i]
+            filters['date__day'] = dt.day
+            filters['date__month'] = dt.month
+            filters['date__year'] = dt.year
             filters['location__intersects'] = g
             crimes = CriminalRecord.objects.filter(**filters).count()
             has_crime = 1 if crimes > 0 else -1
