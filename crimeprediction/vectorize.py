@@ -108,6 +108,7 @@ def generate_all_data(new=False):
     crime_types = list(
         CriminalRecord.objects.order_by('primary_type').distinct().values_list(
             'primary_type', flat=True))
+    crime_types.append(None)
     for size in settings.GRID_SIZES:
         for period in settings.PERIODS:
             for crime_type in crime_types:
