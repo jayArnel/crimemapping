@@ -1,10 +1,12 @@
 import cPickle as pickle
+import os
+
 from dateutil import rrule
 from datetime import datetime, timedelta
-import os
 
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
+from django.db.models import Count
 
 from map.models import CityBorder
 from crime.models import CriminalRecord
@@ -27,74 +29,53 @@ def vectorize(grid_size, period, crime_type=None, new=False):
         else:
             vectors = pickle.load(open(path, "rb"))
     except EnvironmentError as e:
+        first_data = CriminalRecord.objects.first()
+        last_data = CriminalRecord.objects.last()
+        start = first_data.date
+        end = last_data.date
         city = CityBorder.objects.get(name='Chicago')
         grid = city.generateGrid(grid_size)
-        if period == 'monthly':
-            vectors = vectorize_monthly(grid, crime_type)
-        elif period == 'yearly':
-            vectors = vectorize_yearly(grid, crime_type)
+        if period == 'daily':
+            rule = rrule.DAILY
+            extra_query = {
+                'day': "EXTRACT(day FROM date)",
+                'month': "EXTRACT(month FROM date)",
+                'year': "EXTRACT(year FROM date)"
+            }
         elif period == 'weekly':
             vectors = vectorize_weekly(grid, crime_type)
-        elif period == 'daily':
-            vectors = vectorize_daily(grid, crime_type)
+        elif period == 'monthly':
+            rule = rrule.MONTHLY
+            extra_query = {
+                'month': "EXTRACT(month FROM date)",
+                'year': "EXTRACT(year FROM date)"
+            }
+        elif period == 'yearly':
+            rule = rrule.YEARLY
+            extra_query = {
+                'year': "EXTRACT(year FROM date)"
+            }
         else:
             raise NotImplementedError(
                 'Vectorization by "{0}" time step is not yet implemented.'.
                 format(period))
+
+        timesteps = {}
+        for dt in rrule.rrule(rule, dtstart=start, until=end):
+            key = '-'.join([str(getattr(dt, k)) for k in extra_query.keys()])
+            timesteps[key] = [-1] * len(grid)
+
+        for i in xrange(len(grid)):
+            g = grid[i]
+            crimes = CriminalRecord.objects.filter(
+                location__intersects=g).extra(select=extra_query).values(
+                *extra_query.keys()).annotate(count_items=Count('date'))
+            for c in crimes:
+                key = '-'.join(
+                    [str(int(c.get(k))) for k in extra_query.keys()])
+                timesteps[key][i] = 1
+        vectors = timesteps.values()
         pickle.dump(vectors, open(path, "wb"))
-    return vectors
-
-
-def vectorize_monthly(grid, crime_type=None):
-    filters = {}
-    if crime_type is not None:
-        filters['primary_type'] = crime_type
-    first_data = CriminalRecord.objects.first()
-    last_data = CriminalRecord.objects.last()
-    first_year = first_data.date.year
-    first_month = first_data.date.month
-    last_year = last_data.date.year
-    last_month = last_data.date.month
-    start = 12 * first_year + first_month - 1
-    end = 12 * last_year + last_month
-    vectors = []
-    for ym in range(start, end):
-        year, month = divmod(ym, 12)
-        month += 1
-        print year, month
-        vector = []
-        for i in xrange(len(grid)):
-            g = grid[i]
-            filters['date__month'] = month
-            filters['date__year'] = year
-            filters['location__intersects'] = g
-            crimes = CriminalRecord.objects.filter(**filters).count()
-            has_crime = 1 if crimes > 0 else -1
-            vector.append(has_crime)
-        vectors.append(vector)
-    return vectors
-
-
-def vectorize_yearly(grid, crime_type=None):
-    filters = {}
-    if crime_type is not None:
-        filters['primary_type'] = crime_type
-    first_data = CriminalRecord.objects.first()
-    last_data = CriminalRecord.objects.last()
-    first_year = first_data.date.year
-    last_year = last_data.date.year
-    vectors = []
-    for year in range(first_year, last_year + 1):
-        print year
-        vector = []
-        for i in xrange(len(grid)):
-            g = grid[i]
-            filters['date__year'] = year
-            filters['location__intersects'] = g
-            crimes = CriminalRecord.objects.filter(**filters).count()
-            has_crime = 1 if crimes > 0 else -1
-            vector.append(has_crime)
-        vectors.append(vector)
     return vectors
 
 
@@ -114,32 +95,6 @@ def vectorize_weekly(grid, crime_type=None):
         for i in xrange(len(grid)):
             g = grid[i]
             filters['date__range'] = (start, dt)
-            filters['location__intersects'] = g
-            crimes = CriminalRecord.objects.filter(**filters).count()
-            has_crime = 1 if crimes > 0 else -1
-            vector.append(has_crime)
-        start = dt
-        vectors.append(vector)
-    return vectors
-
-
-def vectorize_daily(grid, crime_type=None):
-    filters = {}
-    if crime_type is not None:
-        filters['primary_type'] = crime_type
-    first_data = CriminalRecord.objects.first()
-    last_data = CriminalRecord.objects.last()
-    start = first_data.date
-    end = last_data.date
-    vectors = []
-    for dt in rrule.rrule(rrule.DAILY, dtstart=start, until=end):
-        vector = []
-        print dt
-        for i in xrange(len(grid)):
-            g = grid[i]
-            filters['date__day'] = dt.day
-            filters['date__month'] = dt.month
-            filters['date__year'] = dt.year
             filters['location__intersects'] = g
             crimes = CriminalRecord.objects.filter(**filters).count()
             has_crime = 1 if crimes > 0 else -1
