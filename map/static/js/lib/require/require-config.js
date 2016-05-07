@@ -16,6 +16,7 @@
         'jquery-hammerjs': 'lib/jquery/jquery.hammer',
         materialize: 'lib/materialize/materialize.min',
         model: 'model/model',
+        gmaps: 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBUGs5RiAn6ao_JS4hV5wCXSIlGZ5qlC1U',
     },
     shim: {
         materialize: {

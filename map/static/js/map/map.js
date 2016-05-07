@@ -1,6 +1,5 @@
 require([
-    'model', 'jquery', 'hammerjs', 'jquery-hammerjs', 'materialize',
-    'goog!maps,3.24,other_params:key=AIzaSyBUGs5RiAn6ao_JS4hV5wCXSIlGZ5qlC1U',
+    'model', 'jquery', 'hammerjs', 'jquery-hammerjs', 'materialize', 'gmaps'
 ], function(Model, $) {
 
     $(".button-collapse").sideNav({
