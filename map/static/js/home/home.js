@@ -1,6 +1,12 @@
 require([
-    'model', 'jquery', 'hammerjs', 'jquery-hammerjs', 'materialize', 'gmaps'
-], function(Model, $) {
+    'model',
+    'jquery',
+    'mustache',
+    'hammerjs',
+    'jquery-hammerjs',
+    'materialize',
+    'gmaps'
+], function(Model, $, Mustache) {
 
     $(".button-collapse").sideNav({
        menuWidth: 310,
@@ -48,6 +54,7 @@ require([
 
     var Crimes = new Model('criminalrecord');
     var CityBorder = new Model('cityborder');
+    var crimeInfoTemplate = $('#crime-info-template').html();
     /*
       Set initial map properties
      */
@@ -178,6 +185,14 @@ require([
                       map: map,
                       icon: 'https://maps.gstatic.com/intl/en_us/mapfiles/markers2/measle_blue.png',
                     });
+                  var info = Mustache.render(crimeInfoTemplate, crime);
+                  console.log(info);
+                  var infowindow = new google.maps.InfoWindow({
+                    content: info,
+                  });
+                  marker.addListener('click', function() {
+                    infowindow.open(map, this);
+                  });
                   crimeMarkers[crime.primary_type].push(marker);
               }
               $('input[type=checkbox]').prop('disabled', false);
