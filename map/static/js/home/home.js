@@ -60,6 +60,7 @@ require([
       Set initial map properties
      */
     function initializeMap() {
+        $('input').prop('disabled', true);
         CityBorder.objects.filter({'name': 'Chicago'}, function(data){
             var chicago = data[0];
             var sw = chicago.box.sw;
@@ -83,6 +84,7 @@ require([
       google.maps.event.addDomListener(window, "resize", resizeMap);
       google.maps.event.addListenerOnce(map, 'tilesloaded', function() {
             $('.loading-overlay').remove();
+            $('input').prop('disabled', false);
       });
 
       $('input[type=checkbox].crime-type').on('change', updateCrimeTypes);
