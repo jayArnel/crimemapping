@@ -46,11 +46,6 @@ require([
     var crimeMarkers = {};
     var grid = [];
 
-    // // Chicago City box points
-    var NorthEast = new google.maps.LatLng(42.023135, -87.523661);
-    var NorthWest = new google.maps.LatLng(42.023135, -87.940101);
-    var SouthWest = new google.maps.LatLng(41.644286, -87.940101);
-    var SouthEast = new google.maps.LatLng(41.644286, -87.523661);
     var Crimes = new Model('criminalrecord');
     var CityBorder = new Model('cityborder');
     /*
@@ -65,9 +60,7 @@ require([
                 {lat:sw.lat, lng:sw.lon}, {lat:ne.lat, lng:ne.lon}));
             var center = JSON.parse(chicago.center).coordinates
             map.setCenter(new google.maps.LatLng(center[1], center[0]));
-            feat = map.data.addGeoJson(JSON.parse(chicago.geojson));
-            boundary = feat[0].getGeometry();
-            var citybounds = new google.maps.Polygon({paths:boundary.getAt(0).getAt(0).getArray()});
+            map.data.addGeoJson(JSON.parse(chicago.geojson));
         });
     }
     initializeMap();
