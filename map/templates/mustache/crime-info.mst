@@ -1,0 +1,13 @@
+{% verbatim %}
+<script type='x-tmpl-mustache' id='crime-info-template'>
+    <div class='crime-info'>
+        <ul>
+            <li>Case No.: {{case_number}}</li>
+            <li>Date: {{date}}</li>
+            <li>Type: {{primary_type}}</li>
+            <li>Description: {{crime_description}}</li>
+            <li>Location: {{location_description}}</li>
+        </ul>
+    </div>
+</script>
+{% endverbatim %}
