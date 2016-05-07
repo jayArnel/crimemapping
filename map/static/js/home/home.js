@@ -61,6 +61,9 @@ require([
             var center = JSON.parse(chicago.center).coordinates
             map.setCenter(new google.maps.LatLng(center[1], center[0]));
             map.data.addGeoJson(JSON.parse(chicago.geojson));
+            map.data.setStyle({
+              strokeWeight: 1
+            });
         });
     }
     initializeMap();
