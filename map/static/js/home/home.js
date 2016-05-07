@@ -2,11 +2,12 @@ require([
     'model',
     'jquery',
     'mustache',
+    'strftime/strftime',
     'hammerjs',
     'jquery-hammerjs',
     'materialize',
     'gmaps'
-], function(Model, $, Mustache) {
+], function(Model, $, Mustache, strftime) {
 
     $(".button-collapse").sideNav({
        menuWidth: 310,
@@ -185,6 +186,8 @@ require([
                       map: map,
                       icon: 'https://maps.gstatic.com/intl/en_us/mapfiles/markers2/measle_blue.png',
                     });
+                  var date = new Date(crime.date);
+                  crime.date = date.strftime('B d, Y I:Mp');
                   var info = Mustache.render(crimeInfoTemplate, crime);
                   console.log(info);
                   var infowindow = new google.maps.InfoWindow({
