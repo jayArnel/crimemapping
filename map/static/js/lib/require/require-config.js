@@ -15,7 +15,7 @@
         hammerjs: 'lib/hammer/hammer.min',
         'jquery-hammerjs': 'lib/jquery/jquery.hammer',
         materialize: 'lib/materialize/materialize.min',
-        model: 'model',
+        model: 'model/model',
     },
     shim: {
         materialize: {
