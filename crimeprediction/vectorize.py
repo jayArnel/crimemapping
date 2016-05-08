@@ -63,7 +63,7 @@ def vectorize(grid_size, period, crime_type=None, new=False):
         timesteps = {}
         for dt in rrule.rrule(rule, dtstart=start, until=end):
             key = '-'.join([str(getattr(dt, k)) for k in extra_query.keys()])
-            timesteps[key] = [-1] * len(grid)
+            timesteps[key] = [0] * len(grid)
 
         for i in xrange(len(grid)):
             g = grid[i]
@@ -97,7 +97,7 @@ def vectorize_weekly(grid, crime_type=None):
             filters['date__range'] = (start, dt)
             filters['location__intersects'] = g
             crimes = CriminalRecord.objects.filter(**filters).count()
-            has_crime = 1 if crimes > 0 else -1
+            has_crime = 1 if crimes > 0 else 0
             vector.append(has_crime)
         start = dt
         vectors.append(vector)
