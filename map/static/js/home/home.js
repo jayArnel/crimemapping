@@ -191,7 +191,6 @@ require([
                   var date = new Date(crime.date);
                   crime.date = date.strftime('B d, Y I:Mp');
                   var info = Mustache.render(crimeInfoTemplate, crime);
-                  console.log(info);
                   var infowindow = new google.maps.InfoWindow({
                     content: info,
                   });
