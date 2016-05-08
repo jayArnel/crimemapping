@@ -1,7 +1,13 @@
 require([
-    'model', 'jquery', 'hammerjs', 'jquery-hammerjs', 'materialize',
-    'goog!maps,3.24,other_params:key=AIzaSyBUGs5RiAn6ao_JS4hV5wCXSIlGZ5qlC1U',
-], function(Model, $) {
+    'model',
+    'jquery',
+    'mustache',
+    'strftime/strftime',
+    'hammerjs',
+    'jquery-hammerjs',
+    'materialize',
+    'gmaps'
+], function(Model, $, Mustache, strftime) {
 
     $(".button-collapse").sideNav({
        menuWidth: 310,
@@ -47,17 +53,14 @@ require([
     var crimeMarkers = {};
     var grid = [];
 
-    // // Chicago City box points
-    var NorthEast = new google.maps.LatLng(42.023135, -87.523661);
-    var NorthWest = new google.maps.LatLng(42.023135, -87.940101);
-    var SouthWest = new google.maps.LatLng(41.644286, -87.940101);
-    var SouthEast = new google.maps.LatLng(41.644286, -87.523661);
     var Crimes = new Model('criminalrecord');
     var CityBorder = new Model('cityborder');
+    var crimeInfoTemplate = $('#crime-info-template').html();
     /*
       Set initial map properties
      */
     function initializeMap() {
+        $('input').prop('disabled', true);
         CityBorder.objects.filter({'name': 'Chicago'}, function(data){
             var chicago = data[0];
             var sw = chicago.box.sw;
@@ -66,9 +69,10 @@ require([
                 {lat:sw.lat, lng:sw.lon}, {lat:ne.lat, lng:ne.lon}));
             var center = JSON.parse(chicago.center).coordinates
             map.setCenter(new google.maps.LatLng(center[1], center[0]));
-            feat = map.data.addGeoJson(JSON.parse(chicago.geojson));
-            boundary = feat[0].getGeometry();
-            var citybounds = new google.maps.Polygon({paths:boundary.getAt(0).getAt(0).getArray()});
+            map.data.addGeoJson(JSON.parse(chicago.geojson));
+            map.data.setStyle({
+              strokeWeight: 1
+            });
         });
     }
     initializeMap();
@@ -80,6 +84,7 @@ require([
       google.maps.event.addDomListener(window, "resize", resizeMap);
       google.maps.event.addListenerOnce(map, 'tilesloaded', function() {
             $('.loading-overlay').remove();
+            $('input').prop('disabled', false);
       });
 
       $('input[type=checkbox].crime-type').on('change', updateCrimeTypes);
@@ -183,6 +188,16 @@ require([
                       map: map,
                       icon: 'https://maps.gstatic.com/intl/en_us/mapfiles/markers2/measle_blue.png',
                     });
+                  var date = new Date(crime.date);
+                  crime.date = date.strftime('B d, Y I:Mp');
+                  var info = Mustache.render(crimeInfoTemplate, crime);
+                  console.log(info);
+                  var infowindow = new google.maps.InfoWindow({
+                    content: info,
+                  });
+                  marker.addListener('click', function() {
+                    infowindow.open(map, this);
+                  });
                   crimeMarkers[crime.primary_type].push(marker);
               }
               $('input[type=checkbox]').prop('disabled', false);
