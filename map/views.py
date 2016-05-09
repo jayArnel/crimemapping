@@ -1,6 +1,7 @@
 import json
 
 from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
 from django.views.generic import TemplateView, View
 
 from crime.models import CriminalRecord
@@ -13,6 +14,7 @@ class MapView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = {}
+        city = get_object_or_404(CityBorder, name=kwargs['name'])
         crimes = CriminalRecord.objects.all()
         context['crime_types'] = crimes.order_by(
             'primary_type').distinct().values_list('primary_type', flat=True)
