@@ -3,4 +3,3 @@ import models
 # Register your models here.
 
 admin.site.register(models.CityBorder)
-admin.site.register(models.Grid)

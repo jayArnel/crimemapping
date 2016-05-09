@@ -1,13 +1,7 @@
 require([
-    'model',
-    'jquery',
-    'mustache',
-    'strftime/strftime',
-    'hammerjs',
-    'jquery-hammerjs',
-    'materialize',
-    'gmaps'
-], function(Model, $, Mustache, strftime) {
+    'model','jquery', 'mustache', 'strftime', 'text!mustachetemplates/crime-info.html',
+    'hammerjs', 'jquery-hammerjs', 'materialize', 'gmaps'
+], function(Model, $, Mustache, strftime, crimeInfoTemplate) {
 
     $(".button-collapse").sideNav({
        menuWidth: 310,
@@ -55,7 +49,6 @@ require([
 
     var Crimes = new Model('criminalrecord');
     var CityBorder = new Model('cityborder');
-    var crimeInfoTemplate = $('#crime-info-template').html();
     /*
       Set initial map properties
      */
