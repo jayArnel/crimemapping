@@ -9,6 +9,7 @@
     paths: {
         jquery: 'core/js/lib/jquery/jquery-1.11.3.min',
         stapes: 'core/js/lib/stapes/stapes-0.8.1-min',
+        text: 'core/js/lib/text/text',
         mustache: 'core/js/lib/mustache/mustache',
         hammerjs: 'core/js/lib/hammer/hammer.min',
         'jquery-hammerjs': 'core/js/lib/jquery/jquery.hammer',
