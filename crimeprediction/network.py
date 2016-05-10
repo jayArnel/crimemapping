@@ -89,7 +89,7 @@ def run_network(grid_size=1000, period='yearly'):
     model.compile(loss='mse', optimizer='rmsprop',)
 
     print("Train...")
-    model.fit(X_train, y_train, nb_epoch=3, shuffle=False)
+    model.fit(X_train, y_train, nb_epoch=1000, shuffle=False)
     # score, acc = model.evaluate(X_test, y_test,
     #                             show_accuracy=True)
 
