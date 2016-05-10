@@ -103,14 +103,66 @@ def run_network(grid_size=1000, period='yearly'):
     #     print 'Training duration (s) : ', time.time() - global_start_time
     #     return model, y_test, 0
 
-    try:
-        fig = plt.figure()
-        ax = fig.add_subplot(111)
-        ax.plot(y_test[:100, 0])
-        plt.plot(predicted[:100, 0])
-        plt.show()
-    except Exception as e:
-        print str(e)
+    accuracy = []
+    f1scr = []
+
+    for x, data in enumerate(y_test):
+        print len(data)
+        print len(predicted[x])
+        correct = 0
+        total = 0
+        truepos = 0
+        falsepos = 0
+        trueneg = 0
+        falseneg = 0
+
+        for y, node in enumerate(data):
+            total += 1
+            if predicted[x][y] >= 0.75:  # threshold for prediction. If prediction is greater than this value, prediction is one, zero otherwise
+                if node == 1:
+                    correct += 1
+                    truepos += 1
+                else:
+                    falsepos += 1
+            else:
+                if node == -1:
+                    correct += 1
+                    trueneg += 1
+                else:
+                    falseneg += 1
+        print "correct", correct
+        print "total", total
+        act = float(correct) / total
+        print act
+        accuracy.append(act)
+
+        precision = truepos / float(truepos+falsepos)
+        recall = truepos / float(truepos+falseneg)
+
+        f1 = (precision * recall * 2) / float(precision + recall)
+
+        f1scr.append(f1)
+
+        print accuracy
+        print f1
+
+    print "Average Accuracy:", np.average(accuracy)
+    print "Average F1 Score:", np.average(f1scr)
+
+    # graph of Accuracy for each grid snapshot
+    fig1 = plt.figure()
+    plt.plot(accuracy)
+    plt.xlabel('Week')
+    plt.ylabel('Accuracy')
+    fig1.savefig("Accuracy.png")
+    # plt.show()
+
+    # graph of F1 Score for each grid snapshot
+    fig2 = plt.figure()
+    plt.plot(f1scr)
+    plt.xlabel('Week')
+    plt.ylabel('F1 Score')
+    fig2.savefig("F1Score.png")
     print 'Training duration (s) : ', time.time() - global_start_time
     print len(y_test[0])
     print len(predicted[0])
