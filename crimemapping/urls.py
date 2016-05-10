@@ -8,6 +8,6 @@ from api import api
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^crime/', include(crime_urls)),
-    url(r'', include(map_urls)),
+    url(r'^map/', include(map_urls)),
     url(r'', include(api.urls)),
 ]
