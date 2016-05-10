@@ -99,7 +99,7 @@ def run_network(grid_size=1000, period='yearly'):
     # graph of Accuracy for each grid snapshot
     fig1 = plt.figure()
     plt.plot(accuracy)
-    plt.xlabel('Week')
+    plt.xlabel(period.capitalize())
     plt.ylabel('Accuracy')
     fig1.savefig("Accuracy.png")
     # plt.show()
@@ -107,7 +107,7 @@ def run_network(grid_size=1000, period='yearly'):
     # graph of F1 Score for each grid snapshot
     fig2 = plt.figure()
     plt.plot(f1scr)
-    plt.xlabel('Week')
+    plt.xlabel(period.capitalize())
     plt.ylabel('F1 Score')
     fig2.savefig("F1Score.png")
     return model, y_test, predicted
