@@ -8,7 +8,7 @@ from keras.models import Sequential
 from crimeprediction.vectorize import vectorize
 
 
-def run_network(grid_size=1000, period='yearly'):
+def run_network(grid_size, period, crime_type=None, seasonal=False):
     vectors = vectorize(grid_size, period)
     global_start_time = time.time()
     epochs = 1
