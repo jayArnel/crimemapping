@@ -85,8 +85,7 @@ def run_network(grid_size=1000, period='yearly'):
     print X_train
     print y_train
     model = Sequential()
-    model.add(LSTM(
-        dim, input_shape=X_train.shape[1:]))
+    model.add(LSTM(dim, input_shape=X_train.shape[1:]))
     model.compile(loss='mse', optimizer='rmsprop',)
 
     print("Train...")
@@ -118,7 +117,7 @@ def run_network(grid_size=1000, period='yearly'):
 
         for y, node in enumerate(data):
             total += 1
-            if predicted[x][y] >= 0.75:  # threshold for prediction. If prediction is greater than this value, prediction is one, zero otherwise
+            if predicted[x][y] > 0:  # threshold for prediction. If prediction is greater than this value, prediction is one, zero otherwise
                 if node == 1:
                     correct += 1
                     truepos += 1
