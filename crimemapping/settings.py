@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.gis',
 
+    'core',
     'map',
     'crime',
     'crimeprediction',
@@ -60,7 +61,7 @@ ROOT_URLCONF = 'crimemapping.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates'],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -128,11 +129,10 @@ STATIC_URL = '/static/'
 STORAGE_PATH = './storage'
 STATIC_ROOT = STORAGE_PATH + '/static'
 
-STATICFILES_DIRS = ['static']
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'crimemapping.finders.mustache_template.MustacheTemplateFinder',)
+    'core.finders.mustache_template.MustacheTemplateFinder',)
 
 SOCRATA_DOMAIN = "data.cityofchicago.org"
 SOCRATA_APP_TOKEN = "IzCTOM2IOPCDEHpMNfGfscyb3"
