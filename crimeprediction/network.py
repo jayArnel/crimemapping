@@ -95,13 +95,14 @@ def run_network(grid_size, period, crime_type=None, seasonal=False):
 
     print "Average Accuracy:", np.average(accuracy)
     print "Average F1 Score:", np.average(f1scr)
-
+    crime_verbose = crime_type if crime_type is not None else "ALL"
     # graph of Accuracy for each grid snapshot
     fig1 = plt.figure()
     plt.plot(accuracy)
     plt.xlabel(period.capitalize())
     plt.ylabel('Accuracy')
-    fig1.savefig("Accuracy.png")
+    fig1.savefig("Accuracy_{0}_{1}_{2}_{3}.png".format(
+        grid_size, crime_verbose, period, seasonal))
     # plt.show()
 
     # graph of F1 Score for each grid snapshot
@@ -109,5 +110,6 @@ def run_network(grid_size, period, crime_type=None, seasonal=False):
     plt.plot(f1scr)
     plt.xlabel(period.capitalize())
     plt.ylabel('F1 Score')
-    fig2.savefig("F1Score.png")
+    fig2.savefig("F1Score_{0}_{1}_{2}_{3}.png".format(
+        grid_size, crime_verbose, period, seasonal))
     return model, y_test, predicted
