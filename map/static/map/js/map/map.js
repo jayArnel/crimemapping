@@ -91,6 +91,7 @@ require([
             success: function(response) {
                 data = JSON.parse(response);
                 grid = map.data.addGeoJson(data);
+                visualizeCells(grid);
                 $('input').prop('disabled', false);
             }
         })
@@ -192,5 +193,39 @@ require([
           return filters;
         }
         return false;
+    }
+
+    function visualizeCells(grid) {
+        for (var i = 0; i < grid.length; i++) {
+            var cell = grid[i].getGeometry();
+            var count = 0;
+            poly = new google.maps.Polygon({paths: cell.getAt(0).getArray()});
+            for (var key in crimeMarkers) {
+                var markers = crimeMarkers[key];
+                for (var k = 0; k < markers.length; k++) {
+                    var marker = markers[k];
+                    if (google.maps.geometry.poly.containsLocation(marker.getPosition(), poly)){
+                        count++;
+                    }
+                }
+            }
+            grid[i].setProperty('count', count);
+            grid[i].setProperty('type', 'cell');
+        }
+        map.data.setStyle(function(feature){
+            if (feature.getProperty('type') === 'cell') {
+              var color;
+              if (feature.getProperty('count') > 0) {
+                color = 'red';
+              } else {
+                color = 'green';
+              }
+
+              return {
+                strokeWeight: 1,
+                fillColor: color,
+              }
+            }
+        });
     }
 });
