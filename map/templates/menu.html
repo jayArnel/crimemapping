@@ -2,59 +2,69 @@
   <a href="#" data-activates="slide-out" class="button-collapse"><i class="mdi-navigation-menu material-icons">menu</i></a>
 </nav>
 <div id="slide-out" class="side-nav fixed menu">
-    <div class="grid-options">
-        <div class="switch">
-            <span class="option-heading">Grid</span>
-            <label>
-                Off
-                <input type="checkbox" class="grid-toggle">
-                <span class="lever"></span>
-                On
-            </label>
-        </div>
-        <div class="grid-sizes hide row">
-            <p class="col s6 m3">
-              <input class="with-gap grid-size" name="size" type="radio" id="1000" value="1000"/>
-              <label for="1000">1km</label>
-            </p>
-            <p class="col s6 m3">
-              <input class="with-gap grid-size" name="size" type="radio" id="750" value="750" />
-              <label for="750">750m</label>
-            </p>
-            <p class="col s6 m3">
-              <input class="with-gap grid-size" name="size" type="radio" id="500"  value="500"/>
-              <label for="1000">500m</label>
-            </p>
-            <p class="col s6 m3">
-              <input class="with-gap grid-size" name="size" type="radio" id="250"  value="250"/>
-              <label for="250">250m</label>
-            </p>
-        </div>
+    <div class="row tab-drawers">
+      <div class="col s12">
+        <ul class="tabs">
+          <li class="tab col s6"><a href="#test1">Filters</a></li>
+          <li class="tab col s6"><a href="#test2">Display</a></li>
+        </ul>
+      </div>
     </div>
-    <div class="crime-options">
-        <span class="option-heading">Crimes</span><br>
-        <span class="btn disabled" id="load-crimes"><i class="material-icons left hide">loop</i>FETCH</span><br>
-        <span class="row date-filters">
-            <span class="col s12 m6">
-            <label for="start-date">From</label>
-            <input type="date" class="datepicker" placeholder="Start date" id="start-date" data-initial="{{start}}"/>
-            </span>
-            <span class="col s12 m6">
-            <label for="end-date">To</label>
-            <input type="date" class="datepicker" placeholder="End date" id="end-date" data-initial="{{end}}"/>
-            </span>
-        </span>
-        <span class="type-filters row">
-            <span class="col s12">
-              <input type="checkbox" id="all-types" value="ALL"/>
-              <label for="all-types">All</label>
-            </span>
-            {% for type in crime_types %}
-            <span class="col s12">
-              <input type="checkbox" class="filled-in crime-type" id="{{type}}" value="{{type}}"/>
-              <label for="{{type}}">{{type|lower|capfirst}}</label>
-            </span>
-            {% endfor %}
-        </span>
+    <div class="filters">
+      <div class="grid-options">
+          <div class="switch">
+              <span class="option-heading">Grid</span>
+              <label>
+                  Off
+                  <input type="checkbox" class="grid-toggle">
+                  <span class="lever"></span>
+                  On
+              </label>
+          </div>
+          <div class="grid-sizes hide row">
+              <p class="col s6 m3">
+                <input class="with-gap grid-size" name="size" type="radio" id="1000" value="1000"/>
+                <label for="1000">1km</label>
+              </p>
+              <p class="col s6 m3">
+                <input class="with-gap grid-size" name="size" type="radio" id="750" value="750" />
+                <label for="750">750m</label>
+              </p>
+              <p class="col s6 m3">
+                <input class="with-gap grid-size" name="size" type="radio" id="500"  value="500"/>
+                <label for="1000">500m</label>
+              </p>
+              <p class="col s6 m3">
+                <input class="with-gap grid-size" name="size" type="radio" id="250"  value="250"/>
+                <label for="250">250m</label>
+              </p>
+          </div>
+      </div>
+      <div class="crime-options">
+          <span class="option-heading">Crimes</span><br>
+          <span class="btn disabled" id="load-crimes"><i class="material-icons left hide">loop</i>FETCH</span><br>
+          <span class="row date-filters">
+              <span class="col s12 m6">
+              <label for="start-date">From</label>
+              <input type="date" class="datepicker" placeholder="Start date" id="start-date" data-initial="{{start}}"/>
+              </span>
+              <span class="col s12 m6">
+              <label for="end-date">To</label>
+              <input type="date" class="datepicker" placeholder="End date" id="end-date" data-initial="{{end}}"/>
+              </span>
+          </span>
+          <span class="type-filters row">
+              <span class="col s12">
+                <input type="checkbox" id="all-types" value="ALL"/>
+                <label for="all-types">All</label>
+              </span>
+              {% for type in crime_types %}
+              <span class="col s12">
+                <input type="checkbox" class="filled-in crime-type" id="{{type}}" value="{{type}}"/>
+                <label for="{{type}}">{{type|lower|capfirst}}</label>
+              </span>
+              {% endfor %}
+          </span>
+      </div>
     </div>
 </div>
