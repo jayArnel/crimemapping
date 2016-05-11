@@ -1,7 +1,8 @@
 # Crime Modelling and Prediction
 ## Libraries
+NOTE: Some of this libraries may fail to install depending on the ubuntu version you have on your machine.
 ``` shell
-sudo apt-get install binutils libproj-dev postgresql-postgis postgresql-server-dev postgis postgresql-contrib
+sudo apt-get install binutils libproj-dev postgresql-9.4-postgis-2.1 postgresql-server-dev-9.4 postgresql-contrib-9.4 libatlas-base-dev libblas-dev
 ```
 
 ## Clone
