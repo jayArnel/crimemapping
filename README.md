@@ -118,3 +118,18 @@ sudo service nginx restart
 ```
 
 
+## Starting the Web App
+``` shell
+python manage.py runserver
+```
+Open 'localhost' on your web browser
+
+## Running the Model
+``` shell
+python manage.py shell
+```
+```Python
+from crimeprediction import network
+
+network.run_network(1000, 'monthly', crime_type=None, seasonal=True)
+```
