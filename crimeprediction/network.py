@@ -9,7 +9,8 @@ from crimeprediction.vectorize import vectorize
 
 
 def run_network(grid_size, period, crime_type=None, seasonal=False):
-    vectors = vectorize(grid_size, period)
+    vectors = vectorize(
+        grid_size, period, crime_type=crime_type, seasonal=seasonal)
     global_start_time = time.time()
     epochs = 1
     ratio = 0.5
