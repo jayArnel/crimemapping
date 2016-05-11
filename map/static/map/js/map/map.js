@@ -139,6 +139,7 @@ require([
           $this.find('i').removeClass('hide');
           $this.addClass('disabled');
           var filters = getCrimeFilters();
+          filters['limit'] = 1000;
           Crimes.objects.filter(filters, function(data) {
               for (var i = 0; i < data.length; i++) {
                   var crime = data[i];
