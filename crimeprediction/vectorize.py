@@ -18,10 +18,10 @@ elif not os.path.exists(settings.VECTORS_DIR):
     os.makedirs(settings.VECTORS_DIR)
 
 
-def vectorize(grid_size, period, crime_type=None, new=False):
+def vectorize(grid_size, period, crime_type=None, seasonal=False, new=False):
     type_verbose = 'ALL' if crime_type is None else crime_type
-    file = 'type-{0}_grid_size-{1}_period-{2}.p'.format(
-        type_verbose, grid_size, period)
+    file = 'type-{0}_grid_size-{1}_period-{2}_seasonal-{3}.p'.format(
+        type_verbose, grid_size, period, seasonal)
     path = settings.VECTORS_DIR + file
     try:
         if new:
@@ -51,6 +51,9 @@ def vectorize(grid_size, period, crime_type=None, new=False):
                 'year': "EXTRACT(year FROM date)"
             }
         elif period == 'yearly':
+            if seasonal:
+                raise NotImplementedError(
+                    'Seasonality is not applicable on a yearly period')
             rule = rrule.YEARLY
             extra_query = {
                 'year': "EXTRACT(year FROM date)"
@@ -61,20 +64,59 @@ def vectorize(grid_size, period, crime_type=None, new=False):
                 format(period))
 
         timesteps = {}
-        for dt in rrule.rrule(rule, dtstart=start, until=end):
-            key = '-'.join([str(getattr(dt, k)) for k in extra_query.keys()])
-            timesteps[key] = [-1] * len(grid)
+        if seasonal:
+            for dt in rrule.rrule(rule, dtstart=start, until=end):
+                if period == 'daily':
+                    season_key = '-'.join(
+                        [str(getattr(dt, k)) for k in ['month', 'day']])
+                elif period == 'monthly':
+                    season_key = '-'.join(
+                        [str(getattr(dt, k)) for k in ['month']])
+                try:
+                    season = timesteps[season_key]
+                except KeyError:
+                    timesteps[season_key] = {}
+                step_key = '-'.join(
+                        [str(getattr(dt, k)) for k in ['year']])
+                timesteps[season_key][step_key] = [-1] * len(grid)
+            # print timesteps
+            for i in xrange(len(grid)):
+                g = grid[i]
+                crimes = CriminalRecord.objects.filter(
+                    location__intersects=g).extra(select=extra_query).values(
+                    *extra_query.keys()).annotate(count_items=Count('date'))
+                for c in crimes:
+                    if period == 'daily':
+                        season_key = '-'.join(
+                            [str(int(c.get(k))) for k in ['month', 'day']])
+                    elif period == 'monthly':
+                        season_key = '-'.join(
+                            [str(int(c.get(k))) for k in ['month']])
+                    step_key = '-'.join(
+                            [str(int(c.get(k))) for k in ['year']])
+                    timesteps[season_key][step_key][i] = 1
+            vectors = []
+            for k1 in sorted(timesteps):
+                season = []
+                for k2 in sorted(timesteps[k1]):
+                    season.append(timesteps[k1][k2])
+                vectors.append(season)
 
-        for i in xrange(len(grid)):
-            g = grid[i]
-            crimes = CriminalRecord.objects.filter(
-                location__intersects=g).extra(select=extra_query).values(
-                *extra_query.keys()).annotate(count_items=Count('date'))
-            for c in crimes:
-                key = '-'.join(
-                    [str(int(c.get(k))) for k in extra_query.keys()])
-                timesteps[key][i] = 1
-        vectors = timesteps.values()
+        else:
+            for dt in rrule.rrule(rule, dtstart=start, until=end):
+                key = '-'.join([str(getattr(dt, k)) for k in extra_query.keys()])
+                timesteps[key] = [-1] * len(grid)
+
+            for i in xrange(len(grid)):
+                g = grid[i]
+                crimes = CriminalRecord.objects.filter(
+                    location__intersects=g).extra(select=extra_query).values(
+                    *extra_query.keys()).annotate(count_items=Count('date'))
+                for c in crimes:
+                    key = '-'.join(
+                        [str(int(c.get(k))) for k in extra_query.keys()])
+                    timesteps[key][i] = 1
+            vectors = timesteps.values()
         pickle.dump(vectors, open(path, "wb"))
     return vectors
 
