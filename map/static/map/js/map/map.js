@@ -70,6 +70,7 @@ require([
           $('.grid-sizes').removeClass('hide');
         } else {
           $('.grid-sizes').addClass('hide');
+          $('.grid-options input').prop('checked', false);
           for (var i = 0; i < grid.length; i++){
             map.data.remove(grid[i]);
           }
