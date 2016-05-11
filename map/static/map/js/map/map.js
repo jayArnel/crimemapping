@@ -84,7 +84,7 @@ require([
         var pk = 1;
         var size = +$(this).val();
         $.ajax({
-            url: '/grid',
+            url: '/map/grid',
             type: 'get',
             data: {pk: pk, size: size},
             success: function(response) {
