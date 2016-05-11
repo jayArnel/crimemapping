@@ -20,7 +20,7 @@ def run_network(grid_size, period, crime_type=None, seasonal=False):
 
     print "Data  : ", result.shape
 
-    row = round(0.7 * result.shape[0])
+    row = int(round(0.7 * result.shape[0]))
     train = result[:row]
     X_train = train[:-1]
     y_train = train[1:]
