@@ -96,6 +96,15 @@ def run_network(grid_size, period, crime_type=None, seasonal=False):
     print "Average Accuracy:", np.average(accuracy)
     print "Average F1 Score:", np.average(f1scr)
     crime_verbose = crime_type if crime_type is not None else "ALL"
+    if period == "daily":
+        period_verbose = "Day"
+    elif period == "weekly":
+        period_verbose = "Week"
+    elif period == "monthly":
+        period_verbose = "Month"
+    elif period == "yearly":
+        period_verbose = "Year"
+
     # graph of Accuracy for each grid snapshot
     fig1 = plt.figure()
     plt.plot(accuracy)
