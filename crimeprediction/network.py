@@ -12,10 +12,6 @@ def run_network(grid_size, period, crime_type=None, seasonal=False):
     vectors = vectorize(
         grid_size, period, crime_type=crime_type, seasonal=seasonal)
     global_start_time = time.time()
-    epochs = 1
-    ratio = 0.5
-    sequence_length = 50
-    path_to_dataset = 'household_power_consumption.txt'
 
     print 'Loading Data...'
     vectors = vectorize(grid_size, period)
@@ -24,7 +20,7 @@ def run_network(grid_size, period, crime_type=None, seasonal=False):
 
     print "Data  : ", result.shape
 
-    row = round(0.5 * result.shape[0])
+    row = round(0.7 * result.shape[0])
     train = result[:row]
     X_train = train[:-1]
     y_train = train[1:]
