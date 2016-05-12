@@ -135,7 +135,6 @@ def vectorize_weekly(grid, crime_type=None):
     vectors = []
     for dt in rrule.rrule(rrule.WEEKLY, dtstart=dtstart, until=end):
         vector = []
-        print start, dt
         for i in xrange(len(grid)):
             g = grid[i]
             filters['date__range'] = (start, dt)
@@ -149,13 +148,13 @@ def vectorize_weekly(grid, crime_type=None):
 
 
 def generate_all_vectors(new=False):
-    crime_types = list(
-        CriminalRecord.objects.order_by('primary_type').distinct().values_list(
-            'primary_type', flat=True))
+    crime_types = list(CriminalRecord.objects.values('primary_type').annotate(
+        count=Count('primary_type')).order_by('-count').values_list(
+        'primary_type', flat=True)[:3])
     crime_types.append(None)
-    for size in settings.GRID_SIZES:
-        for period in settings.PERIODS:
-            for crime_type in crime_types:
+    for crime_type in crime_types:
+        for size in settings.GRID_SIZES:
+            for period in settings.PERIODS:
                 print 'generating data for grid cell dimension: '\
                     '{0} meters, period: {1}, type: {2} and '\
                     'seasonality: True'.format(size, period, crime_type)
