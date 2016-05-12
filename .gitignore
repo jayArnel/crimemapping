@@ -79,3 +79,5 @@ crimemapping/local_settings.py
 *.d
 *.make
 *.fls
+*.bbl
+*.blg
