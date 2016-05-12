@@ -76,3 +76,6 @@ crimemapping/local_settings.py
 *.out
 *.toc
 *.pdf
+*.d
+*.make
+*.fls
