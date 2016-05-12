@@ -53,6 +53,7 @@ require([
       $('input[type=checkbox].grid-toggle').on('change', toggleGridSizeChoices);
       $('input[type=radio].grid-size').on('change', drawGrid);
       $('#load-crimes').on('click', filterCrimes);
+      $('input[type=radio][name=display-options]').on('change', displayOptions);
     }
     bindActions();
 
@@ -91,7 +92,6 @@ require([
             success: function(response) {
                 data = JSON.parse(response);
                 grid = map.data.addGeoJson(data);
-                visualizeCells(grid);
                 $('input').prop('disabled', false);
             }
         })
@@ -212,7 +212,7 @@ require([
         return false;
     }
 
-    function visualizeCells(grid) {
+    function visualizeCells() {
         for (var i = 0; i < grid.length; i++) {
             var cell = grid[i].getGeometry();
             var count = 0;
@@ -224,6 +224,7 @@ require([
                     if (google.maps.geometry.poly.containsLocation(marker.getPosition(), poly)){
                         count++;
                     }
+                    marker.setMap(null);
                 }
             }
             grid[i].setProperty('count', count);
@@ -244,5 +245,12 @@ require([
               }
             }
         });
+    }
+
+    function displayOptions() {
+          var val = $(this).val();
+          if (val === 'grid-binary') {
+              visualizeCells();
+          }
     }
 });
