@@ -4,8 +4,15 @@ nav {
 
 .menu {
     padding: 20px;
+    padding-top: 0px;
     height: 100%;
     overflow: auto;
+
+    .tabs {
+        a {
+            font-size: 12px;
+        }
+    }
 
     .grid-options {
         .option-heading {

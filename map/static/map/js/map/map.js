@@ -13,7 +13,7 @@ require([
 
     var crimeMarkers = {};
     var grid = [];
-
+    var crimesPerRequest = 1000;
     var Crimes = new Model('criminalrecord');
     var CityBorder = new Model('cityborder');
     /*
@@ -70,6 +70,7 @@ require([
           $('.grid-sizes').removeClass('hide');
         } else {
           $('.grid-sizes').addClass('hide');
+          $('.grid-options input').prop('checked', false);
           for (var i = 0; i < grid.length; i++){
             map.data.remove(grid[i]);
           }
@@ -90,6 +91,7 @@ require([
             success: function(response) {
                 data = JSON.parse(response);
                 grid = map.data.addGeoJson(data);
+                visualizeCells(grid);
                 $('input').prop('disabled', false);
             }
         })
@@ -139,32 +141,49 @@ require([
           $this.find('i').removeClass('hide');
           $this.addClass('disabled');
           var filters = getCrimeFilters();
-          filters['limit'] = 1000;
-          Crimes.objects.filter(filters, function(data) {
-              for (var i = 0; i < data.length; i++) {
-                  var crime = data[i];
-                  var lat = crime.latitude;
-                  var long = crime.longitude;
-                  var marker = new google.maps.Marker({
-                      position: new google.maps.LatLng(lat, long),
-                      map: map,
-                      icon: 'https://maps.gstatic.com/intl/en_us/mapfiles/markers2/measle_blue.png',
-                    });
-                  var date = new Date(crime.date);
-                  crime.date = date.strftime('B d, Y I:Mp');
-                  var info = Mustache.render(crimeInfoTemplate, crime);
-                  var infowindow = new google.maps.InfoWindow({
-                    content: info,
-                  });
-                  marker.addListener('click', function() {
-                    infowindow.open(map, this);
-                  });
-                  crimeMarkers[crime.primary_type].push(marker);
-              }
-              $('input[type=checkbox]').prop('disabled', false);
-              $this.find('i').addClass('hide');
-              $this.removeClass('disabled');
-          });
+          filters['limit'] = crimesPerRequest;
+          filters['offset'] = 0;
+          fetchCrimes();
+          var done = false;
+          function fetchCrimes() {
+              Crimes.objects.filter(filters, function(data) {
+                  console.log(data.length);
+                  if (data.length < crimesPerRequest) {
+                      done = true;
+                  }
+                  for (var i = 0; i < data.length; i++) {
+                      var crime = data[i];
+                      var lat = crime.latitude;
+                      var long = crime.longitude;
+                      var marker = new google.maps.Marker({
+                          position: new google.maps.LatLng(lat, long),
+                          map: map,
+                          icon: 'https://maps.gstatic.com/intl/en_us/mapfiles/markers2/measle_blue.png',
+                        });
+                      var date = new Date(crime.date);
+                      crime.date = date.strftime('B d, Y I:Mp');
+                      var info = Mustache.render(crimeInfoTemplate, crime);
+                      var infowindow = new google.maps.InfoWindow({
+                        content: info,
+                      });
+                      marker.addListener('click', function() {
+                        infowindow.open(map, this);
+                      });
+                      crimeMarkers[crime.primary_type].push(marker);
+                  }
+                  if (done) {
+                      $('input[type=checkbox]').prop('disabled', false);
+                      $this.find('i').addClass('hide');
+                      $this.removeClass('disabled');
+                  } else {
+                      var limit = filters['limit'];
+                      var offset = filters['offset'];
+                      filters['limit'] = limit + crimesPerRequest;
+                      filters['offset'] = offset + crimesPerRequest;
+                      fetchCrimes();
+                  }
+              });
+          }
         }
     }
 
@@ -191,5 +210,39 @@ require([
           return filters;
         }
         return false;
+    }
+
+    function visualizeCells(grid) {
+        for (var i = 0; i < grid.length; i++) {
+            var cell = grid[i].getGeometry();
+            var count = 0;
+            poly = new google.maps.Polygon({paths: cell.getAt(0).getArray()});
+            for (var key in crimeMarkers) {
+                var markers = crimeMarkers[key];
+                for (var k = 0; k < markers.length; k++) {
+                    var marker = markers[k];
+                    if (google.maps.geometry.poly.containsLocation(marker.getPosition(), poly)){
+                        count++;
+                    }
+                }
+            }
+            grid[i].setProperty('count', count);
+            grid[i].setProperty('type', 'cell');
+        }
+        map.data.setStyle(function(feature){
+            if (feature.getProperty('type') === 'cell') {
+              var color;
+              if (feature.getProperty('count') > 0) {
+                color = 'red';
+              } else {
+                color = 'green';
+              }
+
+              return {
+                strokeWeight: 1,
+                fillColor: color,
+              }
+            }
+        });
     }
 });

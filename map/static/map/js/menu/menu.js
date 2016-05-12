@@ -1,6 +1,7 @@
 require([
     'jquery', 'hammerjs', 'jquery-hammerjs', 'materialize',
 ], function($) {
+    $('ul.tabs').tabs();
     $(".button-collapse").sideNav({
        menuWidth: 310,
     });
