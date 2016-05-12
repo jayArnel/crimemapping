@@ -146,6 +146,7 @@ PERIODS = ['daily', 'weekly', 'monthly', 'yearly']
 VECTORS_DIR = 'crimeprediction/data/vectors/'
 GRIDS_DIR = 'map/data/grids/'
 
+OUTPUTS_DIR = 'crimeprediction/outputs/'
 
 try:
     from local_settings import *
