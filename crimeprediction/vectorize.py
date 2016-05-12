@@ -146,7 +146,7 @@ def vectorize_weekly(grid, crime_type=None):
     return vectors
 
 
-def generate_all_data(new=False):
+def generate_all_vectors(new=False):
     crime_types = list(
         CriminalRecord.objects.order_by('primary_type').distinct().values_list(
             'primary_type', flat=True))
@@ -154,7 +154,13 @@ def generate_all_data(new=False):
     for size in settings.GRID_SIZES:
         for period in settings.PERIODS:
             for crime_type in crime_types:
-                print 'generating data for grid cell size: '\
-                    '{0}, period: {1}, type: {2}'.format(
-                        size, period, crime_type)
-                vectorize(size, period, crime_type, new=False)
+                print 'generating data for grid cell dimension: '\
+                    '{0} meters, period: {1}, type: {2} and '\
+                    'seasonality: True'.format(size, period, crime_type)
+                vectorize(size, period, crime_type=crime_type,
+                          seasonal=True, new=new)
+                print 'generating data for grid cell dimension: '\
+                    '{0} meters, period: {1}, type: {2} and '\
+                    'seasonality: False'.format(size, period, crime_type)
+                vectorize(size, period, crime_type=crime_type,
+                          seasonal=False, new=new)
