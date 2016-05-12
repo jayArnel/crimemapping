@@ -68,18 +68,17 @@ def vectorize(grid_size, period, crime_type=None, seasonal=False, new=False):
             for dt in rrule.rrule(rule, dtstart=start, until=end):
                 if period == 'daily':
                     season_key = '-'.join(
-                        [str(getattr(dt, k)) for k in ['month', 'day']])
+                        ["%02d" % getattr(dt, k) for k in ['month', 'day']])
                 elif period == 'monthly':
                     season_key = '-'.join(
-                        [str(getattr(dt, k)) for k in ['month']])
+                        ["%02d" % getattr(dt, k) for k in ['month']])
                 try:
                     season = timesteps[season_key]
                 except KeyError:
                     timesteps[season_key] = {}
                 step_key = '-'.join(
-                        [str(getattr(dt, k)) for k in ['year']])
+                    ["%02d" % getattr(dt, k) for k in ['year']])
                 timesteps[season_key][step_key] = [-1] * len(grid)
-            # print timesteps
             for i in xrange(len(grid)):
                 g = grid[i]
                 crimes = CriminalRecord.objects.filter(
@@ -88,12 +87,12 @@ def vectorize(grid_size, period, crime_type=None, seasonal=False, new=False):
                 for c in crimes:
                     if period == 'daily':
                         season_key = '-'.join(
-                            [str(int(c.get(k))) for k in ['month', 'day']])
+                            ["%02d" % c.get(k) for k in ['month', 'day']])
                     elif period == 'monthly':
                         season_key = '-'.join(
-                            [str(int(c.get(k))) for k in ['month']])
+                            ["%02d" % c.get(k) for k in ['month']])
                     step_key = '-'.join(
-                            [str(int(c.get(k))) for k in ['year']])
+                        ["%02d" % c.get(k) for k in ['year']])
                     timesteps[season_key][step_key][i] = 1
             vectors = []
             for k1 in sorted(timesteps):
@@ -104,19 +103,22 @@ def vectorize(grid_size, period, crime_type=None, seasonal=False, new=False):
 
         else:
             for dt in rrule.rrule(rule, dtstart=start, until=end):
-                key = '-'.join([str(getattr(dt, k)) for k in extra_query.keys()])
+                key = '-'.join(
+                    ["%02d" % getattr(dt, k) for k in extra_query.keys()])
                 timesteps[key] = [-1] * len(grid)
 
             for i in xrange(len(grid)):
                 g = grid[i]
                 crimes = CriminalRecord.objects.filter(
-                    location__intersects=g).extra(select=extra_query).values(
+                    location__intersects=g, date__lte=end).extra(select=extra_query).values(
                     *extra_query.keys()).annotate(count_items=Count('date'))
                 for c in crimes:
                     key = '-'.join(
-                        [str(int(c.get(k))) for k in extra_query.keys()])
+                        ["%02d" % c.get(k) for k in extra_query.keys()])
                     timesteps[key][i] = 1
-            vectors = timesteps.values()
+            vectors = []
+            for k1 in sorted(timesteps):
+                vectors.append(timesteps[k1])
         pickle.dump(vectors, open(path, "wb"))
     return vectors
 
