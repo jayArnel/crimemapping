@@ -20,7 +20,7 @@ require([
       Set initial map properties
      */
     function initializeMap() {
-        overlay.indeterminate('Initializing map... Please');
+        overlay.indeterminate('Initializing map... Please Wait.');
         $('input').prop('disabled', true);
         CityBorder.objects.filter({'name': 'Chicago'}, function(data){
             var chicago = data[0];
