@@ -8,6 +8,13 @@ from keras.models import Sequential
 from crimeprediction.vectorize import vectorize
 
 
+if not hasattr(settings, 'OUTPUTS_DIR'):
+    raise ImproperlyConfigured(
+        'The directory to save output files is missing from your settings')
+elif not os.path.exists(settings.OUTPUTS_DIR):
+    os.makedirs(settings.OUTPUTS_DIR)
+
+
 def run_network(grid_size, period, crime_type=None, seasonal=False):
     vectors = vectorize(
         grid_size, period, crime_type=crime_type, seasonal=seasonal)
