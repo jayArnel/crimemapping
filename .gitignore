@@ -81,3 +81,4 @@ crimemapping/local_settings.py
 *.fls
 *.bbl
 *.blg
+*.temp
