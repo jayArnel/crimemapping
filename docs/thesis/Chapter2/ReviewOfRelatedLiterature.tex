@@ -58,3 +58,63 @@
     \caption{An LSTM layer}
     \end{figure}
     LSTMs, on the other hand, use a different structure that employs four activation layers. Figure 2.4 illustrates how these layers interact with one another. The next section will elaborately explain the operations and elements involved in an LSTM layer.
+
+\section{LSTM Structure}
+    This section will walk through the structure and mechanics of an LSTM layer. The figures and equations that will follow will refer to these expressions from time to time.
+        \begin{itemize}
+        \item \( x_t \): Input for the current layer
+        \item \( h_{t-1} \): Output of the previous layer
+        \item \( h_t \): Output of the current layer
+        \item \( C_{t-1} \): Cell state of the previous layer
+        \item \( C_t \): Cell state of the current layer
+        \end{itemize}
+
+    \subsection{Cell State}
+        \begin{figure}[h]
+        \centering
+        \includegraphics[width=12cm]{LSTM3-C-line}
+        \caption{The Cell State}
+        \end{figure}
+        The core idea of LSTMs is to protect and control the cell state. As shown in Figure 2.5, the cell state is like a line traversing through the layers of the network. It holds the information from the previous layers it has passed through. The cell state and the input of the current layer determines the output for that layer. The amount of information that the cell state will carry from the previous layers is determined by a set of interacting gates.
+
+        \begin{figure}[h]
+        \centering
+        \includegraphics[width=2cm]{LSTM3-gate}
+        \caption{A gate in LSTM}
+        \end{figure}
+        Gates control how much of the information will pass through to the next layer in the cell state. It is made up of a sigmoid neural net layer and a multiplication operation as shown in Figure 2.6. The sigmoid layer will have a value between zero or one, indicating how much of the current cell state will be let through. Zero multiplied with the current cell state will always be zero so this means that nothing will be let through. One, on the other hand, means everything will be let through.
+
+        The next parts will explain the three gates in a standard LSTM.
+
+    \subsection{Forget Gate}
+        \begin{figure}[h]
+        \centering
+        \includegraphics[width=12cm]{LSTM3-focus-f}
+        \caption{The forget gate in LSTM}
+        \end{figure}
+        The first gate in the LSTM is called the forget gate. This gate decides how much of the input of the current layer and the output of the previous layer will be forgotten. Figure 2.7 shows the structure of this gate and the corresponding equation. For instance, in a language model that will check for correct pronouns (e.g. his or her), the gender of the subjects in the previous sentences will be forgotten when a new subject is encountered.
+
+    \subsection{Input Gate}
+        The next gate in the LSTM is the input gate. This gate updates the old cell state \( C_{t-1} \) to a new cell state \( C_t \). This gate has two parts.
+
+        \begin{figure}[h]
+        \centering
+        \includegraphics[width=12cm]{LSTM3-focus-i}
+        \caption{The input gate in LSTM}
+        \end{figure}
+        The first part is a sigmoid layer \( i_t \) that decides the values that will be updated. Next is a tanh layer \(\tilde{C}_t\) that will add new values to cell state. Figure 2.8 shows these two parts.
+
+        \begin{figure}[h]
+        \centering
+        \includegraphics[width=12cm]{LSTM3-focus-C}
+        \caption{Cell state update}
+        \end{figure}
+        After the input gate, the cell state will be updated with the values of the forget gate and input gate. In our language model example, this is the point where the previous gender of the subject is actually dumped and is updated with the gender of the new subject.
+
+    \subsection{Output Gate}
+        \begin{figure}[h]
+        \centering
+        \includegraphics[width=12cm]{LSTM3-focus-o}
+        \caption{The output gate in LSTM}
+        \end{figure}
+        The last part of the LSTM will determine the output to the next layer. The cell state is fed through a tanh layer and then multiplied with a sigmoid layer. The sigmoid layer is similar to the forget gate but instead of determining how much we want to forget the current input and previous output, this layer will determine how much we want to remember. Multiplying it with the tanh layer will result to the parts that we want to output. This will result to a filtered version of the cell state. In our language model example, plurality of the new subject or the tense of the subject's action could be added in order to correctly check the proper pronoun.
