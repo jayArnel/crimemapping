@@ -1,11 +1,21 @@
 import matplotlib.pyplot as plt
 import numpy as np
+import os
 import time
 from keras.layers.core import Dense, Activation, Dropout
 from keras.layers.recurrent import LSTM
 from keras.models import Sequential
 
+from django.conf import settings
+
 from crimeprediction.vectorize import vectorize
+
+
+if not hasattr(settings, 'OUTPUTS_DIR'):
+    raise ImproperlyConfigured(
+        'The directory to save output files is missing from your settings')
+elif not os.path.exists(settings.OUTPUTS_DIR):
+    os.makedirs(settings.OUTPUTS_DIR)
 
 
 def run_network(grid_size, period, crime_type=None, seasonal=False):
@@ -46,7 +56,7 @@ def run_network(grid_size, period, crime_type=None, seasonal=False):
 
     print 'Training duration (s) : ', time.time() - global_start_time
     predicted = model.predict(X_test)
-
+    norm_predicted = predicted
     accuracy = []
     f1scr = []
 
@@ -63,12 +73,14 @@ def run_network(grid_size, period, crime_type=None, seasonal=False):
         for y, node in enumerate(data):
             total += 1
             if predicted[x][y] > 0:  # threshold for prediction. If prediction is greater than this value, prediction is one, zero otherwise
+                norm_predicted[x][y] = 1
                 if node == 1:
                     correct += 1
                     truepos += 1
                 else:
                     falsepos += 1
             else:
+                norm_predicted[x][y] = -1
                 if node == -1:
                     correct += 1
                     trueneg += 1
@@ -90,9 +102,23 @@ def run_network(grid_size, period, crime_type=None, seasonal=False):
         print accuracy
         print f1
 
-    print "Average Accuracy:", np.average(accuracy)
-    print "Average F1 Score:", np.average(f1scr)
     crime_verbose = crime_type if crime_type is not None else "ALL"
+    output_folder = settings.OUTPUTS_DIR + 'Results_{0}_{1}_{2}_{3}/'.format(
+        grid_size, crime_verbose, period, seasonal)
+    if not os.path.exists(output_folder):
+        os.makedirs(output_folder)
+
+    results_file = output_folder + 'results.txt'
+    predicted_file = output_folder + 'predicted.txt'
+    accuracy_img = output_folder + 'accuracy.png'
+    f1score_img = output_folder + 'f1score.png'
+
+    np.savetxt(predicted_file, norm_predicted, fmt='%.6f')
+    results = "Average Accuracy:" + str(np.average(accuracy)) + '\n'
+    results += "Average F1 Score:" + str(np.average(f1scr))
+    with open(results_file, "w") as output_file:
+        output_file.write(results)
+
     if period == "daily":
         period_verbose = "Day"
     elif period == "weekly":
@@ -105,17 +131,15 @@ def run_network(grid_size, period, crime_type=None, seasonal=False):
     # graph of Accuracy for each grid snapshot
     fig1 = plt.figure()
     plt.plot(accuracy)
-    plt.xlabel(period.capitalize())
+    plt.xlabel(period_verbose)
     plt.ylabel('Accuracy')
-    fig1.savefig("Accuracy_{0}_{1}_{2}_{3}.png".format(
-        grid_size, crime_verbose, period, seasonal))
+    fig1.savefig(accuracy_img)
     # plt.show()
 
     # graph of F1 Score for each grid snapshot
     fig2 = plt.figure()
     plt.plot(f1scr)
-    plt.xlabel(period.capitalize())
+    plt.xlabel(period_verbose)
     plt.ylabel('F1 Score')
-    fig2.savefig("F1Score_{0}_{1}_{2}_{3}.png".format(
-        grid_size, crime_verbose, period, seasonal))
+    fig2.savefig(f1score_img)
     return model, y_test, predicted
