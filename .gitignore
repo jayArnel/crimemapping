@@ -82,3 +82,7 @@ crimemapping/local_settings.py
 *.bbl
 *.blg
 *.temp
+*.cookie
+*.ilg
+*.ind
+*.nls
