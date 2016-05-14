@@ -5,12 +5,40 @@
     <div class="row tab-drawers">
       <div class="col s12">
         <ul class="tabs">
-          <li class="tab col s6"><a href="#test1">Filters</a></li>
-          <li class="tab col s6"><a href="#test2">Display</a></li>
+          <li class="tab col s6"><a href="#filters">Filters</a></li>
+          <li class="tab col s6"><a href="#display">Display</a></li>
         </ul>
       </div>
     </div>
-    <div class="filters">
+    <div id="filters">
+      <div class="crime-options">
+          <span class="option-heading">Crimes</span><br>
+          <span class="btn disabled" id="load-crimes"><i class="material-icons left hide">loop</i>FETCH</span><br>
+          <span class="row date-filters">
+              <span class="col s12 m6">
+              <label for="start-date">From</label>
+              <input type="date" class="datepicker" placeholder="Start date" id="start-date" data-initial="{{start}}"/>
+              </span>
+              <span class="col s12 m6">
+              <label for="end-date">To</label>
+              <input type="date" class="datepicker" placeholder="End date" id="end-date" data-initial="{{end}}"/>
+              </span>
+          </span>
+          <span class="type-filters row">
+              <span class="col s12">
+                <input type="checkbox" id="all-types" value="ALL"/>
+                <label for="all-types">All</label>
+              </span>
+              {% for type in crime_types %}
+              <span class="col s12">
+                <input type="checkbox" class="filled-in crime-type" id="{{type}}" value="{{type}}"/>
+                <label for="{{type}}">{{type|lower|capfirst}}</label>
+              </span>
+              {% endfor %}
+          </span>
+      </div>
+    </div>
+    <div id="display">
       <div class="grid-options">
           <div class="switch">
               <span class="option-heading">Grid</span>
@@ -40,31 +68,28 @@
               </p>
           </div>
       </div>
-      <div class="crime-options">
-          <span class="option-heading">Crimes</span><br>
-          <span class="btn disabled" id="load-crimes"><i class="material-icons left hide">loop</i>FETCH</span><br>
-          <span class="row date-filters">
-              <span class="col s12 m6">
-              <label for="start-date">From</label>
-              <input type="date" class="datepicker" placeholder="Start date" id="start-date" data-initial="{{start}}"/>
-              </span>
-              <span class="col s12 m6">
-              <label for="end-date">To</label>
-              <input type="date" class="datepicker" placeholder="End date" id="end-date" data-initial="{{end}}"/>
-              </span>
-          </span>
-          <span class="type-filters row">
-              <span class="col s12">
-                <input type="checkbox" id="all-types" value="ALL"/>
-                <label for="all-types">All</label>
-              </span>
-              {% for type in crime_types %}
-              <span class="col s12">
-                <input type="checkbox" class="filled-in crime-type" id="{{type}}" value="{{type}}"/>
-                <label for="{{type}}">{{type|lower|capfirst}}</label>
-              </span>
-              {% endfor %}
-          </span>
-      </div>
+            <form action="#">
+              <p>
+                <input class="with-gap" name="display-options" type="radio" id="grid-binary" value="grid-binary"/>
+                <label for="grid-binary">Grid Binary<br>
+                    <span>Stylize each cell to indicate presence/absence of crime in each cell.</span>
+                </label>
+              </p>
+              <p>
+                <input class="with-gap" name="display-options" type="radio" id="point-heatmap" value="point-heatmap"/>
+                <label for="point-heatmap">Load File<br>
+                    <span>Load a vector file and visualize a grid given the data.</span>
+                <div class="file-field input-field">
+                  <div class="btn">
+                    <span>File</span>
+                    <input type="file">
+                  </div>
+                  <div class="file-path-wrapper">
+                    <input class="file-path validate" type="text" placeholder="No file uploaded">
+                  </div>
+                </div>
+                </label>
+              </p>
+            </form>
     </div>
 </div>

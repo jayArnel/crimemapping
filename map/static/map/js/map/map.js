@@ -20,7 +20,7 @@ require([
       Set initial map properties
      */
     function initializeMap() {
-        overlay.indeterminate('Initializing map... Please');
+        overlay.indeterminate('Initializing map... Please Wait.');
         $('input').prop('disabled', true);
         CityBorder.objects.filter({'name': 'Chicago'}, function(data){
             var chicago = data[0];
@@ -53,6 +53,8 @@ require([
       $('input[type=checkbox].grid-toggle').on('change', toggleGridSizeChoices);
       $('input[type=radio].grid-size').on('change', drawGrid);
       $('#load-crimes').on('click', filterCrimes);
+      $('input[type=radio][name=display-options]').on('change', displayOptions);
+      $('input[type=file]').on('change', readFile);
     }
     bindActions();
 
@@ -91,7 +93,6 @@ require([
             success: function(response) {
                 data = JSON.parse(response);
                 grid = map.data.addGeoJson(data);
-                visualizeCells(grid);
                 $('input').prop('disabled', false);
             }
         })
@@ -212,7 +213,7 @@ require([
         return false;
     }
 
-    function visualizeCells(grid) {
+    function visualizeCells() {
         for (var i = 0; i < grid.length; i++) {
             var cell = grid[i].getGeometry();
             var count = 0;
@@ -224,25 +225,72 @@ require([
                     if (google.maps.geometry.poly.containsLocation(marker.getPosition(), poly)){
                         count++;
                     }
+                    marker.setMap(null);
                 }
             }
             grid[i].setProperty('count', count);
             grid[i].setProperty('type', 'cell');
         }
         map.data.setStyle(function(feature){
+            var color = 'grey';
             if (feature.getProperty('type') === 'cell') {
-              var color;
               if (feature.getProperty('count') > 0) {
                 color = 'red';
               } else {
                 color = 'green';
               }
 
+            }
+            return {
+              strokeWeight: 1,
+              fillColor: color,
+            }
+        });
+    }
+
+    function displayOptions() {
+          var val = $(this).val();
+          if (val === 'grid-binary') {
+              visualizeCells();
+          }
+    }
+
+    function readFile(e) {
+        var files = e.target.files;
+
+        for (var i = 0, f; f = files[i]; i++) {
+          var reader = new FileReader();
+          reader.onload = (function(theFile) {
+            return function(e) {
+              loadData(e.target.result)
+            };
+          })(f);
+          reader.readAsText(f);
+        }
+
+        function loadData(data) {
+          var input = data.split(' ');
+          for (var i = 0; i < grid.length; i++) {
+              var cell = grid[i];
+              console.log(parseInt(input[i]));
+              cell.setProperty('count', parseInt(input[i]));
+              cell.setProperty('type', 'cell');
+          }
+          map.data.setStyle(function(feature){
+              var color = 'grey';
+              if (feature.getProperty('type') === 'cell') {
+                if (feature.getProperty('count') > 0) {
+                  color = 'red';
+                } else {
+                  color = 'green';
+                }
+              }
               return {
                 strokeWeight: 1,
                 fillColor: color,
               }
-            }
-        });
+          });
+        }
     }
+
 });
