@@ -39,6 +39,35 @@
       </div>
     </div>
     <div id="display">
+      <div class="grid-options">
+          <div class="switch">
+              <span class="option-heading">Grid</span>
+              <label>
+                  Off
+                  <input type="checkbox" class="grid-toggle">
+                  <span class="lever"></span>
+                  On
+              </label>
+          </div>
+          <div class="grid-sizes hide row">
+              <p class="col s6 m3">
+                <input class="with-gap grid-size" name="size" type="radio" id="1000" value="1000"/>
+                <label for="1000">1km</label>
+              </p>
+              <p class="col s6 m3">
+                <input class="with-gap grid-size" name="size" type="radio" id="750" value="750" />
+                <label for="750">750m</label>
+              </p>
+              <p class="col s6 m3">
+                <input class="with-gap grid-size" name="size" type="radio" id="500"  value="500"/>
+                <label for="1000">500m</label>
+              </p>
+              <p class="col s6 m3">
+                <input class="with-gap grid-size" name="size" type="radio" id="250"  value="250"/>
+                <label for="250">250m</label>
+              </p>
+          </div>
+      </div>
             <form action="#">
               <p>
                 <input class="with-gap" name="display-options" type="radio" id="grid-binary" value="grid-binary"/>
