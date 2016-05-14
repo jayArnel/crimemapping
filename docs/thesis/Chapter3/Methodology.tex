@@ -36,5 +36,8 @@
 \section{Model}
     The learning model used is built using a library called Keras because it implements the original LSTM proposed by Hochreiter. The input of the model is the sequence of periodic snapshots of the states of each cell in the crid obtained during data preprocessing. It is divided into training and test sets with 0.7 ratio. The model contains a layer of LSTM cells, one for each input in the data. The model's training will be done through 1000 epochs.
 
+\section{Experiments}
+    A set of experiments were done to evaluate the performance of the model under different conditions and parameters. The parameters that are being experimented upon are the cell dimensions of the grid, period of snapshots and the implementation of crime seasonality. The results of these experiments are measured through certain performance metrics in order to determine the effectiveness of the model.
+
 \section{Performance Metrics}
     To measure and evaluate the performance of the model, several performance metrics is implemented. The Mean Square of Errors (MSE) is used to measure the precision of the models output value to the target values. Accuracy and F1 Score values is used to measure the accuracy of the model when predicting the next state of the cells in the grid.
