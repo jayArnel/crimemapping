@@ -75,16 +75,19 @@
                     <span>Stylize each cell to indicate presence/absence of crime in each cell.</span>
                 </label>
               </p>
-              <!-- <p>
-                <input class="with-gap" name="display-options" type="radio" id="grid-heatmap" value="grid-heatmap"/>
-                <label for="grid-heatmap">Grid Heatmap<br>
-                    <span>Visualize intensity of criminal incidents on each cell.</span>
-                </label>
-              </p> -->
               <p>
                 <input class="with-gap" name="display-options" type="radio" id="point-heatmap" value="point-heatmap"/>
-                <label for="point-heatmap">Point Heatmap<br>
-                    <span>Visualize intensity of criminal incidents at geographical points.</span>
+                <label for="point-heatmap">Load File<br>
+                    <span>Load a vector file and visualize a grid given the data.</span>
+                <div class="file-field input-field">
+                  <div class="btn">
+                    <span>File</span>
+                    <input type="file">
+                  </div>
+                  <div class="file-path-wrapper">
+                    <input class="file-path validate" type="text" placeholder="No file uploaded">
+                  </div>
+                </div>
                 </label>
               </p>
             </form>

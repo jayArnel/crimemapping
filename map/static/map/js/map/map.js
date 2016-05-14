@@ -54,6 +54,7 @@ require([
       $('input[type=radio].grid-size').on('change', drawGrid);
       $('#load-crimes').on('click', filterCrimes);
       $('input[type=radio][name=display-options]').on('change', displayOptions);
+      $('input[type=file]').on('change', readFile);
     }
     bindActions();
 
@@ -231,18 +232,18 @@ require([
             grid[i].setProperty('type', 'cell');
         }
         map.data.setStyle(function(feature){
+            var color = 'grey';
             if (feature.getProperty('type') === 'cell') {
-              var color;
               if (feature.getProperty('count') > 0) {
                 color = 'red';
               } else {
                 color = 'green';
               }
 
-              return {
-                strokeWeight: 1,
-                fillColor: color,
-              }
+            }
+            return {
+              strokeWeight: 1,
+              fillColor: color,
             }
         });
     }
@@ -253,4 +254,43 @@ require([
               visualizeCells();
           }
     }
+
+    function readFile(e) {
+        var files = e.target.files;
+
+        for (var i = 0, f; f = files[i]; i++) {
+          var reader = new FileReader();
+          reader.onload = (function(theFile) {
+            return function(e) {
+              loadData(e.target.result)
+            };
+          })(f);
+          reader.readAsText(f);
+        }
+
+        function loadData(data) {
+          var input = data.split(' ');
+          for (var i = 0; i < grid.length; i++) {
+              var cell = grid[i];
+              console.log(parseInt(input[i]));
+              cell.setProperty('count', parseInt(input[i]));
+              cell.setProperty('type', 'cell');
+          }
+          map.data.setStyle(function(feature){
+              var color = 'grey';
+              if (feature.getProperty('type') === 'cell') {
+                if (feature.getProperty('count') > 0) {
+                  color = 'red';
+                } else {
+                  color = 'green';
+                }
+              }
+              return {
+                strokeWeight: 1,
+                fillColor: color,
+              }
+          });
+        }
+    }
+
 });
