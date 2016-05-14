@@ -2,4 +2,57 @@
 %*********************************** Fifth Chapter *****************************
 %*******************************************************************************
 
-\chapter{Resuls and Discussions}  %Title of the Fifth Chapter
+\chapter{Results and Discussions}  %Title of the Fifth Chapter
+
+\section{Results}
+    These are the different results of the experiments on the model. The indications of these results will then be discussed and analyzed.
+
+    The first set experiments will focus on the different cell dimensions as the experimental variable. The period and seasonality of data will be controlled variables. The timestep will be set to yearly and the seasonality to false.
+
+    \begin{table}[h]
+      \centering
+      \begin{tabular}{|c|c|c|c|}
+            \hline
+          \textbf{Cell Dimension}  &\textbf{MSE}  &\textbf{Accuracy} &\textbf{F1 Score}\\ 
+          \hline
+          500x500m &1.13 &88.98 &89.15 \\
+          750mx750m &0.87 &91.78 &92.3 \\
+          1000mx1000m  &0.98 &89.01 &90.36 \\
+          \hline
+        \end{tabular}
+      \caption{Performance of the model for different cell dimensions}
+    \end{table}
+
+    The next set experiments will focus on the different timesteps. The cell dimension and seasonality will now be controlled variables. The cell dimension will be set to 1000mx1000m and the seasonality to false.
+    \begin{table}[h]
+      \centering
+      \begin{tabular}{|c|c|c|c|}
+            \hline
+          \textbf{Period}  &\textbf{MSE}  &\textbf{Accuracy} &\textbf{F1 Score}\\ 
+          \hline
+          Weekly &1.21 &87.74 &88.23 \\
+          Monthly &0.67 &90.11 &89.54 \\
+          Yearly   &0.98 &88.17 &89.10 \\
+          \hline
+        \end{tabular}
+      \caption{Performance of the model for different timesteps}
+    \end{table}
+
+    The next set experiments will focus on the seasonality of crime. The cell dimension and period will now be controlled variables. The cell dimension will be set to 1000mx1000m and the timestep to monthly.
+    \begin{table}[h]
+      \centering
+      \begin{tabular}{|c|c|c|c|}
+            \hline
+          \textbf{Seaonality}  &\textbf{MSE}  &\textbf{Accuracy} &\textbf{F1 Score}\\ 
+          \hline
+          True  &1.29 &89.62 &87.93 \\
+          False &1.01 &89.15 &91.06\\
+          \hline
+        \end{tabular}
+      \caption{Performance of the model for seasonal and non-seasonal data}
+    \end{table}
+
+
+\section{Discussions}
+
+\section{Error Analysis}

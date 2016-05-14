@@ -1,4 +1,4 @@
-\documentclass[a4paper,12pt,times,numbered,print,index]{Classes/PhDThesisPSnPDF}
+\documentclass[letterpaper,12pt,customfont,custombib,print]{Classes/PhDThesisPSnPDF}
 
 \input{init/preamble}
 
@@ -12,12 +12,12 @@
   \maketitle
 \end{titlepage}
 
-\include{Dedication/dedication}
-\include{Declaration/declaration}
 \include{Acknowledgement/acknowledgement}
 \include{Abstract/abstract}
 
 \tableofcontents
+\listoffigures
+\listoftables
 
 \mainmatter
 
@@ -27,5 +27,12 @@
 \include{Chapter4/ResultsAndDiscussions}
 \include{Chapter5/ConclusionsAndRecommendations}
 
+\begin{spacing}{0.9}
+\bibliographystyle{apalike}
+\cleardoublepage
+\bibliography{References/references}
+
+
+\end{spacing}
 
 \end{document}
