@@ -1027,7 +1027,15 @@ wish to left align your text}
 \thispagestyle{empty}
 }
 
+% ****************************** Profile ********************************
+% The acknowledgements environment puts a large, bold, centered
+% "Acknowledgements" label at the top of the page.
 
+\newenvironment{profile}{
+\setsinglecolumn
+\chapter*{\centering \Large Researcher's Profile}
+\thispagestyle{empty}
+}
 
 % ******************************* Nomenclature *********************************
 \RequirePackage{nomencl}
