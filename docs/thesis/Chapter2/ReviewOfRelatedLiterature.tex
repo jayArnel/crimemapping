@@ -40,7 +40,7 @@
     \end{figure}
     Figure 2.2 shows a recurrent neural network with its loops unrolled. The chain-like structure it illustrates hints that recurrent neural networks are related with sequences and lists. RNNs have been effective for a wide range of problems that deals with a series of data including speech recognition, image processing and language modeling \citep{olah2015understanding}.
 
-    RNNs are useful in representing the history and memory but it has some setbacks as well. They might have the ability to create memory from previous information but they have a hard time connecting information as the gap between a relevant information and the point where it is important grows. This is called the Long-term Dependency Problem \citep{bengio1994learning}. To solve this problem, an architecture of RNN was introduced, the Long Short-Term Memory or LSTM.
+    RNNs are useful in representing the history and memory but it has some setbacks as well. They might have the ability to create memory from previous information but they have a hard time connecting information as the gap between a relevant information and the point where it is important grows \cite{graves2012supervised}. This is called the Long-term Dependency Problem \citep{bengio1994learning}. To solve this problem, an architecture of RNN was introduced, the Long Short-Term Memory or LSTM.
 
 \section{Long Short-term Memory Networks}
     Long Short-term Memory Networks (LSTMs) are a special type of RNN that gracefully deals with the long-term dependency problem \citep{hochreiter1997long}. They are capable of remembering data over long period of time by implementing a more complicated structure in its repeating module.
