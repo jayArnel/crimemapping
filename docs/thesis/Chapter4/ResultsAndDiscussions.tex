@@ -22,6 +22,8 @@
         \end{tabular}
       \caption{Performance of the model for different cell dimensions}
     \end{table}
+    Table 4.1 shows the results of the experiments for the different cell dimensions. The difference cell dimensions are 500mx500m, 750mx750m, 1000mx1000m. The model performs highest with 750mx750m cell dimension with an accuracy of 91.78 and F1 score of 92.3.
+
 
     The next set experiments will focus on the different timesteps. The cell dimension and seasonality will now be controlled variables. The cell dimension will be set to 1000mx1000m and the seasonality to false.
     \begin{table}[h]
@@ -37,6 +39,7 @@
         \end{tabular}
       \caption{Performance of the model for different timesteps}
     \end{table}
+    Table 4.2 shows the results of the experiments for the different timesteps. The difference timesteps are weekly, monthly and yearly. The model performs highest with monthly timestep with an accuracy of 90.11 and F1 score of 89.54.
 
     The next set experiments will focus on the seasonality of crime. The cell dimension and period will now be controlled variables. The cell dimension will be set to 1000mx1000m and the timestep to monthly.
     \begin{table}[h]
@@ -45,14 +48,34 @@
             \hline
           \textbf{Seaonality}  &\textbf{MSE}  &\textbf{Accuracy} &\textbf{F1 Score}\\ 
           \hline
-          True  &1.29 &89.62 &87.93 \\
-          False &1.01 &89.15 &91.06\\
+          True &1.01 &89.15 &91.06\\
+          False  &1.29 &89.62 &87.93 \\
           \hline
         \end{tabular}
       \caption{Performance of the model for seasonal and non-seasonal data}
     \end{table}
-
+    Table 4.3 shows the results of the experiments for the seasonal (True) and non-seasonal data (False).
 
 \section{Discussions}
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=12cm]{dimensions-experiments}
+    \caption{Comparison of the Accuracy and F1 Score of the model for different cell dimensions.}
+    \end{figure}
+    The graph shown in Figure 4.1 compares the accuracy and F1 score of the model for the different cell dimensions. As can be seen, the model in 750mx750m cell dimension performs better in both metrics. The model in 500mx500m cell dimension has almost the same accuracy with the model in 1000mx1000m, with the latter having a higher F1 score.
+
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=12cm]{timestep-experiment}
+    \caption{Comparison of the Accuracy and F1 Score of the model for timesteps.}
+    \end{figure}
+    Figure 4.2 above compares the accuracy and F1 score of the model for the different timesteps. The model in monthly timestep performs better in both accuracy and F1 score while the model in weekly timestep performs the worst.
+    
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=12cm]{seasonal-experiments}
+    \caption{Comparison of the Accuracy and F1 Score of the model for seasonal and non-seasonal data.}
+    \end{figure}
+    Figure 4.2 above compares the accuracy and F1 score of the model for seasonal and non-seasonal data. The model using seasonal data performs a little better compared to the model using non-seasonal data.
 
 \section{Error Analysis}
