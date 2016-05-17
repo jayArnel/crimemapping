@@ -118,3 +118,11 @@
         \caption{The output gate in LSTM}
         \end{figure}
         The last part of the LSTM will determine the output to the next layer. The cell state is fed through a tanh layer and then multiplied with a sigmoid layer. The sigmoid layer is similar to the forget gate but instead of determining how much we want to forget the current input and previous output, this layer will determine how much we want to remember. Multiplying it with the tanh layer will result to the parts that we want to output. This will result to a filtered version of the cell state. In our language model example, plurality of the new subject or the tense of the subject's action could be added in order to correctly check the proper pronoun.
+
+\section{Crime Recurrence}
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=12cm]{crime-recurrence}
+        \caption{Empirical evidence for the recurrent nature of crime \citep{perc2013understanding}}
+        \end{figure}
+    Crime may all seem random at first glance but according to \cite{perc2013understanding} in their 2013 study entitled \textit{Understanding Recurrent Crime as System-Immanent Collective Behavior}, crime exhibits a recurrent nature. Empirical data shown in Figure 2.11 illustrates this behavior of crime. Along with the US average (black line), the different lines in the graph represents the different categories of US states according to average rate of robberies. US states were categorized into very high (blue), high (green), moderate (red) and low (gray) robbery rate groups. The values of these lines are the average crime rates of the different categories from 1965 to 2010. The blue line, or the average robbery rate of US states with very high robbery rate, significantly oscillates over time, suggesting a recurrent behavior. The same trend can be noticed for the US average and in categories with high and moderate robbery rate but they have lesser intensity. States with low robbery rate have a much more stable average robbery rates. The same behavior can be seen on other kinds of crime like motor vehicle theft and property crime. This data proves that crime is recurrent in nature regardless of type and intensity.
