@@ -8,7 +8,7 @@
 \section{Crime} %Section - 2.1
     The formal definition of crime varies widely among criminologists but Edwin Sutherland’s short one may be sufficient. According to him, crime is “[a]n unlawful act is not defined as criminal by the fact that it is punished, but by the fact that it is punishable.” \citep{brown2010criminology} But what is punishable may be relative to what the crime is and where it happened. As Sutherland continued, an act can be considered crime in its essence once the State as which the jurisdiction of the act prevails deems such act as an injury and punishable by law.
 
-    In the Philippines, as per the Philippine National Police, crimes can be classified into two: index crimes and non-index crimes \citep{senate2013criminal}. Index crimes are crimes that involves victims such as murder, homicide, physical injury and rape; or against property such as robbery, theft, and burglary. On the other hand, non-index crimes are violations of special laws such as illegal logging or local ordinances. In the Philippines, these classifications are used for statistical purposes and to create a standardized definition of crime classification. \citep{tumulak2015crime}
+    In the Philippines, as per the Philippine National Police, crimes can be classified into two: index crimes and non-index crimes \citep{senate2013criminal}. Index crimes are crimes that involves victims such as murder, homicide, physical injury and rape; or against property such as robbery, theft, and burglary. On the other hand, non-index crimes are violations of special laws such as illegal logging or local ordinances. In the Philippines, these classifications are used for statistical purposes and to create a standardized definition of crime classification\citep{tumulak2015crime}.
 
 %********************************** %Second Section  **************************************
 \section{Crime Prediction Techniques} %Section - 2.2
@@ -40,7 +40,7 @@
     \end{figure}
     Figure 2.2 shows a recurrent neural network with its loops unrolled. The chain-like structure it illustrates hints that recurrent neural networks are related with sequences and lists. RNNs have been effective for a wide range of problems that deals with a series of data including speech recognition, image processing and language modeling \citep{olah2015understanding}.
 
-    RNNs are useful in representing the history and memory but it has some setbacks as well. They might have the ability to create memory from previous information but they have a hard time connecting information as the gap between a relevant information and the point where it is important grows \cite{graves2012supervised}. This is called the Long-term Dependency Problem \citep{bengio1994learning}. To solve this problem, an architecture of RNN was introduced, the Long Short-Term Memory or LSTM.
+    RNNs are useful in representing the history and memory but it has some setbacks as well. They might have the ability to create memory from previous information but they have a hard time connecting information as the gap between a relevant information and the point where it is important grows \citep{graves2012supervised}. This is called the Long-term Dependency Problem \citep{bengio1994learning}. To solve this problem, an architecture of RNN was introduced, the Long Short-Term Memory or LSTM.
 
 \section{Long Short-term Memory Networks}
     Long Short-term Memory Networks (LSTMs) are a special type of RNN that gracefully deals with the long-term dependency problem \citep{hochreiter1997long}. They are capable of remembering data over long period of time by implementing a more complicated structure in its repeating module.
@@ -50,7 +50,7 @@
     \includegraphics[width=12cm]{LSTM3-SimpleRNN}
     \caption{A traditional recurrent neural network has a single layer}
     \end{figure}
-    Traditional RNNs have simple recurring layers. Figure 2.3 shows an example of an RNN with a tanh layer in its repeating module. In this network, the current input and the output of the previous layer will be fed to an tanh activation equation and the result will be the output for that layer.
+    Traditional RNNs have simple recurring layers. Figure 2.3 shows an example of an RNN with a tanh layer in its repeating module. In this network, the current input and the output of the previous layer will be fed to a tanh activation equation and the result will be the output for that layer.
     
     \begin{figure}[h]
     \centering
@@ -60,7 +60,7 @@
     LSTMs, on the other hand, use a different structure that employs four activation layers. Figure 2.4 illustrates how these layers interact with one another. The next section will elaborately explain the operations and elements involved in an LSTM layer.
 
 \section{LSTM Structure}
-    This section will walk through the structure and mechanics of an LSTM layer. The figures and equations that will follow will refer to these expressions from time to time.
+    This section will walk through the structure and mechanics of an LSTM layer. The figures that will follow will refer to these expressions.
         \begin{itemize}
         \item \( x_t \): Input for the current layer
         \item \( h_{t-1} \): Output of the previous layer
@@ -72,7 +72,7 @@
     \subsection{Cell State}
         \begin{figure}[h]
         \centering
-        \includegraphics[width=12cm]{LSTM3-C-line}
+        \includegraphics[width=14cm]{LSTM3-C-line}
         \caption{The Cell State}
         \end{figure}
         The core idea of LSTMs is to protect and control the cell state. As shown in Figure 2.5, the cell state is like a line traversing through the layers of the network. It holds the information from the previous layers it has passed through. The cell state and the input of the current layer determines the output for that layer. The amount of information that the cell state will carry from the previous layers is determined by a set of interacting gates.
@@ -82,14 +82,14 @@
         \includegraphics[width=2cm]{LSTM3-gate}
         \caption{A gate in LSTM}
         \end{figure}
-        Gates control how much of the information will pass through to the next layer in the cell state. It is made up of a sigmoid neural net layer and a multiplication operation as shown in Figure 2.6. The sigmoid layer will have a value between zero or one, indicating how much of the current cell state will be let through. Zero multiplied with the current cell state will always be zero so this means that nothing will be let through. One, on the other hand, means everything will be let through.
+        Gates control how much of the information will pass through to the next layer in the cell state. It is made up of a sigmoid neural net layer and a multiplication operation, as shown in Figure 2.6. The sigmoid layer will have a value between zero or one, indicating how much of the current cell state will be let through. Zero multiplied with the current cell state will always be zero so this means that nothing will be let through. One, on the other hand, means everything will be let through.
 
         The next parts will explain the three gates in a standard LSTM.
 
     \subsection{Forget Gate}
         \begin{figure}[h]
         \centering
-        \includegraphics[width=12cm]{LSTM3-focus-f}
+        \includegraphics[width=8cm]{LSTM3-focus-f}
         \caption{The forget gate in LSTM}
         \end{figure}
         The first gate in the LSTM is called the forget gate. This gate decides how much of the input of the current layer and the output of the previous layer will be forgotten. Figure 2.7 shows the structure of this gate and the corresponding equation. For instance, in a language model that will check for correct pronouns (e.g. his or her), the gender of the subjects in the previous sentences will be forgotten when a new subject is encountered.
@@ -99,14 +99,14 @@
 
         \begin{figure}[h]
         \centering
-        \includegraphics[width=12cm]{LSTM3-focus-i}
+        \includegraphics[width=8cm]{LSTM3-focus-i}
         \caption{The input gate in LSTM}
         \end{figure}
         The first part is a sigmoid layer \( i_t \) that decides the values that will be updated. Next is a tanh layer \(\tilde{C}_t\) that will add new values to cell state. Figure 2.8 shows these two parts.
 
         \begin{figure}[h]
         \centering
-        \includegraphics[width=12cm]{LSTM3-focus-C}
+        \includegraphics[width=8cm]{LSTM3-focus-C}
         \caption{Cell state update}
         \end{figure}
         After the input gate, the cell state will be updated with the values of the forget gate and input gate. In our language model example, this is the point where the previous gender of the subject is actually dumped and is updated with the gender of the new subject.
@@ -114,7 +114,15 @@
     \subsection{Output Gate}
         \begin{figure}[h]
         \centering
-        \includegraphics[width=12cm]{LSTM3-focus-o}
+        \includegraphics[width=8cm]{LSTM3-focus-o}
         \caption{The output gate in LSTM}
         \end{figure}
         The last part of the LSTM will determine the output to the next layer. The cell state is fed through a tanh layer and then multiplied with a sigmoid layer. The sigmoid layer is similar to the forget gate but instead of determining how much we want to forget the current input and previous output, this layer will determine how much we want to remember. Multiplying it with the tanh layer will result to the parts that we want to output. This will result to a filtered version of the cell state. In our language model example, plurality of the new subject or the tense of the subject's action could be added in order to correctly check the proper pronoun.
+
+\section{Crime Recurrence}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=12cm]{crime-recurrence}
+        \caption{Empirical evidence for the recurrent nature of crime \citep{perc2013understanding}}
+    \end{figure}
+    Crime may all seem random at first glance but according to \cite{perc2013understanding} in their 2013 study entitled \textit{Understanding Recurrent Crime as System-Immanent Collective Behavior}, crime exhibits a recurrent nature. Empirical data shown in Figure 2.11 illustrates this behavior of crime. Along with the US average (black line), the different lines in the graph represents the different categories of US states according to average rate of robberies. US states were categorized into very high (blue), high (green), moderate (red) and low (gray) robbery rate groups. The values of these lines are the average crime rates of the different categories from 1965 to 2010. The blue line, or the average robbery rate of US states with very high robbery rate, significantly oscillates over time, suggesting a recurrent behavior. The same trend can be noticed for the US average and in categories with high and moderate robbery rate but they have lesser intensity. States with low robbery rate have a much more stable average robbery rates. The same behavior can be seen on other kinds of crime like motor vehicle theft and property crime. This data proves that crime is recurrent in nature regardless of type and intensity.
