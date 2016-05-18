@@ -27,7 +27,6 @@ def run_network(grid_size, period, crime_type=None, seasonal=False):
     global_start_time = time.time()
 
     print 'Loading Data...'
-    vectors = vectorize(grid_size, period)
     dim = len(vectors[0])
     result = np.array(vectors)
 
@@ -162,7 +161,6 @@ def plot_learning_curve(grid_size, period, crime_type=None, seasonal=False):
     global_start_time = time.time()
 
     print 'Loading Data...'
-    vectors = vectorize(grid_size, period)
     dim = len(vectors[0])
     result = np.array(vectors)
 
