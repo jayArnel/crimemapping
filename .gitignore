@@ -76,3 +76,13 @@ crimemapping/local_settings.py
 *.out
 *.toc
 *.pdf
+*.d
+*.make
+*.fls
+*.bbl
+*.blg
+*.temp
+*.cookie
+*.ilg
+*.ind
+*.nls

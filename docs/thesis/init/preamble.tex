@@ -17,7 +17,9 @@
 \ifsetCustomFont
   % Set your custom font here and use `customfont' in options. Leave empty to
   % load computer modern font (default LaTeX font).
-  \RequirePackage{helvet}
+  % \RequirePackage{helvet}
+  \usepackage{helvet}
+  \renewcommand{\familydefault}{\sfdefault}
 \fi
 
 % *****************************************************************************
@@ -44,7 +46,7 @@
 
 % Uncomment the following two lines to force Latex to place the figure.
 % Use [H] when including graphics. Note 'H' instead of 'h'
-%\usepackage{float}
+\usepackage{float}
 %\restylefloat{figure}
 
 % Subcaption package is also available in the sty folder you can use that by
@@ -75,7 +77,7 @@
 % Choose linespacing as appropriate. Default is one-half line spacing as per the
 % University guidelines
 
-% \doublespacing
+\doublespacing
 % \onehalfspacing
 % \singlespacing
 
@@ -96,7 +98,7 @@
 
 % Add `custombib' in the document class option to use this section
 \ifuseCustomBib
-   \RequirePackage[square, sort, numbers, authoryear]{natbib} % CustomBib
+   \RequirePackage[sort, numbers, authoryear]{natbib} % CustomBib
 
 % If you would like to use biblatex for your reference management, as opposed to the default `natbibpackage` pass the option `custombib` in the document class. Comment out the previous line to make sure you don't load the natbib package. Uncomment the following lines and specify the location of references.bib file
 
@@ -134,9 +136,9 @@
 
 % *********** To change the name of Table of Contents / LOF and LOT ************
 
-%\renewcommand{\contentsname}{My Table of Contents}
-%\renewcommand{\listfigurename}{My List of Figures}
-%\renewcommand{\listtablename}{My List of Tables}
+\renewcommand{\contentsname}{Table of Contents}
+\renewcommand{\listfigurename}{List of Figures}
+\renewcommand{\listtablename}{List of Tables}
 
 
 % ********************** TOC depth and numbering depth *************************
@@ -191,3 +193,7 @@
 %\fi
 
 % Example todo: \mynote{Hey! I have a note}
+
+\setlength\parindent{36pt}
+\usepackage{indentfirst}
+\setlength{\parskip}{0pt}

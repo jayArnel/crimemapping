@@ -4,7 +4,7 @@ from models import CriminalRecord
 
 class CriminalRecordResource(ModelResource):
     class Meta:
-        queryset = CriminalRecord.objects.all()
+        queryset = CriminalRecord.objects.all().order_by('date')
         resource_name = 'criminalrecord'
         filtering = {
             'primary_type': ['exact', 'in'],

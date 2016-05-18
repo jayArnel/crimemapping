@@ -5,7 +5,8 @@
 \chapter{Conclusions and Recommendations}  %Title of the Sixth Chapter
 
 \section{Conclusions}
-
+    The model trained better using the cell dimension 750mx750m, monthly timestep and seasonal data. For a relatively new model in this field of application and using just one input, the LSTM model did reasonably well. Improvements could be done though according to the results of the error analysis. The model overfits when using the yearly timestep because there is no enough data. A yearly timestep could only be done if the data spans a longer period of years. Otherwise, other timesteps could be used. The model underifts though when using the weekly timestep. In this case, our model needs more features to help generalize data better.
 \section{Recommendations}
-    There are other kinds of architecture of Recurrent Neural Networks, such as a Gated Recurrent Unit (GRU). It would also be worthwhile to invesWtigate the performance of these implementations.
+    The model should be flexible enough for the different parameter values of timestep and seasonality. If the end-user of user wishes to predict crime hotspots weekly, or even daily, additional features must be introduced. The dataset contains other data that can be used as features for the model. For instance, a criminal record has a location type attribute that describes the nature of the location of the crime. It may be a street, apartment or other land mark. The yearly timestep can best be used when the data spans enough years for the model to avoid overfitting.
+    There are other kinds of architecture of Recurrent Neural Networks, such as a Gated Recurrent Unit (GRU). It would also be worthwhile to investigate the performance of these implementations.
     There are also variations of Long Short-term Memory units. An example is the variation by Alex Graves, which is more suitable to sequence labelling and time series data.

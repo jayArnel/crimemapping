@@ -13,14 +13,14 @@ require([
 
     var crimeMarkers = {};
     var grid = [];
-
+    var crimesPerRequest = 1000;
     var Crimes = new Model('criminalrecord');
     var CityBorder = new Model('cityborder');
     /*
       Set initial map properties
      */
     function initializeMap() {
-        overlay.indeterminate('Initializing map... Please');
+        overlay.indeterminate('Initializing map... Please Wait.');
         $('input').prop('disabled', true);
         CityBorder.objects.filter({'name': 'Chicago'}, function(data){
             var chicago = data[0];
@@ -53,6 +53,8 @@ require([
       $('input[type=checkbox].grid-toggle').on('change', toggleGridSizeChoices);
       $('input[type=radio].grid-size').on('change', drawGrid);
       $('#load-crimes').on('click', filterCrimes);
+      $('input[type=radio][name=display-options]').on('change', displayOptions);
+      $('input[type=file]').on('change', readFile);
     }
     bindActions();
 
@@ -70,6 +72,7 @@ require([
           $('.grid-sizes').removeClass('hide');
         } else {
           $('.grid-sizes').addClass('hide');
+          $('.grid-options input').prop('checked', false);
           for (var i = 0; i < grid.length; i++){
             map.data.remove(grid[i]);
           }
@@ -84,7 +87,7 @@ require([
         var pk = 1;
         var size = +$(this).val();
         $.ajax({
-            url: '/grid',
+            url: '/map/grid',
             type: 'get',
             data: {pk: pk, size: size},
             success: function(response) {
@@ -139,31 +142,49 @@ require([
           $this.find('i').removeClass('hide');
           $this.addClass('disabled');
           var filters = getCrimeFilters();
-          Crimes.objects.filter(filters, function(data) {
-              for (var i = 0; i < data.length; i++) {
-                  var crime = data[i];
-                  var lat = crime.latitude;
-                  var long = crime.longitude;
-                  var marker = new google.maps.Marker({
-                      position: new google.maps.LatLng(lat, long),
-                      map: map,
-                      icon: 'https://maps.gstatic.com/intl/en_us/mapfiles/markers2/measle_blue.png',
-                    });
-                  var date = new Date(crime.date);
-                  crime.date = date.strftime('B d, Y I:Mp');
-                  var info = Mustache.render(crimeInfoTemplate, crime);
-                  var infowindow = new google.maps.InfoWindow({
-                    content: info,
-                  });
-                  marker.addListener('click', function() {
-                    infowindow.open(map, this);
-                  });
-                  crimeMarkers[crime.primary_type].push(marker);
-              }
-              $('input[type=checkbox]').prop('disabled', false);
-              $this.find('i').addClass('hide');
-              $this.removeClass('disabled');
-          });
+          filters['limit'] = crimesPerRequest;
+          filters['offset'] = 0;
+          fetchCrimes();
+          var done = false;
+          function fetchCrimes() {
+              Crimes.objects.filter(filters, function(data) {
+                  console.log(data.length);
+                  if (data.length < crimesPerRequest) {
+                      done = true;
+                  }
+                  for (var i = 0; i < data.length; i++) {
+                      var crime = data[i];
+                      var lat = crime.latitude;
+                      var long = crime.longitude;
+                      var marker = new google.maps.Marker({
+                          position: new google.maps.LatLng(lat, long),
+                          map: map,
+                          icon: 'https://maps.gstatic.com/intl/en_us/mapfiles/markers2/measle_blue.png',
+                        });
+                      var date = new Date(crime.date);
+                      crime.date = date.strftime('B d, Y I:Mp');
+                      var info = Mustache.render(crimeInfoTemplate, crime);
+                      var infowindow = new google.maps.InfoWindow({
+                        content: info,
+                      });
+                      marker.addListener('click', function() {
+                        infowindow.open(map, this);
+                      });
+                      crimeMarkers[crime.primary_type].push(marker);
+                  }
+                  if (done) {
+                      $('input[type=checkbox]').prop('disabled', false);
+                      $this.find('i').addClass('hide');
+                      $this.removeClass('disabled');
+                  } else {
+                      var limit = filters['limit'];
+                      var offset = filters['offset'];
+                      filters['limit'] = limit + crimesPerRequest;
+                      filters['offset'] = offset + crimesPerRequest;
+                      fetchCrimes();
+                  }
+              });
+          }
         }
     }
 
@@ -191,4 +212,85 @@ require([
         }
         return false;
     }
+
+    function visualizeCells() {
+        for (var i = 0; i < grid.length; i++) {
+            var cell = grid[i].getGeometry();
+            var count = 0;
+            poly = new google.maps.Polygon({paths: cell.getAt(0).getArray()});
+            for (var key in crimeMarkers) {
+                var markers = crimeMarkers[key];
+                for (var k = 0; k < markers.length; k++) {
+                    var marker = markers[k];
+                    if (google.maps.geometry.poly.containsLocation(marker.getPosition(), poly)){
+                        count++;
+                    }
+                    marker.setMap(null);
+                }
+            }
+            grid[i].setProperty('count', count);
+            grid[i].setProperty('type', 'cell');
+        }
+        map.data.setStyle(function(feature){
+            var color = 'grey';
+            if (feature.getProperty('type') === 'cell') {
+              if (feature.getProperty('count') > 0) {
+                color = 'red';
+              } else {
+                color = 'green';
+              }
+
+            }
+            return {
+              strokeWeight: 1,
+              fillColor: color,
+            }
+        });
+    }
+
+    function displayOptions() {
+          var val = $(this).val();
+          if (val === 'grid-binary') {
+              visualizeCells();
+          }
+    }
+
+    function readFile(e) {
+        var files = e.target.files;
+
+        for (var i = 0, f; f = files[i]; i++) {
+          var reader = new FileReader();
+          reader.onload = (function(theFile) {
+            return function(e) {
+              loadData(e.target.result)
+            };
+          })(f);
+          reader.readAsText(f);
+        }
+
+        function loadData(data) {
+          var input = data.split(' ');
+          for (var i = 0; i < grid.length; i++) {
+              var cell = grid[i];
+              console.log(parseInt(input[i]));
+              cell.setProperty('count', parseInt(input[i]));
+              cell.setProperty('type', 'cell');
+          }
+          map.data.setStyle(function(feature){
+              var color = 'grey';
+              if (feature.getProperty('type') === 'cell') {
+                if (feature.getProperty('count') > 0) {
+                  color = 'red';
+                } else {
+                  color = 'green';
+                }
+              }
+              return {
+                strokeWeight: 1,
+                fillColor: color,
+              }
+          });
+        }
+    }
+
 });
