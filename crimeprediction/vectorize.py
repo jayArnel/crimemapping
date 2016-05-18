@@ -43,7 +43,7 @@ def vectorize(grid_size, period, crime_type=None, seasonal=False, new=False):
                 'year': "EXTRACT(year FROM date)"
             }
         elif period == 'weekly':
-            vectors = vectorize_weekly(
+            return vectorize_weekly(
                 grid, crime_type=crime_type, seasonal=seasonal)
         elif period == 'monthly':
             rule = rrule.MONTHLY
