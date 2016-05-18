@@ -132,8 +132,7 @@ def vectorize_weekly(grid, crime_type=None, seasonal=False):
     last_data = CriminalRecord.objects.last()
     start = first_data.date
     dtstart = start + timedelta(days=7)
-    # end = last_data.date
-    end = start + timedelta(days=100)
+    end = last_data.date
     if seasonal:
         timesteps = {}
         for dt in rrule.rrule(rrule.WEEKLY, dtstart=dtstart, until=end):
