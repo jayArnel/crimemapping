@@ -26,14 +26,14 @@
 \section{Recurrent Neural Networks}
     Neural networks are one of the most popular machine learning method \citep{razi2005comparative}. They are effective because of their ability to predict complicated nonlinear relations from the input data, model disjoint decisions with random shapes and to determine unknown classes \citep{huang2006real}. But despite their success, traditional neural networks are still faced with the incapacity to predict patterns in time and allow persistence of information \citep{patan2008artificial}. Ironically, neural networks were designed to emulate the connections of the neurons in our brain to model decisions but unlike neural networks, human thoughts have persistence. We derive our decisions by accumulating experience and using them as factors in calculating outcomes and making judgements. A factor may be heavier in one decision than another. Different situations demand different weighing of experience. Our decisions are not just affected by the situation itself but from our previous decisions. Unfortunately, traditional neural networks does not allow persistence of information to have effect on its future predictions.
 
-    \begin{figure}[h]
+    \begin{figure}[H]
     \centering
     \includegraphics[width=2cm]{RNN-rolled}
     \caption{An illustration of a recurrent neural network}
     \end{figure}
     Recurrent neural networks (RNN) solve this predicament. As shown in Figure 2.1, these networks have loops in them that carries persistent information \citep{mikolov2010recurrent}. In traditional neural networks, hidden neurons have weighted connections only to the outputs. In RNNs, in addition to a feed to the output, a hidden neuron has a weighted connection to the hidden layers of the next time step, represented as a loop to itself. This connection represents the persistence of data throughout the timesteps/iterations of data in the network.
 
-    \begin{figure}[h]
+    \begin{figure}[H]
     \centering
     \includegraphics[width=12cm]{RNN-unrolled}
     \caption{An unrolled recurrent neural network}
@@ -45,14 +45,14 @@
 \section{Long Short-term Memory Networks}
     Long Short-term Memory Networks (LSTMs) are a special type of RNN that gracefully deals with the long-term dependency problem \citep{hochreiter1997long}. They are capable of remembering data over long period of time by implementing a more complicated structure in its repeating module.
 
-    \begin{figure}[h]
+    \begin{figure}[H]
     \centering
     \includegraphics[width=12cm]{LSTM3-SimpleRNN}
     \caption{A traditional recurrent neural network has a single layer}
     \end{figure}
     Traditional RNNs have simple recurring layers. Figure 2.3 shows an example of an RNN with a tanh layer in its repeating module. In this network, the current input and the output of the previous layer will be fed to a tanh activation equation and the result will be the output for that layer.
     
-    \begin{figure}[h]
+    \begin{figure}[H]
     \centering
     \includegraphics[width=12cm]{LSTM3-chain}
     \caption{An LSTM layer}
@@ -70,14 +70,14 @@
         \end{itemize}
 
     \subsection{Cell State}
-        \begin{figure}[h]
+        \begin{figure}[H]
         \centering
         \includegraphics[width=14cm]{LSTM3-C-line}
         \caption{The Cell State}
         \end{figure}
         The core idea of LSTMs is to protect and control the cell state. As shown in Figure 2.5, the cell state is like a line traversing through the layers of the network. It holds the information from the previous layers it has passed through. The cell state and the input of the current layer determines the output for that layer. The amount of information that the cell state will carry from the previous layers is determined by a set of interacting gates.
 
-        \begin{figure}[h]
+        \begin{figure}[H]
         \centering
         \includegraphics[width=2cm]{LSTM3-gate}
         \caption{A gate in LSTM}
@@ -87,7 +87,7 @@
         The next parts will explain the three gates in a standard LSTM.
 
     \subsection{Forget Gate}
-        \begin{figure}[h]
+        \begin{figure}[H]
         \centering
         \includegraphics[width=8cm]{LSTM3-focus-f}
         \caption{The forget gate in LSTM}
@@ -97,14 +97,14 @@
     \subsection{Input Gate}
         The next gate in the LSTM is the input gate. This gate updates the old cell state \( C_{t-1} \) to a new cell state \( C_t \). This gate has two parts.
 
-        \begin{figure}[h]
+        \begin{figure}[H]
         \centering
         \includegraphics[width=8cm]{LSTM3-focus-i}
         \caption{The input gate in LSTM}
         \end{figure}
         The first part is a sigmoid layer \( i_t \) that decides the values that will be updated. Next is a tanh layer \(\tilde{C}_t\) that will add new values to cell state. Figure 2.8 shows these two parts.
 
-        \begin{figure}[h]
+        \begin{figure}[H]
         \centering
         \includegraphics[width=8cm]{LSTM3-focus-C}
         \caption{Cell state update}
@@ -112,7 +112,7 @@
         After the input gate, the cell state will be updated with the values of the forget gate and input gate. In our language model example, this is the point where the previous gender of the subject is actually dumped and is updated with the gender of the new subject.
 
     \subsection{Output Gate}
-        \begin{figure}[h]
+        \begin{figure}[H]
         \centering
         \includegraphics[width=8cm]{LSTM3-focus-o}
         \caption{The output gate in LSTM}
