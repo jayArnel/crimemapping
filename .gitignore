@@ -63,6 +63,9 @@ target/
 
 node_modules/
 crimemapping/local_settings.py
+crimeprediction/data/
+crimeprediction/outputs/
+map/data/grids/
 
 # pickles
 *.p
@@ -86,3 +89,4 @@ crimemapping/local_settings.py
 *.ilg
 *.ind
 *.nls
+
