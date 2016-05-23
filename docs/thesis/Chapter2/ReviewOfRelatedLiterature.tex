@@ -29,14 +29,14 @@
     \begin{figure}[H]
     \centering
     \includegraphics[width=2cm]{RNN-rolled}
-    \caption{An illustration of a recurrent neural network}
+    \caption{An illustration of a recurrent neural network \citep{olah2015understanding}}
     \end{figure}
     Recurrent neural networks (RNN) solve this predicament. As shown in Figure 2.1, these networks have loops in them that carries persistent information \citep{mikolov2010recurrent}. In traditional neural networks, hidden neurons have weighted connections only to the outputs. In RNNs, in addition to a feed to the output, a hidden neuron has a weighted connection to the hidden layers of the next time step, represented as a loop to itself. This connection represents the persistence of data throughout the timesteps/iterations of data in the network.
 
     \begin{figure}[H]
     \centering
     \includegraphics[width=12cm]{RNN-unrolled}
-    \caption{An unrolled recurrent neural network}
+    \caption{An unrolled recurrent neural network \citep{olah2015understanding}}
     \end{figure}
     Figure 2.2 shows a recurrent neural network with its loops unrolled. The chain-like structure it illustrates hints that recurrent neural networks are related with sequences and lists. RNNs have been effective for a wide range of problems that deals with a series of data including speech recognition, image processing and language modeling \citep{olah2015understanding}.
 
@@ -48,14 +48,14 @@
     \begin{figure}[H]
     \centering
     \includegraphics[width=12cm]{LSTM3-SimpleRNN}
-    \caption{A traditional recurrent neural network has a single layer}
+    \caption{A traditional recurrent neural network has a single layer \citep{olah2015understanding}}
     \end{figure}
     Traditional RNNs have simple recurring layers. Figure 2.3 shows an example of an RNN with a tanh layer in its repeating module. In this network, the current input and the output of the previous layer will be fed to a tanh activation equation and the result will be the output for that layer.
     
     \begin{figure}[H]
     \centering
     \includegraphics[width=12cm]{LSTM3-chain}
-    \caption{An LSTM layer}
+    \caption{An LSTM layer \citep{olah2015understanding}}
     \end{figure}
     LSTMs, on the other hand, use a different structure that employs four activation layers. Figure 2.4 illustrates how these layers interact with one another. The next section will elaborately explain the operations and elements involved in an LSTM layer.
 
@@ -73,14 +73,14 @@
         \begin{figure}[H]
         \centering
         \includegraphics[width=14cm]{LSTM3-C-line}
-        \caption{The Cell State}
+        \caption{The Cell State \citep{olah2015understanding}}
         \end{figure}
         The core idea of LSTMs is to protect and control the cell state. As shown in Figure 2.5, the cell state is like a line traversing through the layers of the network. It holds the information from the previous layers it has passed through. The cell state and the input of the current layer determines the output for that layer. The amount of information that the cell state will carry from the previous layers is determined by a set of interacting gates.
 
         \begin{figure}[H]
         \centering
         \includegraphics[width=2cm]{LSTM3-gate}
-        \caption{A gate in LSTM}
+        \caption{A gate in LSTM \citep{olah2015understanding}}
         \end{figure}
         Gates control how much of the information will pass through to the next layer in the cell state. It is made up of a sigmoid neural net layer and a multiplication operation, as shown in Figure 2.6. The sigmoid layer will have a value between zero or one, indicating how much of the current cell state will be let through. Zero multiplied with the current cell state will always be zero so this means that nothing will be let through. One, on the other hand, means everything will be let through.
 
@@ -90,7 +90,7 @@
         \begin{figure}[H]
         \centering
         \includegraphics[width=8cm]{LSTM3-focus-f}
-        \caption{The forget gate in LSTM}
+        \caption{The forget gate in LSTM \citep{olah2015understanding}}
         \end{figure}
         The first gate in the LSTM is called the forget gate. This gate decides how much of the input of the current layer and the output of the previous layer will be forgotten. Figure 2.7 shows the structure of this gate and the corresponding equation. For instance, in a language model that will check for correct pronouns (e.g. his or her), the gender of the subjects in the previous sentences will be forgotten when a new subject is encountered.
 
@@ -100,14 +100,14 @@
         \begin{figure}[H]
         \centering
         \includegraphics[width=8cm]{LSTM3-focus-i}
-        \caption{The input gate in LSTM}
+        \caption{The input gate in LSTM \citep{olah2015understanding}}
         \end{figure}
         The first part is a sigmoid layer \( i_t \) that decides the values that will be updated. Next is a tanh layer \(\tilde{C}_t\) that will add new values to cell state. Figure 2.8 shows these two parts.
 
         \begin{figure}[H]
         \centering
         \includegraphics[width=8cm]{LSTM3-focus-C}
-        \caption{Cell state update}
+        \caption{Cell state update \citep{olah2015understanding}}
         \end{figure}
         After the input gate, the cell state will be updated with the values of the forget gate and input gate. In our language model example, this is the point where the previous gender of the subject is actually dumped and is updated with the gender of the new subject.
 
@@ -115,7 +115,7 @@
         \begin{figure}[H]
         \centering
         \includegraphics[width=8cm]{LSTM3-focus-o}
-        \caption{The output gate in LSTM}
+        \caption{The output gate in LSTM \citep{olah2015understanding}}
         \end{figure}
         The last part of the LSTM will determine the output to the next layer. The cell state is fed through a tanh layer and then multiplied with a sigmoid layer. The sigmoid layer is similar to the forget gate but instead of determining how much we want to forget the current input and previous output, this layer will determine how much we want to remember. Multiplying it with the tanh layer will result to the parts that we want to output. This will result to a filtered version of the cell state. In our language model example, plurality of the new subject or the tense of the subject's action could be added in order to correctly check the proper pronoun.
 
