@@ -4,5 +4,5 @@ import views
 
 urlpatterns = [
     url(r'^$', views.HomeView.as_view(), name='home'),
-    url(r'^(?P<name>[\w-]+)/$', views.MapView.as_view(), name='map'),
+    url(r'^map/(?P<name>[\w-]+)/$', views.MapView.as_view(), name='map'),
 ]
