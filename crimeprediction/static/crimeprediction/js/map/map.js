@@ -1,6 +1,6 @@
 require([
-    'model','jquery', 'mustache', 'strftime', 'map/js/overlay/overlay',
-    'text!mustachetemplates/crime-info.html', 'map/js/menu/menu', 'gmaps'
+    'model','jquery', 'mustache', 'strftime','crimeprediction/js/overlay/overlay',
+    'text!crimeprediction/mustachetemplates/map/crime-info.html', 'crimeprediction/js/map/menu', 'gmaps'
 ], function(Model, $, Mustache, strftime, overlay, crimeInfoTemplate) {
     /*
       Initialize variables
