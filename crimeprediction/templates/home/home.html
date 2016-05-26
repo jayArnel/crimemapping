@@ -1,6 +1,6 @@
 {% extends 'core/base.html' %}
 {% block page_content %}
-    {% include 'nav.html' %}
+    {% include 'nav/nav.html' %}
     <div class="container">
           <div class="row center">
             <h1 class="header col s12">Welcome!</h1>
@@ -13,7 +13,7 @@
             <div class="col s12 m3">
                 <div class="card">
                     <div class="card-image">
-                        <img src="{{STATIC_URL}}map/img/chicago.png">
+                        <img src="{{STATIC_URL}}crimeprediction/img/map/chicago.png">
                     </div>
                     <div class="card-action">
                         <a href="map/Chicago">Chicago, IL. USA</a>

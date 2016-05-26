@@ -1,7 +1,7 @@
 (function(root, library) {
     if (typeof define === 'function' && define.amd) {
         define([
-            'jquery', 'text!mustachetemplates/overlay.html'
+            'jquery', 'text!crimeprediction/mustachetemplates/map/overlay.html'
         ], library);
     } else {
         root.ThreadComments = library(root.jQuery);
