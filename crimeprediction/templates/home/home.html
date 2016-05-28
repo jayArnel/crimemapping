@@ -1,25 +1,17 @@
 {% extends 'core/base.html' %}
 {% block page_content %}
     {% include 'nav/nav.html' %}
-    <div class="container">
-          <div class="row center">
-            <h1 class="header col s12">Welcome!</h1>
-            <h5 class="header col s12 light">This is the interface for the study Crime Modeling and Prediction using Recurrent Neural Networks with Long Short-term Memory Architecture</h5>
-          </div>
-    </div>
-    <div class="container">
-          <div class="row center map-list">
-            <h5 class="header col s12">Get started with the maps</h5>
-            <div class="col s12 m3">
-                <div class="card">
-                    <div class="card-image">
-                        <img src="{{STATIC_URL}}crimeprediction/img/map/chicago.png">
-                    </div>
-                    <div class="card-action">
-                        <a href="map/Chicago">Chicago, IL. USA</a>
-                    </div>
-                </div>
+    <div class="section no-pad-bot" id="index-banner">
+        <div class="container">
+            <br><br>
+            <h1 class="header center orange-text">Welcome!</h1>
+            <div class="row center">
+                <h5 class="header col s12 light">This is the interface for the study Crime Modeling and Prediction using Recurrent Neural Networks with Long Short-term Memory Architecture</h5>
             </div>
-          </div>
+            <div class="row center">
+                <a href="#" id="download-button" class="btn-large waves-effect waves-light orange">Get Started</a>
+            </div>
+            <br><br>
+        </div>
     </div>
 {% endblock %}
