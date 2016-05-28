@@ -982,6 +982,21 @@ wish to left align your text}
 \end{singlespace}
 }
 
+% ****************************** Certification ********************************
+% The certificate environment puts a large, bold, centered
+% "Certification" label at the top of the page.
+
+\newcommand*{\SignatureAndDate}[1]{%
+    \par\noindent\makebox[2.5in]{\hrulefill} \hfill\makebox[2.0in]{\hrulefill}%
+    \par\noindent\makebox[2.5in][c]{\textbf{#1}}      \hfill\makebox[2.0in][c]{\textbf{Date Signed}}%
+}
+
+\newenvironment{certification}{
+\setsinglecolumn
+\chapter*{\centering \Large Certification}
+\thispagestyle{empty}
+}
+
 
 % ********************************* Dedication *********************************
 % The dedication environment makes sure the dedication gets its
