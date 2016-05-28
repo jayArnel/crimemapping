@@ -17,7 +17,7 @@
     \subsection{City Boundaries}
         The data for the boundaries of Chicago City was downloaded from the city's official data portal at data.cityofchicago.org. The downloaded file is of zip format containing the different shape files representing the data for the city boundaries. The data was imported to the database via GeoDjango's LayerMapping data import utility. The boundary of Chicago city are saved in the database as a CityBorder model instance.
     \subsection{Criminal Records}
-        The criminal records of the Chicago is from their dataset that is also on data.cityofchicago.org. The dataset can be accessed using the Socrata Open Data API (SODA). The criminal records were fetched and saved in the database via sodapy, a package that binds SODA with Python. These records are represented by the CriminalRecord model. The criminal records in the dataset spans from 2001 to 2016. Though the dataset is frequently updated, this study used the criminal records within that given periond.
+        The criminal records of the Chicago is from their dataset that is also in the city's data portal. The dataset can be accessed using the Socrata Open Data API (SODA). The criminal records were fetched and saved in the database via sodapy, a package that binds SODA with Python. These records are represented by the CriminalRecord model. The criminal records in the dataset spans from 2001 to 2016. Though the dataset is frequently updated, this study used the criminal records within that given periond.
 
 \section{Generating the Grid}
     \begin{figure}[H]

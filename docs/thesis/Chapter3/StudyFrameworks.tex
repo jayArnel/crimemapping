@@ -34,7 +34,7 @@ Error analysis is done to the model in order to understand its performance and d
 \begin{figure}[H]
     \centering
     \includegraphics[width=12cm]{plot-bias-variance-examples}
-    \caption{Learning curves of models suffering from high-bias(left) and high-variance(right) \citep{scikit-learn}}
+    \caption{Learning curves showing high-bias(left) and high-variance(right) \citep{scikit-learn}}
 \end{figure}
 
 Figure 3.2 shows an example of learning curves of models suffering from high-bias and high-variance. In the left graph, both error curves are very high and overlap each other. This is a case of high-bias error or underfitting. The model fails to achieve a generalization for the set of training examples. To solve underfitting, it will help to add more features so that the model have more parameters to learn from and therefore achieve generalizations better. On the other hand, the right graph shows a case of high-variance error or overfitting. It is characterized by the convergence of the training error and the validation error to a relatively low value while maintaining a large gap in between. The model, in this case, over-generalized the training examples that it fails to predict the correct outputs during validation. To solve this problem, the model should use fewer or simpler features and use more training examples to avoid over-generalizing the data.
