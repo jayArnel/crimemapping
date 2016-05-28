@@ -1028,8 +1028,8 @@ wish to left align your text}
 }
 
 % ****************************** Profile ********************************
-% The acknowledgements environment puts a large, bold, centered
-% "Acknowledgements" label at the top of the page.
+% The profile environment puts a large, bold, centered
+% "Researcher's Profile" label at the top of the page.
 
 \newenvironment{profile}{
 \setsinglecolumn
