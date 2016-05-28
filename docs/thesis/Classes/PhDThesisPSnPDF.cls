@@ -986,9 +986,9 @@ wish to left align your text}
 % The certificate environment puts a large, bold, centered
 % "Certification" label at the top of the page.
 
-\newcommand*{\SignatureAndDate}[1]{%
-    \par\noindent\makebox[2.5in]{\hrulefill} \hfill\makebox[2.0in]{\hrulefill}%
-    \par\noindent\makebox[2.5in][c]{\textbf{#1}}      \hfill\makebox[2.0in][c]{\textbf{Date Signed}}%
+\newcommand*{\SignatureAndDate}[2]{%
+    \par\noindent\underline{\makebox[2.5in][c]{#1}} \hfill\makebox[2.0in]{\hrulefill}%
+    \par\noindent\makebox[2.5in][c]{\textbf{#2}}      \hfill\makebox[2.0in][c]{\textbf{Date Signed}}%
 }
 
 \newenvironment{certification}{
