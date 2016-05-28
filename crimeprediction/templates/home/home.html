@@ -1,25 +1,50 @@
 {% extends 'core/base.html' %}
 {% block page_content %}
     {% include 'nav/nav.html' %}
-    <div class="container">
-          <div class="row center">
-            <h1 class="header col s12">Welcome!</h1>
-            <h5 class="header col s12 light">This is the interface for the study Crime Modeling and Prediction using Recurrent Neural Networks with Long Short-term Memory Architecture</h5>
-          </div>
-    </div>
-    <div class="container">
-          <div class="row center map-list">
-            <h5 class="header col s12">Get started with the maps</h5>
-            <div class="col s12 m3">
-                <div class="card">
-                    <div class="card-image">
-                        <img src="{{STATIC_URL}}crimeprediction/img/map/chicago.png">
-                    </div>
-                    <div class="card-action">
-                        <a href="map/Chicago">Chicago, IL. USA</a>
-                    </div>
-                </div>
+    <div class="section no-pad-bot" id="index-banner">
+        <div class="container">
+            <br><br>
+            <h1 class="header center orange-text">Welcome!</h1>
+            <div class="row center">
+                <h5 class="header col s12 light">This is the interface for the study Crime Modeling and Prediction using Recurrent Neural Networks with Long Short-term Memory Architecture</h5>
             </div>
-          </div>
+            <div class="row center">
+                <a href="#" id="download-button" class="btn-large waves-effect waves-light orange">Get Started</a>
+            </div>
+            <br><br>
+        </div>
     </div>
+    <footer class="page-footer orange">
+        <div class="container">
+            <div class="row">
+                <div class="col l6 s12">
+                <h5 class="white-text">About</h5>
+                <p class="grey-text text-lighten-4">This is part of the course requirements of Jay Arnel Bilocura for CMSC 192.2 (Special Problem II) as a student of the Department of Computer Science of the University of the Philippines Cebu.</p>
+            </div>
+            <div class="col l3 s12">
+                <h5 class="white-text">Relevant Links</h5>
+                <ul>
+                    <li><a class="white-text" href="http://deeplearning.net/tutorial/lstm.html">Deep Learning</a></li>
+                    <li><a class="white-text" href="http://colah.github.io/posts/2015-08-Understanding-LSTMs/">Understand LSTM Networks</a></li>
+                    <li><a class="white-text" href="http://blog.terminal.com/demistifying-long-short-term-memory-lstm-recurrent-neural-networks/">Demystifying LSTM Networks</a></li>
+                    <li><a class="white-text" href="http://keras.io/">Keras</a></li>
+                    <li><a class="white-text" href="http://geodjango.org/">GeoDjango</a></li>
+                    <li><a class="white-text" href="https://data.cityofchicago.org/">City of Chicago Data Portal</a></li>
+                </ul>
+            </div>
+            <div class="col l3 s12">
+                <h5 class="white-text">More</h5>
+                <ul>
+                    <li><a class="white-text" href="https://github.com/jayArnel/crimemapping">Code</a></li>
+                    <li><a class="white-text" href="#!">Documentation</a></li>
+                </ul>
+            </div>
+            </div>
+        </div>
+        <div class="footer-copyright">
+            <div class="container">
+            Made using <a class="orange-text text-lighten-3" href="http://materializecss.com">Materialize</a>
+            </div>
+        </div>
+    </footer>
 {% endblock %}
