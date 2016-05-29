@@ -1,11 +1,5 @@
-%*******************************************************************************
-%*********************************** First Chapter *****************************
-%*******************************************************************************
-
-\chapter{Introduction}  %Title of the First Chapter
-
-%********************************** %First Section  **************************************
-\section{Rationale} %Section - 1.1
+\chapter{Introduction}
+\section{Rationale}
 
     Crimes have always been a detrimental problem for humanity. Although the world has seen a general drop in crime trends especially in developed countries \citep{dijk2007criminal}, it is still undeniable that crimes have negative impact on the quality of life. Victims of crimes suffer receded productivity in performing their roles in society such as parenting, intimate relationships and occupational responsibilities \citep{hanson2010impact}. Furthermore, it is not just the direct victims of crime that suffer but those surrounding them as well. For instance, children in households with intimate-partner violence (IPV) experience adverse consequences from the maltreatment to one of their parents \citep{casanueva2008quality}. Being in a violent household gives them psychological and emotional stress that may affect their character development. Crime doesn’t only have social implications but have economic effects as well. As many as 30\% of failed businesses can be attributed to criminal activities \citep{bressler2009impact}. With all these adverse repercussions that crimes pose to society, it is of utmost importance that criminal activities be prevented or at least be dealt with immediately.
 
@@ -15,8 +9,7 @@
 
     This study aims to aid police officers by developing a machine learning model that will generate predictions of crime hotspots. The generated prediction will valuably help the police to efficiently deploy their assets by directing their efforts to where it may be needed the most. This study is an extension of Jonathan Tumulak's study entitled \textit{Crime Modelling and Prediction Using Neural Networks} \citeyearpar{tumulak2015crime}. Instead of a traditional neural network, the machine learning model for this study employs another Deep Learning technique called a recurrent neural network (RNN) with a long short-term memory (LSTM) architecture. This model is used in order to take advantage of the recurrent nature of crime \citep{perc2013understanding}.
 
-%********************************** %Second Section  **************************************
-\section{Statement of the Problem} %Section - 1.2
+\section{Statement of the Problem}
 
     Crimes do not just happen in some place and time randomly \citep{brantingham2005modeling}. Criminal activities tend to clump in areas and are thinned out in others. Police can use this knowledge to efficiently deploy resources based on where crime may likely to occur and how to respond \citep{eck2005mapping}. That is why it is important to map and predict hotspots of criminal activities as accurately as possible so that the police will be guided properly.
 
@@ -25,8 +18,7 @@
         \item Can a machine learning model built upon a Recurrent Neural Network with Long Short-term Memory architecture predict crime hotspots with sufficient accuracy by learning from criminal records?
         \end{itemize}
 
-%********************************** %Third Section  **************************************
-\section{Objectives of the Study} %Section - 1.3
+\section{Objectives of the Study}
 
 To accurately predict hotspots of criminal activities, this study aims:
         \begin{itemize}
@@ -36,14 +28,12 @@ To accurately predict hotspots of criminal activities, this study aims:
         \item To test and validate the model if it has performed accurately.
         \end{itemize}
 
-%********************************** %Fourth Section  **************************************
-\section{Significance of the Study} %Section - 1.4
+\section{Significance of the Study}
 
     Accurately forecasting crime hotspots will be of valuable help to the police to guide their decisions in efficiently allocating their assets to areas where crime will mostly occur \citep{eck2005mapping}. This study aims to develop and train a machine learning model that will give such accurate predictions.
 
     According to \citet{perc2013understanding}, crime exhibits a recurrent behavior despite of type and severity. Unfortunately, a traditional feedforward neural network cannot adapt to recurrent patterns and form memory to hold a history of previous information \citep{mikolov2010recurrent}. As an extension of Tumulak's study \citeyearpar{tumulak2015crime} that used traditional feedforward neural networks, this study will use recurrent neural networks, a kind of neural network that has the ability to allow persistence of information from previous data \citep{graves2012supervised}. By using this kind of network, the machine learning model might yield better results by adapting to the recurrent nature of crime.
 
-%********************************** %Fifth Section  **************************************
-\section{Scopes and Limitations} %Section - 1.5
+\section{Scopes and Limitations}
 
     The study area will be the city of Chicago. The study aims to predict and map potential crime hotspots within the city boundaries. Criminal records in consideration are those available in the dataset. The RNN model used in the study is built using Keras \citeyearpar{chollet2015keras}, a Deep Learning library in Python. The library was chosen because its LSTM module implements the original variant introduced by Hochreiter and Schmidhuber \citeyearpar{hochreiter1997long}. The kind of LSTM used in the study is just a bare-bone type of LSTM, which means no additional initializations and parameterization were used other than the default ones implemented by the library. The model will use only one feature for its inputs, which is the presence or absence of crime.
