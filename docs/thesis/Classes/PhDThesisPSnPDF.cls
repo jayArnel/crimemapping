@@ -992,6 +992,17 @@ wish to left align your text}
 \thispagestyle{empty}
 }
 
+% ***************************** Approval Sheet ********************************
+% The approval environment sets up the approval sheet and adds a large
+% 'Approval Sheet' label at the top of the page
+
+\newenvironment{approval}{
+\centering
+\setsinglecolumn
+\chapter*{\centering \Large Approval Sheet}
+\thispagestyle{empty}
+}
+
 
 % ****************************** Certification ********************************
 % The certificate environment puts a large, bold, centered
