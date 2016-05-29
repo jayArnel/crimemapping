@@ -982,6 +982,17 @@ wish to left align your text}
 \end{singlespace}
 }
 
+
+% ****************************** Permission ********************************
+% The permission environment sets up the permission page
+
+\newenvironment{permission}{
+\centering
+\setsinglecolumn
+\thispagestyle{empty}
+}
+
+
 % ****************************** Certification ********************************
 % The certificate environment puts a large, bold, centered
 % "Certification" label at the top of the page.
