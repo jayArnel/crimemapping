@@ -1150,6 +1150,7 @@ wish to left align your text}
 % Normal abstract in the thesis
 	\cleardoublepage
 	\setsinglecolumn
+  \singlespacing
 	\chapter*{\centering \Large Abstract}
   \addcontentsline{toc}{chapter}{Abstract}
 	\thispagestyle{empty}
