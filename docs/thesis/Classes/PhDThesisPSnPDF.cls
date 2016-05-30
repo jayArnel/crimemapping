@@ -1150,6 +1150,7 @@ wish to left align your text}
 	\cleardoublepage
 	\setsinglecolumn
 	\chapter*{\centering \Large Abstract}
+  \addcontentsline{toc}{chapter}{Abstract}
 	\thispagestyle{empty}
 \fi
 }
