@@ -1050,6 +1050,7 @@ wish to left align your text}
 \newenvironment{profile}{
 \setsinglecolumn
 \chapter*{\centering \Large Researcher's Profile}
+\addcontentsline{toc}{chapter}{Researcher's Profile}
 \thispagestyle{empty}
 }
 
