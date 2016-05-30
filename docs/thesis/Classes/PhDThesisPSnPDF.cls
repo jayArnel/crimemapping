@@ -1039,6 +1039,7 @@ wish to left align your text}
 \cleardoublepage
 \setsinglecolumn
 \chapter*{\centering \Large Acknowledgements}
+\addcontentsline{toc}{chapter}{Acknowledgements}
 \thispagestyle{empty}
 }
 
