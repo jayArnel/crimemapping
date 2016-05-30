@@ -17,14 +17,14 @@ Machine learning starts by generating our data vectors. Meaningful data is extra
 
 The LSTM model is then trained with this data in order to learn the nature of crime with respect to the cells in the grid. The LSTM network learns by storing data representation of previous input events in forms of activation embodied by the weighted connections between gates and inputs/outputs \citep{hochreiter1997long}. It processes data using the following set of functions as described by Graves \citeyearpar{graves2013generating} and as illustrated and explained in Section 2.6 of this paper. The output \( h_t \) of the LSTM layer at timestep $t$ is the function of the input for the input \( x_t \) and the output \( h_{t-1} \) and cell state \( C_{t-1} \) of the layer from the previous timestep by:
     \begin{align}
-    i_t &= \sigma(x_t W_{xi} + h_{t-1} W_{hi} + C_{t-1} W_{Ci} + b_i) \\
-    f_t &= \sigma(x_t W_{xf} + h_{t-1} W_{hf} + C_{t-1} W_{Cf} + b_f) \\
-    C_t &= f_t C_{t-1} + i_t \tanh(x_t W_{xC} + h_{t-1} W_{hC} + b_C) \\
-    o_t &= \sigma(x_t W_{xo} + h_{t-1} W_{ho} + C_t W_{Co} + b_o) \\
-    h_t &= o_t \tanh(C_t)
+    i_t &= \sigma(x_t W_{xi} + h_{t-1} W_{hi} + C_{t-1} W_{Ci} + b_i) \label{eq:input}\\
+    f_t &= \sigma(x_t W_{xf} + h_{t-1} W_{hf} + C_{t-1} W_{Cf} + b_f) \label{eq:forget}\\
+    C_t &= f_t C_{t-1} + i_t \tanh(x_t W_{xC} + h_{t-1} W_{hC} + b_C) \label{eq:cell}\\
+    o_t &= \sigma(x_t W_{xo} + h_{t-1} W_{ho} + C_t W_{Co} + b_o) \label{eq:output} \\
+    h_t &= o_t \tanh(C_t) \label{eq:h}
     \end{align}
 
-The three gates of an LSTM, namely the input \( i_t \), forget \( f_t \) and output \( o_t \) gates are activated for the current timestep $t$ using the equations (3.1), (3.2) and (3.4) respectively. The cell state for the layer \( C_t \) is updated using equation (3.3). Finally, the output for the current layer \( h_t \) is produced by equation (3.5). The value \(W_{ab}\) is the weighted connection between $a$ and $b$ so \(W_{xC}\), for instance, denotes the weighted connection between the input node of the current layer and the cell state. The LSTM network goes through all the inputs and outputs and adjusts its weight matrix, or the different values of $W$, accordingly. The final model is a set of weight matrix that is applied to future inputs to predict outputs.
+The three gates of an LSTM, namely the input \( i_t \), forget \( f_t \) and output \( o_t \) gates are activated for the current timestep $t$ using the Equations \ref{eq:input}, \ref{eq:forget} and \ref{eq:output} respectively. The cell state for the layer \( C_t \) is updated using Equation \ref{eq:cell}. Finally, the output for the current layer \( h_t \) is produced by Equation \ref{eq:h}. The value \(W_{ab}\) is the weighted connection between $a$ and $b$ so \(W_{xC}\), for instance, denotes the weighted connection between the input node of the current layer and the cell state. The LSTM network goes through all the inputs and outputs and adjusts its weight matrix, or the different values of $W$, accordingly. The final model is a set of weight matrix that is applied to future inputs to predict outputs.
 
 After training, the LSTM model must undergo tests and experiments as part of machine learning in order to assess its performance. It is important to measure the accuracy and precision of the model in order to evaluate if it performed well or not. To understand why it performed as such, error analysis is also done.
 
