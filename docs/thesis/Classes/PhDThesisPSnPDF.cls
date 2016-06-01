@@ -983,6 +983,38 @@ wish to left align your text}
 }
 
 
+% ****************************** Permission ********************************
+% The permission environment sets up the permission page
+
+\newenvironment{permission}{
+\centering
+\setsinglecolumn
+\thispagestyle{empty}
+}
+
+% ***************************** Approval Sheet ********************************
+% The approval environment sets up the approval sheet and adds a large
+% 'Approval Sheet' label at the top of the page
+
+\newenvironment{approval}{
+\centering
+\setsinglecolumn
+\chapter*{\centering \Large Approval Sheet}
+\thispagestyle{empty}
+}
+
+
+% ****************************** Certification ********************************
+% The certificate environment puts a large, bold, centered
+% "Certification" label at the top of the page.
+
+\newenvironment{certification}{
+\setsinglecolumn
+\chapter*{\centering \Large Certification}
+\thispagestyle{empty}
+}
+
+
 % ********************************* Dedication *********************************
 % The dedication environment makes sure the dedication gets its
 % own page, centered
@@ -1024,16 +1056,18 @@ wish to left align your text}
 \cleardoublepage
 \setsinglecolumn
 \chapter*{\centering \Large Acknowledgements}
+\addcontentsline{toc}{chapter}{Acknowledgements}
 \thispagestyle{empty}
 }
 
 % ****************************** Profile ********************************
-% The acknowledgements environment puts a large, bold, centered
-% "Acknowledgements" label at the top of the page.
+% The profile environment puts a large, bold, centered
+% "Researcher's Profile" label at the top of the page.
 
 \newenvironment{profile}{
 \setsinglecolumn
 \chapter*{\centering \Large Researcher's Profile}
+\addcontentsline{toc}{chapter}{Researcher's Profile}
 \thispagestyle{empty}
 }
 
@@ -1133,7 +1167,9 @@ wish to left align your text}
 % Normal abstract in the thesis
 	\cleardoublepage
 	\setsinglecolumn
+  \singlespacing
 	\chapter*{\centering \Large Abstract}
+  \addcontentsline{toc}{chapter}{Abstract}
 	\thispagestyle{empty}
 \fi
 }
