@@ -4,7 +4,7 @@
 
 \begin{document}
     \begin{center}
-    \includegraphics[width=0.15\textwidth]{Unibersidad_ng_Pilipinas}
+    \includegraphics[width=0.1\textwidth]{Unibersidad_ng_Pilipinas}
     \par\Large\MakeUppercase{\textbf{Crime Modeling and Prediction using Recurrent Neural Networks with Long Short-term Memory Architecure}}
     \par Jay Arnel D. Bilocura, Kurt Junshean P. Espinosa
     \par Machine Learning Group, Department of Computer Science
@@ -21,37 +21,41 @@
     \centering
     \includegraphics[width=1\textwidth]{methodology}
     \caption{Conceptual flow of the methodology}
+    \label{fig:methodology}
     \end{figure}
 
-    The image above illustrates the conceptual flow of the methodology. First, the grid is generated using GeoDjango and GeoPy methods depending on the cell dimensions, which could be 500mx500m, 750mx750m, 1000mx1000m. Using Django/SQL query methods, we obtain the data vector by obtaining the presence or absence of crimes in the cells of a grid as 1s and -1s and split them by timestep (weekly, monthly or yearly) and then either arrange the sequences seasonally or not. The LSTM network is then trained on the data vector for 1000 epochs with default parameterization. A series of tests and experiments are then performed to measure the performance of the LSTM network. The performance of the LSTM network is then evaluated using error analysis by graphing the learning curve, which is the value of the training error and cross-validation error of the model across different training sizes.
+    Figure \ref{fig:methodology} above illustrates the conceptual flow of the methodology. First, the grid is generated using GeoDjango and GeoPy methods depending on the cell dimensions, which could be 500mx500m, 750mx750m, 1000mx1000m. Using Django/SQL query methods, we obtain the data vector by obtaining the presence or absence of crimes in the cells of a grid as 1s and -1s and split them by timestep (weekly, monthly or yearly) and then either arrange the sequences seasonally or not. The LSTM network is then trained on the data vector for 1000 epochs with default parameterization. A series of tests and experiments are then performed to measure the performance of the LSTM network. The performance of the LSTM network is then evaluated using error analysis by graphing the learning curve, which is the value of the training error and cross-validation error of the model across different training sizes.
     \section{Results and Discussions}
     The model is experimented under different cell dimensions, timestep, and use of seasonality. The graphs below show the values of the model's accuracy and F1 score in each set of experiments.
 
     \begin{figure}[ht]
     \centering
     \includegraphics[width=0.6\textwidth]{dimensions-experiments}
-    \caption{Results of  the experiments under different cell dimensions}
+    \caption{Results of the experiments under different cell dimensions}
+    \label{fig:dimension-experiments}
     \end{figure}
 
-    The figure above shows that the LSTM network performed better when the grid uses 750mx750m cell dimension. Also, the network performs fairly in 1000mx1000m cell dimension and worst using 500mx500m cell dimension.
+    Figure \ref{fig:dimension-experiments} above shows that the LSTM network performed better when the grid uses 750mx750m cell dimension. Also, the network performs fairly in 1000mx1000m cell dimension and worst using 500mx500m cell dimension.
 
     \begin{figure}[ht]
     \centering
     \includegraphics[width=0.6\textwidth]{timestep-experiment}
-    \caption{Results of  the experiments under different timestep}
+    \caption{Results of the experiments under different timestep}
+    \label{fig:timestep-experiments}
     \end{figure}
 
-    In the next set of experiments, the LSTM network performs best using the monthly timestep. It performs second-best using the yearly timestep and worst using the weekly timestep.
+    In the next set of experiments, the LSTM network performs best using the monthly timestep. It performs second-best using the yearly timestep and worst using the weekly timestep. The results of the experiments are shown above in Figure \ref{fig:timestep-experiments}
 
     \begin{figure}[ht]
     \centering
     \includegraphics[width=0.6\textwidth]{seasonal-experiments}
     \caption{Results of  the experiments under seasonal and non-seasonal data}
+    \label{fig:seasonal-experiments}
     \end{figure}
 
-    Between seasonal and non-seasonal data, the LSTM network works slightly better using the seasonal data.
+    Figure \ref{fig:seasonal-experiments} shows the results of the experiments on the model using seasonal and non-seasonal data. The LSTM network works slightly better using the seasonal data with a higher F1 score and accuracy.
 
-    The results were analyzed by evaluating the performance of the model through error analysis. The learning curves of the model are shown below.
+    The results were analyzed by evaluating the performance of the model through error analysis. Learning curves were generated by plotting the values of the training error and cross-validation error over different training sizes. The behavior of the learning curves is analyzed to determine if the model suffered from high-variance error or high-bias error. High variance or overfitting happens when the model over-generalized the training examples that it fails to predict the correct outputs during validation. High bias or underfitting, on the other hand, happens when the model fails to achieve a generalization for the set of training examples.
 
     \begin{figure}
     \label{fig:dimension-learning-curve}
@@ -61,7 +65,7 @@
     \caption{Learning curves of the model in different cell dimensions for the same timestep}
     \end{figure}
 
-    The figure above shows the different learning curves of the model in different cell dimensions for the same timestep. The behavior of the training error and cross-validation error in both learning curves are almost similar, they tend to converge at the end but they have big gaps between them. Both instances of the model suffer from high variance. This may be because the yearly timestep yields only up to 16 samples with only 10 available for training. This low training sample size makes the model overfit. The graph shows that the variance or bias of the model is not affected by the cell dimension used.
+    The figure above shows the different learning curves of the model in different cell dimensions for the same timestep. The behavior of the training error and cross-validation error in both learning curves are almost similar, they tend to converge at the end but they have big gaps between them. Both instances of the model suffer from high variance or overfitting. This may be because the yearly timestep yields only up to 16 samples with only 10 available for training. This low training sample size makes the model overfit. The graph shows that the variance or bias of the model is not affected by the cell dimension used.
 
     \begin{figure}
       \centering
@@ -73,7 +77,7 @@
     Figure \ref{fig:learning-curve2} shows the graph of the training error and cross-validation error of the model in a 1000mx1000m cell dimension and weekly timestep. Compared to the same model but with yearly timestep, this model suffers from high bias. The training error and cross-validation overlap each other and are almost of the same value. Weekly timestep, on the contrary to yearly timestep, yields a lot of data with respect to the number of features used. The model under this condition will underfit and fail to generalize the data. To reduce underfitting, more features must be fed to the model so that it can have more input to help it generalize data better.
 
     \section {Conclusions and Recommendations}
-    The model trained better using the cell dimension 750mx750m, monthly timestep and seasonal data. For a relatively new model in this field of application and using just one input, the LSTM model did reasonably well. Improvements could be done though according to the results of the error analysis. The model overfits when using the yearly timestep because there is no enough data. A yearly timestep could only be done if the data spans a longer period of years. Otherwise, other timesteps could be used. The model underifts though when using the weekly timestep. In this case, our model needs more features to help generalize data better. The model should be flexible enough for the different parameter values of timestep and seasonality. If the end-user of user wishes to predict crime hotspots weekly, or even daily, additional features must be introduced. The dataset contains other data that can be used as features for the model. For instance, a criminal record has a location type attribute that describes the nature of the location of the crime. It may be a street, apartment or other land mark. The yearly timestep can best be used when the data spans enough years for the model to avoid overfitting. There are other kinds of architecture of Recurrent Neural Networks, such as a Gated Recurrent Unit (GRU). It would also be worthwhile to investigate the performance of these implementations. There are also variations of Long Short-term Memory units. An example is the variation by Alex Graves, which is more suitable to sequence labelling and time series data.
+    The model trained better using the cell dimension 750mx750m, monthly timestep and seasonal data. For a relatively new model in this field of application and using just one input, the LSTM model did reasonably well. Improvements could be done though according to the results of the error analysis. The model overfits when using the yearly timestep because there is no enough data. A yearly timestep could only be done if the data spans a longer period of years. Otherwise, other timesteps could be used. The model underifts though when using the weekly timestep. In this case, our model needs more features to help generalize data better. The model should be flexible enough for the different parameter values of timestep and seasonality. If the end-user of user wishes to predict crime hotspots weekly, or even daily, additional features must be introduced. The dataset contains other data that can be used as features for the model. For instance, a criminal record has a location type attribute that describes the nature of the location of the crime. It may be a street, apartment or other land mark. The yearly timestep can best be used when the data spans enough years for the model to avoid overfitting. There are other kinds of architecture of Recurrent Neural Networks, such as a Gated Recurrent Unit (GRU). It would also be worthwhile to investigate the performance of these implementations. There are also variations of Long Short-term Memory units. An example is the variation by Alex Graves, which is more suitable to sequence labeling and time series data.
 
     \end{multicols}
 \end{document}
