@@ -2,8 +2,22 @@
     The interpretation of the results of the experiments leads us to a conclusion that answers the problem that this study stated to solve in the introduction. At the same time, recommendations are drawn from what the analysis of the results implies to be done next.
 
 \section{Conclusions}
-    The model trained better using the cell dimension 750mx750m, monthly timestep and seasonal data. For a relatively new model in this field of application and using just one input, the LSTM model did reasonably well. Improvements could be done though according to the results of the error analysis. The model overfits when using the yearly timestep because there is no enough data. A yearly timestep could only be done if the data spans a longer period of years. Otherwise, other timesteps could be used. The model underifts though when using the weekly timestep. In this case, our model needs more features to help generalize data better.
+    The study is built upon the following objectives stated in Section \ref{section:objectives-of-the-study}:
+    \begin{itemize}
+        \item To visualize criminal records into a map;
+        \item To convert raw data of criminal records into a feature set that can be understood by the machine learning model;
+        \item To develop and train the model for it to learn the criminal patterns and predict crime hotspots; and,
+        \item To test and validate the model if it has performed accurately.
+    \end{itemize}
+
+    The visualization of the criminal records into a map was done through grid thematic mapping. A grid of uniform cell dimension was generated over the study area of Chicago with each cell being thematically shaded according to the presence or absence of crime.
+
+    Raw data from the crime dataset of Chicago was converted into a feature set through vectorization under different timestep, cell dimension and seasonality.
+
+    The model learned through the generated data vector. The model trained better using the cell dimension 750mx750m, monthly timestep and seasonal data.
+
+    This study is now ready to answer the problem stated in Section \ref{section:statement-of-the-problem}: Can a machine learning model built upon a Recurrent Neural Network with Long Short-term Memory architecture predict crime hotspots with sufficient accuracy by learning from criminal records? For a relatively new model in this field of application and using just one input, the LSTM model did reasonably well. However, improvements could be done though according to the results of the error analysis. The model overfits when using the yearly timestep because there is no enough data. A yearly timestep could only be done if the data spans a longer period of years. Otherwise, other timesteps could be used. The model underifts though when using the weekly timestep. In this case, our model needs more features to help generalize data better.
 \section{Recommendations}
     The model should be flexible enough for the different parameter values of timestep and seasonality. If the end-user of user wishes to predict crime hotspots weekly, or even daily, additional features must be introduced. The dataset contains other data that can be used as features for the model. For instance, a criminal record has a location type attribute that describes the nature of the location of the crime. It may be a street, apartment or other land mark. The yearly timestep can best be used when the data spans enough years for the model to avoid overfitting.
     There are other kinds of architecture of Recurrent Neural Networks, such as a Gated Recurrent Unit (GRU). It would also be worthwhile to investigate the performance of these implementations.
-    There are also variations of Long Short-term Memory units. An example is the variation by Alex Graves, which is more suitable to sequence labelling and time series data.
+    There are also variations of Long Short-term Memory units. An example is the variation by Alex Graves, which is more suitable to sequence labeling and time series data.
