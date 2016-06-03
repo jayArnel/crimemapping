@@ -67,7 +67,7 @@
         \item \( C_t \): Cell state of the current layer
         \end{itemize}
 
-    \subsection{Cell State}
+    \subsubsection{Cell State}
         \begin{figure}[H]
         \centering
         \includegraphics[width=8cm]{LSTM3-C-line}
@@ -86,7 +86,7 @@
 
         The next parts will explain the three gates in a standard LSTM.
 
-    \subsection{Forget Gate}
+    \subsubsection{Forget Gate}
         \begin{figure}[H]
         \centering
         \includegraphics[width=8cm]{LSTM3-focus-f}
@@ -95,7 +95,7 @@
         \end{figure}
         The first gate in the LSTM is called the forget gate. This gate decides how much of the input of the current layer and the output of the previous layer will be forgotten. Figure \ref{fig:lstm-forget-gate} shows the structure of this gate. For instance, in a language model that will check for correct pronouns (e.g. his or her), the gender of the subjects in the previous sentences will be forgotten when a new subject is encountered.
 
-    \subsection{Input Gate}
+    \subsubsection{Input Gate}
         The next gate in the LSTM is the input gate. This gate updates the old cell state \( C_{t-1} \) to a new cell state \( C_t \). This gate has two parts.
 
         \begin{figure}[H]
@@ -115,7 +115,7 @@
         \end{figure}
         After the input gate, the cell state will be updated with the values of the forget gate and input gate. This process is shown in Figure \ref{fig:lstm-cell-state-update}. In our language model example, this is the point where the previous gender of the subject is actually dumped and is updated with the gender of the new subject.
 
-    \subsection{Output Gate}
+    \subsubsection{Output Gate}
         \begin{figure}[H]
         \centering
         \includegraphics[width=8cm]{LSTM3-focus-o}
