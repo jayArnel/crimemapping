@@ -1,5 +1,5 @@
 \chapter{Results and Discussions}
-    After implementing the set of procedures defined in the methodology, a series of experiments were performed to evaluate the model in terms of accuracy and precision. This chapter describes the results of these experiments, the interpretation of these results and the analysis of the model's performance.
+    After implementing the set of procedures defined in the methodology, a series of experiments were performed to evaluate the model in terms of accuracy and precision. This chapter describes the results of these experiments, the interpretation of these results and the analysis of the model's performance. It also compares the results of this study to the previous study of Tumulak \citeyearpar{tumulak2015crime}.
 \section{Results}
     These are the different results of the experiments on the model. The indications of these results will then be discussed and analyzed.
 
@@ -109,4 +109,17 @@
       \caption{Learning curve of the model in 1000mx1000m cell dimension and weekly timestep}
       \label{fig:learning-curve2}
     \end{figure}
-    Figure \ref{fig:learning-curve2} shows the graph of the training error and cross-validation error of the model in a 1000mx1000m cell dimension and weekly timestep. Compared to the same model but with yearly timestep, this model suffers from high bias. The training error and cross-validation overlap each other and are almost of the same value. Weekly timestep, on the contrary to yearly timestep, yields a lot of data with respect to the number of features used. The model under this condition will underfit and fail to generalize the data. To reduce underfitting, more features must be fed to the model so that it can have more input to help it generalize data better.
+    Figure \ref{fig:learning-curve2} shows the graph of the training error and cross-validation error of the model in a 1000mx1000m cell dimension and weekly timestep. Compared to the same model but with yearly timestep, this model suffers from high bias. The training error and cross-validation overlap each other and are almost of the same value. Weekly timestep, on the contrary to yearly timestep, yields a lot of data with respect to the number of features used. The model under this condition will underfit and fail to generalize the data. To reduce underfitting, more features must be fed to the model so that it can have more input to help it generalize data better. The model can also be made more sophisticated by introducing parameters and regularization or using a different kind of recurrent neural network or a different variant of LSTM network.
+
+\section{Study Comparison}
+
+	As an extension to Tumulak's study, the results of this study and its implications will be compared to that of Tumulak's study. The two studies have a lot in common but differ in a lot of things as well. Both studies used grid thematic mapping for the crime hotspots but Tumulak made use of merged cells for adjacent cells with no crime. Both studies also used a neural network. Tumulak used a traditional feed-forward neural network but this study used a recurrent neural network to exploit the recurrent nature of crime. Furthermore, this study also experimented on seasonal data to represent crime recurrence while Tumulak's study didn't. On the other hand, Tumulak's study used additional feature other the presence or absence of crime which is the timestamp of the timestep. To further compare the two studies, the results for both studies are explored below.
+
+	\begin{figure}[H]
+      \centering
+      \includegraphics[width=12cm]{750-monthly-both-studies}
+      \caption{Accuracy and F1 Score of both studies for 750mx750m cell dimension and monthly timestep}
+      \label{750-monthly-both-studies}
+    \end{figure}
+
+    Figure \ref{750-monthly-both-studies} shows the results of both studies for 750mx750m cell dimension and monthly timestep, which are the highest performing model instances for the two studies. The model used by Tumulak performed better with higher accuracy and F1 score. The additional feature used by Tumulak and the used of merged cells are the differences between the two experiments. These have helped the Tumulak's model to generalize the training data better.
