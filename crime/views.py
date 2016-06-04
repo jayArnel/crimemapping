@@ -9,8 +9,6 @@ from django.views.generic import View
 
 from crime.models import CriminalRecord
 
-# Create your views here.
-
 
 class FetchCrimesView(View):
 
