@@ -83,7 +83,8 @@ def vectorize(grid_size, period, crime_type=None, seasonal=False, new=False):
             for i in xrange(len(grid)):
                 g = grid[i]
                 crimes = CriminalRecord.objects.filter(
-                    location__intersects=g).extra(select=extra_query).values(
+                    location__intersects=g).extra(
+                    select=extra_query).values(
                     *extra_query.keys()).annotate(count_items=Count('date'))
                 for c in crimes:
                     if period == 'daily':
@@ -111,7 +112,8 @@ def vectorize(grid_size, period, crime_type=None, seasonal=False, new=False):
             for i in xrange(len(grid)):
                 g = grid[i]
                 crimes = CriminalRecord.objects.filter(
-                    location__intersects=g, date__lte=end).extra(select=extra_query).values(
+                    location__intersects=g, date__lte=end).extra(
+                    select=extra_query).values(
                     *extra_query.keys()).annotate(count_items=Count('date'))
                 for c in crimes:
                     key = '-'.join(
