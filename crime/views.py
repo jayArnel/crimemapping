@@ -25,7 +25,8 @@ class FetchCrimesView(View):
         status = 200
         try:
             data = client.get(
-                endpoint, order=order, where=where, offset=offset, limit=limit)
+                endpoint, order=order, where=where,
+                offset=offset, limit=limit)
             while data:
                 for record in data:
                     if self.to_int(record.get('id')) not in ids:
@@ -50,16 +51,20 @@ class FetchCrimesView(View):
                             'is_domestic': self.get_from_dict(
                                 record, 'domestic'),
                             'beat': self.get_from_dict(record, 'beat'),
-                            'district': self.get_from_dict(record, 'district'),
+                            'district': self.get_from_dict(
+                                record, 'district'),
                             'ward': self.to_int(
                                 self.get_from_dict(record, 'ward')),
                             'community_area': self.get_from_dict(
                                 record, 'community_area'),
-                            'fbi_code': self.get_from_dict(record, 'fbi_code'),
+                            'fbi_code': self.get_from_dict(
+                                record, 'fbi_code'),
                             'x_coordinate': self.to_int(
-                                self.get_from_dict(record, 'x_coordinate')),
+                                self.get_from_dict(
+                                    record, 'x_coordinate')),
                             'y_coordinate': self.to_int(
-                                self.get_from_dict(record, 'y_coordinate')),
+                                self.get_from_dict(
+                                    record, 'y_coordinate')),
                             'year': self.to_int(
                                 self.get_from_dict(record, 'year')),
                             'updated_on': datetime.strptime(
@@ -70,8 +75,10 @@ class FetchCrimesView(View):
                             'longitude': float(self.get_from_dict(
                                 record, 'longitude')),
                             'location': Point(
-                                float(self.get_from_dict(record, 'longitude')),
-                                float(self.get_from_dict(record, 'latitude')))
+                                float(self.get_from_dict(
+                                    record, 'longitude')),
+                                float(self.get_from_dict(
+                                    record, 'latitude')))
                         }
                         CriminalRecord.objects.create(**attrs)
                 offset += limit
