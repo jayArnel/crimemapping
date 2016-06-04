@@ -816,11 +816,11 @@ wish to left align your text}
 % Appending the appendix name to the letter in TOC
 % Especially when backmatter is enabled
 
-%\renewcommand\backmatter{
-%    \def\chaptermark##1{\markboth{%
-%        \ifnum  \c@secnumdepth > \m@ne  \@chapapp\ \thechapter:  \fi  ##1}{%
-%        \ifnum  \c@secnumdepth > \m@ne  \@chapapp\ \thechapter:  \fi  ##1}}%
-%    \def\sectionmark##1{\relax}}
+\renewcommand\backmatter{
+    \def\chaptermark##1{\markboth{%
+        \ifnum  \c@secnumdepth > \m@ne  \@chapapp\ \thechapter:  \fi  ##1}{%
+        \ifnum  \c@secnumdepth > \m@ne  \@chapapp\ \thechapter:  \fi  ##1}}%
+    \def\sectionmark##1{\relax}}
 
 
 % ******************************************************************************
