@@ -34,7 +34,7 @@
 \section{Machine Learning Model}
     The learning model used is built using a library called Keras because it implements the original LSTM proposed by Hochreiter and Schmidhuber \citeyearpar{hochreiter1997long}. The input of the model is the sequence of periodic snapshots of the states of each cell in the grid obtained during data preprocessing. It is divided into training and test sets with 0.7 ratio. The model contains a layer of LSTM cells, one for each input in the data. The model's training is done through 1000 epochs.
 
-    The code for running LSTM network is in Appendix \ref{code-network}.
+    The code for running the LSTM network is in Appendix \ref{code-network}.
 
 \section{Experiments}
     A set of experiments were done to evaluate the performance of the model under different conditions and parameters. The parameters that are being experimented upon are the cell dimensions of the grid, period of snapshots and the implementation of crime seasonality. The results of these experiments are measured through certain performance metrics in order to determine the effectiveness of the model.
