@@ -74,7 +74,7 @@ def run_network(grid_size, period, crime_type=None, seasonal=False):
 
         for y, node in enumerate(data):
             total += 1
-            if predicted[x][y] > 0:  # threshold for prediction. If prediction is greater than this value, prediction is one, zero otherwise
+            if predicted[x][y] > 0:
                 norm_predicted[x][y] = 1
                 if node == 1:
                     correct += 1
@@ -105,95 +105,17 @@ def run_network(grid_size, period, crime_type=None, seasonal=False):
         print f1
 
     crime_verbose = crime_type if crime_type is not None else "ALL"
-    output_folder = settings.OUTPUTS_DIR + 'Results_{0}_{1}_{2}_{3}/'.format(
-        grid_size, crime_verbose, period, seasonal)
+    output_folder = settings.OUTPUTS_DIR + \
+        'Results_{0}_{1}_{2}_{3}/'.format(
+            grid_size, crime_verbose, period, seasonal)
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
 
     results_file = output_folder + 'results.txt'
     predicted_file = output_folder + 'predicted.txt'
-    accuracy_img = output_folder + 'accuracy.png'
-    f1score_img = output_folder + 'f1score.png'
 
     np.savetxt(predicted_file, norm_predicted, fmt='%.6f')
     results = "Average Accuracy:" + str(np.average(accuracy)) + '\n'
     results += "Average F1 Score:" + str(np.average(f1scr))
     with open(results_file, "w") as output_file:
         output_file.write(results)
-
-    if period == "daily":
-        period_verbose = "Day"
-    elif period == "weekly":
-        period_verbose = "Week"
-    elif period == "monthly":
-        period_verbose = "Month"
-    elif period == "yearly":
-        period_verbose = "Year"
-
-    # graph of Accuracy for each grid snapshot
-    fig1 = plt.figure()
-    plt.plot(accuracy)
-    plt.xlabel(period_verbose)
-    plt.ylabel('Accuracy')
-    fig1.savefig(accuracy_img)
-    # plt.show()
-
-    # graph of F1 Score for each grid snapshot
-    fig2 = plt.figure()
-    plt.plot(f1scr)
-    plt.xlabel(period_verbose)
-    plt.ylabel('F1 Score')
-    fig2.savefig(f1score_img)
-    return model, y_test, predicted
-
-
-def build_model(dim, X):
-    print '\nData Loaded. Compiling...\n'
-    model = Sequential()
-    model.add(LSTM(dim, input_shape=X.shape[1:]))
-    model.compile(loss='mse', optimizer='rmsprop',)
-    return model
-
-
-def plot_learning_curve(grid_size, period, crime_type=None, seasonal=False):
-    vectors = vectorize(
-        grid_size, period, crime_type=crime_type, seasonal=seasonal)
-    global_start_time = time.time()
-
-    print 'Loading Data...'
-    dim = len(vectors[0])
-    result = np.array(vectors)
-
-    print "Data  : ", result.shape
-
-    X = result[:-1]
-    y = result[1:]
-    X = np.reshape(X, (X.shape[0], X.shape[1], 1))
-    estimator = KerasRegressor(
-
-        build_fn=build_model, dim=dim, X=X, shuffle=False, nb_epoch=1000)
-    fig1 = plt.figure()
-    plt.title('Learning Curve')
-    plt.xlabel("Training examples")
-    plt.ylabel("Score")
-    train_sizes, train_scores, test_scores = learning_curve(
-        estimator, X, y, verbose=10,
-        train_sizes=(.1, 0.25, 0.5, 0.75, 1.0))
-    train_scores_mean = np.mean(train_scores, axis=1)
-    train_scores_std = np.std(train_scores, axis=1)
-    test_scores_mean = np.mean(test_scores, axis=1)
-    test_scores_std = np.std(test_scores, axis=1)
-    plt.grid()
-
-    plt.fill_between(train_sizes, train_scores_mean - train_scores_std,
-                     train_scores_mean + train_scores_std, alpha=0.1,
-                     color="r")
-    plt.fill_between(train_sizes, test_scores_mean - test_scores_std,
-                     test_scores_mean + test_scores_std, alpha=0.1, color="g")
-    plt.plot(train_sizes, train_scores_mean, 'o-', color="r",
-             label="Training score")
-    plt.plot(train_sizes, test_scores_mean, 'o-', color="g",
-             label="Cross-validation score")
-    image_path = '{0}_{1}_{2}.png'.format(grid_size, period, seasonal)
-    plt.legend(loc="best")
-    fig1.savefig(image_path)
