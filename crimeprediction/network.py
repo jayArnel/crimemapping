@@ -171,7 +171,7 @@ def plot_learning_curve(grid_size, period, crime_type=None, seasonal=False):
     X = np.reshape(X, (X.shape[0], X.shape[1], 1))
     estimator = KerasRegressor(
 
-        build_fn=build_model, dim=dim, X=X, shuffle=False, nb_epoch=1)
+        build_fn=build_model, dim=dim, X=X, shuffle=False, nb_epoch=1000)
     fig1 = plt.figure()
     plt.title('Learning Curve')
     plt.xlabel("Training examples")
