@@ -48,6 +48,15 @@ The conceptual framework illustrates the application of the theories specific fo
 \end{figure}
 Grid thematic mapping is applied to the study area, which is Chicago and grid overlay is produced. This is done for three different cell dimensions, 500m\(\times\)500m, 750m\(\times\)750m and 1000m\(\times\)1000m. After generating the grid, data vectorization is done through different values of the timestep. The different timestep values are "monthly", "weekly", and "yearly". The data vector contains values of 1 and -1 for each cell in the grid indicating the presence or absence of crime in that cell and is repeated for each month, week or year. Crime seasonality is also considered in data vectorization. Instead of getting consequent arrays of 1 and -1 for each cell for each month or week, the array is obtained for the same month or week of each year.
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=12cm]{grid-thematic-map}
+    \caption{Grid Thematic Mapping}
+    \label{fig:grid-thematic-map}
+\end{figure}
+
+Figure \ref{fig:grid-thematic-map} shows a sample of how grid thematic mapping is applied in the study. The green cells indicate the absence of crime while the red cells indicate the presence of crime.
+
 After processing the data, the vector is fed into an LSTM network. The input of the network is the single timestep $t$ of 1s and -1s for each cell and the target output is the values of next timestep $t+1$. The next input is from timestep $t+1$ and the target output is $t+2$ and so on. The LSTM layer contains number of nodes equal to the number of cells in the grid. After the training, the LSTM network's weight matrix should be able to approximate if the cells in the grid are crime hotspots or not for a certain timestep.
 
 The LSTM network's performance is measured and evaluated with accuracy and F1 score as performance metrics. Accuracy is the number of correct predictions made divided by the total made predictions. F1 score is the weighted average of the model's precision and recall \citep{scikit-learn}. Precision is the ability of the model not to classify negative examples as positive. It is defined by the equation: \( precision = tp / (tp + fp) \), where $tp$ is the true positives or the number of correct positive labels, and $fp$ is the false positives or the number of incorrect positive labels. Recall is the ability of the model to predict all positive examples. It is defined by the equation: \( recall = tp / (tp + fn) \), where $fn$ is the false negatives or the number of incorrect negative labels. Finally, F1 score is represented as the equation \(F1 = 2 \times (precision \times recall) / (precision + recall)\).
