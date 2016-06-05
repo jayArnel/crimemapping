@@ -14,7 +14,7 @@
 
     Raw data from the crime dataset of Chicago was converted into a feature set through vectorization under different timestep, cell dimension and seasonality.
 
-    The model learned through the generated data vector. The model trained better using the cell dimension 750mx750m, monthly timestep and seasonal data.
+    The model learned through the generated data vector. The model trained better using the cell dimension 750m\(\times\)750m, monthly timestep and seasonal data.
 
     This study is now ready to answer the problem stated in Section \ref{section:statement-of-the-problem}: Can a machine learning model built upon a Recurrent Neural Network with Long Short-term Memory architecture predict crime hotspots with sufficient accuracy by learning from criminal records? For a relatively new model in this field of application and using just one input, the LSTM model did reasonably well. However, improvements could be done though according to the results of the error analysis. The model overfits when using the yearly timestep because there is no enough data. A yearly timestep could only be done if the data spans a longer period of years. Otherwise, other timesteps could be used. The model underifts though when using the weekly timestep. In this case, our model needs more features to help generalize data better.
 \section{Recommendations}
