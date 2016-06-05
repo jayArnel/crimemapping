@@ -14,10 +14,16 @@
 
     Raw data from the crime dataset of Chicago was converted into a feature set through vectorization under different timestep, cell dimension and seasonality.
 
-    The model learned through the generated data vector. The model trained better using the cell dimension 750mx750m, monthly timestep and seasonal data.
+    The model learned through the generated data vector. The model trained better using the cell dimension 750m\(\times\)750m, monthly timestep and seasonal data.
 
     This study is now ready to answer the problem stated in Section \ref{section:statement-of-the-problem}: Can a machine learning model built upon a Recurrent Neural Network with Long Short-term Memory architecture predict crime hotspots with sufficient accuracy by learning from criminal records? For a relatively new model in this field of application and using just one input, the LSTM model did reasonably well. However, improvements could be done though according to the results of the error analysis. The model overfits when using the yearly timestep because there is no enough data. A yearly timestep could only be done if the data spans a longer period of years. Otherwise, other timesteps could be used. The model underifts though when using the weekly timestep. In this case, our model needs more features to help generalize data better.
 \subsection{Recommendations}
     The model should be flexible enough for the different parameter values of timestep and seasonality. If the end-user of user wishes to predict crime hotspots weekly, or even daily, additional features must be introduced. The dataset contains other data that can be used as features for the model. For instance, a criminal record has a location type attribute that describes the nature of the location of the crime. It may be a street, apartment or other land mark. The yearly timestep can best be used when the data spans enough years for the model to avoid overfitting.
-    There are other kinds of architecture of Recurrent Neural Networks, such as a Gated Recurrent Unit (GRU). It would also be worthwhile to investigate the performance of these implementations.
-    There are also variations of Long Short-term Memory units. An example is the variation by Alex Graves, which is more suitable to sequence labeling and time series data.
+
+    Furthermore, to improve the performance of the model, a more sophisticated network can be used, especially when underfitting occurs. The Keras library offers more parameterization for the LSTM network. A different initialization can be done for the network, which means the weights of the network are initialized in a different way other than random. An activation method can also be used such as \textit{sigmoid} or \textit{softmax}, which applies a different function to compute the output of an LSTM node.
+
+    For overfitting, regularization can be applied to the neural network. Regularization is a machine learning technique that simplifies a model by adding a penalty to certain characteristics of the parameters \cite{scikit-learn}. Examples of regularization are Dense and Convolution regularization \cite{chollet2015keras}.
+
+    Other kinds of architecture of Recurrent Neural Networks can also be experimented upon, such as a Gated Recurrent Unit (GRU). It would also be worthwhile to investigate the performance of these implementations.
+
+    There are also other variations of Long Short-term Memory units. An example is the variation by Alex Graves \cite{graves2013generating}, which is more suitable to sequence labeling and time series data.
