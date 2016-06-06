@@ -113,8 +113,16 @@ def run_network(grid_size, period, crime_type=None, seasonal=False):
 
     results_file = output_folder + 'results.txt'
     predicted_file = output_folder + 'predicted.txt'
+    X_train_file = output_folder + 'X_train.txt'
+    y_train_file = output_folder + 'y_train.txt'
+    X_test_file = output_folder + 'X_test.txt'
+    y_test_file = output_folder + 'y_test.txt'
 
-    np.savetxt(predicted_file, norm_predicted, fmt='%.6f')
+    np.savetxt(X_train_file, X_train, fmt='%d')
+    np.savetxt(y_train_file, y_train, fmt='%d')
+    np.savetxt(X_test_file, X_test, fmt='%d')
+    np.savetxt(y_test_file, y_test, fmt='%d')
+    np.savetxt(predicted_file, norm_predicted, fmt='%d')
     results = "Average Accuracy:" + str(np.average(accuracy)) + '\n'
     results += "Average F1 Score:" + str(np.average(f1scr))
     with open(results_file, "w") as output_file:
