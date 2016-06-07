@@ -1,10 +1,14 @@
+'''
+    Models for the Crime module
+'''
 from __future__ import unicode_literals
 
 from django.contrib.gis.db import models
 
 
 class CriminalRecord(models.Model):
-    """ a model for a single criminal record """
+    """ a model for a single criminal record
+    """
     case_id = models.IntegerField()
     case_number = models.CharField(max_length=10)
     date = models.DateTimeField()
@@ -29,4 +33,5 @@ class CriminalRecord(models.Model):
     location = models.PointField(srid=4326)
 
     class Meta:
+        ''' Meta class for CriminalRecord, set app label to "crime"'''
         app_label = "crime"

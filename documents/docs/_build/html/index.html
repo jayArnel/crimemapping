@@ -1,0 +1,317 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Welcome to Crime Modeling and Prediction’s documentation! &mdash; Crime Modeling and Prediction 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Crime Modeling and Prediction 0.0.1 documentation" href="#" />
+    <link rel="next" title="core package" href="api/core.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="welcome-to-crime-modeling-and-prediction-s-documentation">
+<h1>Welcome to Crime Modeling and Prediction&#8217;s documentation!<a class="headerlink" href="#welcome-to-crime-modeling-and-prediction-s-documentation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="libraries">
+<h3>Libraries<a class="headerlink" href="#libraries" title="Permalink to this headline">¶</a></h3>
+<p>NOTE: Some of this libraries may fail to install depending on the ubuntu
+version you have on your machine.</p>
+<div class="code shell highlight-default"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">binutils</span> <span class="n">libproj</span><span class="o">-</span><span class="n">dev</span> <span class="n">postgresql</span><span class="o">-</span><span class="mf">9.4</span><span class="o">-</span><span class="n">postgis</span><span class="o">-</span><span class="mf">2.1</span> <span class="n">postgresql</span><span class="o">-</span><span class="n">server</span><span class="o">-</span><span class="n">dev</span><span class="o">-</span><span class="mf">9.4</span> <span class="n">postgresql</span><span class="o">-</span><span class="n">contrib</span><span class="o">-</span><span class="mf">9.4</span> <span class="n">libatlas</span><span class="o">-</span><span class="n">base</span><span class="o">-</span><span class="n">dev</span> <span class="n">libblas</span><span class="o">-</span><span class="n">dev</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="clone">
+<h3>Clone<a class="headerlink" href="#clone" title="Permalink to this headline">¶</a></h3>
+<div class="code shell highlight-default"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">git</span><span class="nd">@github</span><span class="o">.</span><span class="n">com</span><span class="p">:</span><span class="n">jayArnel</span><span class="o">/</span><span class="n">crimemapping</span><span class="o">.</span><span class="n">git</span>
+<span class="n">cd</span> <span class="n">crimemapping</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="create-virtualenv">
+<h3>Create Virtualenv<a class="headerlink" href="#create-virtualenv" title="Permalink to this headline">¶</a></h3>
+<div class="code shell highlight-default"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">virtualenvwrapper</span>
+<span class="n">mkvirtualenv</span> <span class="o">&lt;</span><span class="n">name</span><span class="o">&gt;</span>
+<span class="n">workon</span> <span class="o">&lt;</span><span class="n">name</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="install-package-dependencies">
+<h3>Install Package Dependencies<a class="headerlink" href="#install-package-dependencies" title="Permalink to this headline">¶</a></h3>
+<div class="code shell highlight-default"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">r</span> <span class="n">requirements</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="create-the-database">
+<h3>Create the Database<a class="headerlink" href="#create-the-database" title="Permalink to this headline">¶</a></h3>
+<div class="code shell highlight-default"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">su</span> <span class="o">-</span> <span class="n">postgres</span>
+<span class="n">createdb</span> <span class="o">&lt;</span><span class="n">dbname</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="create-user-for-the-database">
+<h3>Create User for the Database<a class="headerlink" href="#create-user-for-the-database" title="Permalink to this headline">¶</a></h3>
+<div class="code shell highlight-default"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">su</span> <span class="o">-</span> <span class="n">postgres</span>
+<span class="n">createuser</span> <span class="o">-</span><span class="n">s</span> <span class="o">-</span><span class="n">P</span> <span class="o">&lt;</span><span class="n">username</span><span class="o">&gt;</span>
+    <span class="o">*</span><span class="n">setup</span> <span class="n">password</span><span class="o">*</span>
+<span class="n">psql</span>
+<span class="n">GRANT</span> <span class="n">ALL</span> <span class="n">PRIVILEGES</span> <span class="n">ON</span> <span class="n">DATABASE</span> <span class="o">&lt;</span><span class="n">dbname</span><span class="o">&gt;</span> <span class="n">TO</span> <span class="o">&lt;</span><span class="n">username</span><span class="o">&gt;</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="extend-database-to-postgis">
+<h3>Extend Database to postgis<a class="headerlink" href="#extend-database-to-postgis" title="Permalink to this headline">¶</a></h3>
+<div class="code shell highlight-default"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">su</span> <span class="o">-</span> <span class="n">postgres</span>
+<span class="n">psql</span> <span class="o">&lt;</span><span class="n">dbname</span><span class="o">&gt;</span>
+<span class="n">CREATE</span> <span class="n">EXTENSION</span> <span class="n">postgis</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="setup-database-with-django">
+<h3>Setup Database with Django<a class="headerlink" href="#setup-database-with-django" title="Permalink to this headline">¶</a></h3>
+<p>create <code class="docutils literal"><span class="pre">local_settings.py</span></code> file in <code class="docutils literal"><span class="pre">crimemapping</span></code> folder</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">DATABASES</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;default&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;ENGINE&#39;</span><span class="p">:</span> <span class="s1">&#39;django.contrib.gis.db.backends.postgis&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;NAME&#39;</span><span class="p">:</span> <span class="s1">&#39;&lt;dbname&gt;&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;USER&#39;</span><span class="p">:</span> <span class="s1">&#39;&lt;username&gt;&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;PASSWORD&#39;</span><span class="p">:</span> <span class="s1">&#39;&lt;password&gt;&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;HOST&#39;</span><span class="p">:</span> <span class="s1">&#39;localhost&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;PORT&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="run-migrations">
+<h3>Run Migrations<a class="headerlink" href="#run-migrations" title="Permalink to this headline">¶</a></h3>
+<p>make sure your virtualenv <code class="docutils literal"><span class="pre">&lt;env&gt;</span></code> is activated by calling
+<code class="docutils literal"><span class="pre">workon</span> <span class="pre">&lt;env&gt;</span></code></p>
+<div class="code shell highlight-default"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">manage</span><span class="o">.</span><span class="n">py</span> <span class="n">migrate</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="collect-static-files">
+<h3>Collect static files<a class="headerlink" href="#collect-static-files" title="Permalink to this headline">¶</a></h3>
+<div class="code shell highlight-default"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">manage</span><span class="o">.</span><span class="n">py</span> <span class="n">collectstatic</span> <span class="o">-</span><span class="n">l</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="nb">input</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="setup-nginx">
+<h3>Setup Nginx<a class="headerlink" href="#setup-nginx" title="Permalink to this headline">¶</a></h3>
+<p>setup a local server in your machine via Nginx</p>
+</div>
+<div class="section" id="install-nginx">
+<h3>Install nginx<a class="headerlink" href="#install-nginx" title="Permalink to this headline">¶</a></h3>
+<div class="code shell highlight-default"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">nginx</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="setup-nginx-configuration">
+<h3>Setup Nginx configuration<a class="headerlink" href="#setup-nginx-configuration" title="Permalink to this headline">¶</a></h3>
+<p>create configuration file</p>
+<div class="code shell highlight-default"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">nano</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">nginx</span><span class="o">/</span><span class="n">sites</span><span class="o">-</span><span class="n">available</span><span class="o">/</span><span class="n">crimemapping</span>
+</pre></div>
+</div>
+<p>copy-paste configuration</p>
+<div class="code nginx highlight-default"><div class="highlight"><pre><span></span>upstream localhost {
+    server localhost:8000;
+}
+server {
+    listen 0.0.0.0:80;
+    server_name localhost;
+
+    keepalive_timeout 5;
+    # path for static files
+    root /path/to/project/storage; #! important! update this path
+    location / {
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $http_host;
+        proxy_redirect off;
+        if (!-f $request_filename) {
+            proxy_pass http://localhost;
+            break;
+        }
+    }
+}
+</pre></div>
+</div>
+<p>enable configuration
+<code class="docutils literal"><span class="pre">shell</span> <span class="pre">sudo</span> <span class="pre">ln</span> <span class="pre">-s</span> <span class="pre">/etc/nginx/sites-available/crimemapping</span> <span class="pre">/etc/nginx/sites-enabled/crimemapping</span> <span class="pre">``</span> <span class="pre">check</span> <span class="pre">for</span> <span class="pre">errors,</span> <span class="pre">then</span> <span class="pre">restart</span> <span class="pre">nginx</span></code>
+nginx sudo nginx -t sudo service nginx restart ```</p>
+</div>
+<div class="section" id="starting-the-web-app">
+<h3>Starting the Web App<a class="headerlink" href="#starting-the-web-app" title="Permalink to this headline">¶</a></h3>
+<div class="code shell highlight-default"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">manage</span><span class="o">.</span><span class="n">py</span> <span class="n">runserver</span>
+</pre></div>
+</div>
+<p>Open ‘localhost’ on your web browser</p>
+</div>
+<div class="section" id="running-the-model">
+<h3>Running the Model<a class="headerlink" href="#running-the-model" title="Permalink to this headline">¶</a></h3>
+<div class="code shell highlight-default"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">manage</span><span class="o">.</span><span class="n">py</span> <span class="n">shell</span>
+</pre></div>
+</div>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">crimeprediction</span> <span class="k">import</span> <span class="n">network</span>
+
+<span class="n">network</span><span class="o">.</span><span class="n">run_network</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="s1">&#39;monthly&#39;</span><span class="p">,</span> <span class="n">crime_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">seasonal</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="api">
+<h2>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/core.html">core package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/core.html#subpackages">Subpackages</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api/crime.html">crime package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/crime.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/crime.html#module-crime.admin">crime.admin module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/crime.html#module-crime.api">crime.api module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/crime.html#module-crime.models">crime.models module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/crime.html#module-crime.views">crime.views module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api/crimeprediction.html">crimeprediction package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/crimeprediction.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/crimeprediction.html#module-crimeprediction.error_analysis">crimeprediction.error_analysis module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/crimeprediction.html#module-crimeprediction.experiments">crimeprediction.experiments module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/crimeprediction.html#module-crimeprediction.network">crimeprediction.network module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/crimeprediction.html#module-crimeprediction.vectorize">crimeprediction.vectorize module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/crimeprediction.html#module-crimeprediction.views">crimeprediction.views module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api/map.html">map package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/map.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/map.html#module-map.api">map.api module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/map.html#module-map.load">map.load module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/map.html#module-map.models">map.models module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/map.html#module-map.utils">map.utils module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/map.html#module-map.views">map.views module</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
+<li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
+<li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
+</ul>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Welcome to Crime Modeling and Prediction&#8217;s documentation!</a><ul>
+<li><a class="reference internal" href="#installation">Installation</a><ul>
+<li><a class="reference internal" href="#libraries">Libraries</a></li>
+<li><a class="reference internal" href="#clone">Clone</a></li>
+<li><a class="reference internal" href="#create-virtualenv">Create Virtualenv</a></li>
+<li><a class="reference internal" href="#install-package-dependencies">Install Package Dependencies</a></li>
+<li><a class="reference internal" href="#create-the-database">Create the Database</a></li>
+<li><a class="reference internal" href="#create-user-for-the-database">Create User for the Database</a></li>
+<li><a class="reference internal" href="#extend-database-to-postgis">Extend Database to postgis</a></li>
+<li><a class="reference internal" href="#setup-database-with-django">Setup Database with Django</a></li>
+<li><a class="reference internal" href="#run-migrations">Run Migrations</a></li>
+<li><a class="reference internal" href="#collect-static-files">Collect static files</a></li>
+<li><a class="reference internal" href="#setup-nginx">Setup Nginx</a></li>
+<li><a class="reference internal" href="#install-nginx">Install nginx</a></li>
+<li><a class="reference internal" href="#setup-nginx-configuration">Setup Nginx configuration</a></li>
+<li><a class="reference internal" href="#starting-the-web-app">Starting the Web App</a></li>
+<li><a class="reference internal" href="#running-the-model">Running the Model</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#api">API</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="#">Documentation overview</a><ul>
+      <li>Next: <a href="api/core.html" title="next chapter">core package</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/index.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Jay Arnel D. Bilocura.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="_sources/index.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

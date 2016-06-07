@@ -1,0 +1,175 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>crime.migrations package &mdash; Crime Modeling and Prediction 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Crime Modeling and Prediction 0.0.1 documentation" href="../index.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="crime-migrations-package">
+<h1>crime.migrations package<a class="headerlink" href="#crime-migrations-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-crime.migrations.0001_initial">
+<span id="crime-migrations-0001-initial-module"></span><h2>crime.migrations.0001_initial module<a class="headerlink" href="#module-crime.migrations.0001_initial" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="crime.migrations.0001_initial.Migration">
+<em class="property">class </em><code class="descclassname">crime.migrations.0001_initial.</code><code class="descname">Migration</code><span class="sig-paren">(</span><em>name</em>, <em>app_label</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crime/migrations/0001_initial.html#Migration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crime.migrations.0001_initial.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.db.migrations.migration.Migration</span></code></p>
+<dl class="attribute">
+<dt id="crime.migrations.0001_initial.Migration.dependencies">
+<code class="descname">dependencies</code><em class="property"> = []</em><a class="headerlink" href="#crime.migrations.0001_initial.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crime.migrations.0001_initial.Migration.initial">
+<code class="descname">initial</code><em class="property"> = True</em><a class="headerlink" href="#crime.migrations.0001_initial.Migration.initial" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crime.migrations.0001_initial.Migration.operations">
+<code class="descname">operations</code><em class="property"> = [&lt;CreateModel  fields=[(u'id', &lt;django.db.models.fields.AutoField&gt;), (u'case_id', &lt;django.db.models.fields.IntegerField&gt;), (u'case_number', &lt;django.db.models.fields.CharField&gt;), (u'date', &lt;django.db.models.fields.DateTimeField&gt;), (u'block', &lt;django.db.models.fields.CharField&gt;), (u'iucr', &lt;django.db.models.fields.CharField&gt;), (u'primary_type', &lt;django.db.models.fields.CharField&gt;), (u'crime_description', &lt;django.db.models.fields.CharField&gt;), (u'location_description', &lt;django.db.models.fields.CharField&gt;), (u'has_arrested', &lt;django.db.models.fields.BooleanField&gt;), (u'is_domestic', &lt;django.db.models.fields.BooleanField&gt;), (u'beat', &lt;django.db.models.fields.CharField&gt;), (u'district', &lt;django.db.models.fields.CharField&gt;), (u'ward', &lt;django.db.models.fields.IntegerField&gt;), (u'community_area', &lt;django.db.models.fields.CharField&gt;), (u'fbi_code', &lt;django.db.models.fields.CharField&gt;), (u'x_coordinate', &lt;django.db.models.fields.IntegerField&gt;), (u'y_coordinate', &lt;django.db.models.fields.IntegerField&gt;), (u'year', &lt;django.db.models.fields.IntegerField&gt;), (u'updated_on', &lt;django.db.models.fields.DateTimeField&gt;), (u'latitude', &lt;django.db.models.fields.FloatField&gt;), (u'longitude', &lt;django.db.models.fields.FloatField&gt;)], name=u'Crime'&gt;]</em><a class="headerlink" href="#crime.migrations.0001_initial.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-crime.migrations.0002_crime_location">
+<span id="crime-migrations-0002-crime-location-module"></span><h2>crime.migrations.0002_crime_location module<a class="headerlink" href="#module-crime.migrations.0002_crime_location" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="crime.migrations.0002_crime_location.Migration">
+<em class="property">class </em><code class="descclassname">crime.migrations.0002_crime_location.</code><code class="descname">Migration</code><span class="sig-paren">(</span><em>name</em>, <em>app_label</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crime/migrations/0002_crime_location.html#Migration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crime.migrations.0002_crime_location.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.db.migrations.migration.Migration</span></code></p>
+<dl class="attribute">
+<dt id="crime.migrations.0002_crime_location.Migration.dependencies">
+<code class="descname">dependencies</code><em class="property"> = [(u'crime', u'0001_initial')]</em><a class="headerlink" href="#crime.migrations.0002_crime_location.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crime.migrations.0002_crime_location.Migration.operations">
+<code class="descname">operations</code><em class="property"> = [&lt;AddField  field=&lt;django.contrib.gis.db.models.fields.PointField&gt;, preserve_default=False, name=u'location', model_name=u'crime'&gt;]</em><a class="headerlink" href="#crime.migrations.0002_crime_location.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-crime.migrations.0003_rename_crime_model_to_criminal_record">
+<span id="crime-migrations-0003-rename-crime-model-to-criminal-record-module"></span><h2>crime.migrations.0003_rename_crime_model_to_criminal_record module<a class="headerlink" href="#module-crime.migrations.0003_rename_crime_model_to_criminal_record" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="crime.migrations.0003_rename_crime_model_to_criminal_record.Migration">
+<em class="property">class </em><code class="descclassname">crime.migrations.0003_rename_crime_model_to_criminal_record.</code><code class="descname">Migration</code><span class="sig-paren">(</span><em>name</em>, <em>app_label</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crime/migrations/0003_rename_crime_model_to_criminal_record.html#Migration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crime.migrations.0003_rename_crime_model_to_criminal_record.Migration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.db.migrations.migration.Migration</span></code></p>
+<dl class="attribute">
+<dt id="crime.migrations.0003_rename_crime_model_to_criminal_record.Migration.dependencies">
+<code class="descname">dependencies</code><em class="property"> = [(u'crime', u'0002_crime_location')]</em><a class="headerlink" href="#crime.migrations.0003_rename_crime_model_to_criminal_record.Migration.dependencies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crime.migrations.0003_rename_crime_model_to_criminal_record.Migration.operations">
+<code class="descname">operations</code><em class="property"> = [&lt;RenameModel u'Crime', u'CriminalRecord'&gt;]</em><a class="headerlink" href="#crime.migrations.0003_rename_crime_model_to_criminal_record.Migration.operations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-crime.migrations">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-crime.migrations" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">crime.migrations package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-crime.migrations.0001_initial">crime.migrations.0001_initial module</a></li>
+<li><a class="reference internal" href="#module-crime.migrations.0002_crime_location">crime.migrations.0002_crime_location module</a></li>
+<li><a class="reference internal" href="#module-crime.migrations.0003_rename_crime_model_to_criminal_record">crime.migrations.0003_rename_crime_model_to_criminal_record module</a></li>
+<li><a class="reference internal" href="#module-crime.migrations">Module contents</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/api/crime.migrations.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Jay Arnel D. Bilocura.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="../_sources/api/crime.migrations.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

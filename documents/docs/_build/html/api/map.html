@@ -1,0 +1,373 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>map package &mdash; Crime Modeling and Prediction 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Crime Modeling and Prediction 0.0.1 documentation" href="../index.html" />
+    <link rel="prev" title="crimeprediction package" href="crimeprediction.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="map-package">
+<h1>map package<a class="headerlink" href="#map-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-map.api">
+<span id="map-api-module"></span><h2>map.api module<a class="headerlink" href="#module-map.api" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="map.api.CityBorderDetailResource">
+<em class="property">class </em><code class="descclassname">map.api.</code><code class="descname">CityBorderDetailResource</code><span class="sig-paren">(</span><em>api_name=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/map/api.html#CityBorderDetailResource"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#map.api.CityBorderDetailResource" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">tastypie.resources.ModelResource</span></code></p>
+<p>API resource for the details of the city border</p>
+<dl class="class">
+<dt id="map.api.CityBorderDetailResource.Meta">
+<em class="property">class </em><code class="descname">Meta</code><a class="reference internal" href="../_modules/map/api.html#CityBorderDetailResource.Meta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#map.api.CityBorderDetailResource.Meta" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="attribute">
+<dt id="map.api.CityBorderDetailResource.Meta.excludes">
+<code class="descname">excludes</code><em class="property"> = ['geom']</em><a class="headerlink" href="#map.api.CityBorderDetailResource.Meta.excludes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="map.api.CityBorderDetailResource.Meta.filtering">
+<code class="descname">filtering</code><em class="property"> = {'name': 'exact'}</em><a class="headerlink" href="#map.api.CityBorderDetailResource.Meta.filtering" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="map.api.CityBorderDetailResource.Meta.object_class">
+<code class="descname">object_class</code><a class="headerlink" href="#map.api.CityBorderDetailResource.Meta.object_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal"><span class="pre">CityBorder</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="map.api.CityBorderDetailResource.Meta.queryset">
+<code class="descname">queryset</code><em class="property"> = [&lt;CityBorder: Chicago&gt;]</em><a class="headerlink" href="#map.api.CityBorderDetailResource.Meta.queryset" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="map.api.CityBorderDetailResource.Meta.resource_name">
+<code class="descname">resource_name</code><em class="property"> = 'cityborder-detail'</em><a class="headerlink" href="#map.api.CityBorderDetailResource.Meta.resource_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="attribute">
+<dt id="map.api.CityBorderDetailResource.base_fields">
+<code class="descclassname">CityBorderDetailResource.</code><code class="descname">base_fields</code><em class="property"> = {'shape_area': &lt;tastypie.fields.FloatField object at 0xaa96b72c&gt;, 'name': &lt;tastypie.fields.CharField object at 0xaa96b70c&gt;, 'objectid': &lt;tastypie.fields.IntegerField object at 0xaa96736c&gt;, u'id': &lt;tastypie.fields.IntegerField object at 0xaa96b6ec&gt;, 'shape_len': &lt;tastypie.fields.FloatField object at 0xaa96b74c&gt;, u'resource_uri': &lt;tastypie.fields.CharField object at 0xaa96b60c&gt;}</em><a class="headerlink" href="#map.api.CityBorderDetailResource.base_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="map.api.CityBorderDetailResource.declared_fields">
+<code class="descclassname">CityBorderDetailResource.</code><code class="descname">declared_fields</code><em class="property"> = {}</em><a class="headerlink" href="#map.api.CityBorderDetailResource.declared_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="map.api.CityBorderResource">
+<em class="property">class </em><code class="descclassname">map.api.</code><code class="descname">CityBorderResource</code><span class="sig-paren">(</span><em>api_name=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/map/api.html#CityBorderResource"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#map.api.CityBorderResource" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">tastypie.resources.ModelResource</span></code></p>
+<p>API resource for the geographical information of the city border</p>
+<dl class="class">
+<dt id="map.api.CityBorderResource.Meta">
+<em class="property">class </em><code class="descname">Meta</code><a class="reference internal" href="../_modules/map/api.html#CityBorderResource.Meta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#map.api.CityBorderResource.Meta" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="attribute">
+<dt id="map.api.CityBorderResource.Meta.filtering">
+<code class="descname">filtering</code><em class="property"> = {'name': 'exact'}</em><a class="headerlink" href="#map.api.CityBorderResource.Meta.filtering" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="map.api.CityBorderResource.Meta.object_class">
+<code class="descname">object_class</code><a class="headerlink" href="#map.api.CityBorderResource.Meta.object_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal"><span class="pre">CityBorder</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="map.api.CityBorderResource.Meta.queryset">
+<code class="descname">queryset</code><em class="property"> = [&lt;CityBorder: Chicago&gt;]</em><a class="headerlink" href="#map.api.CityBorderResource.Meta.queryset" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="map.api.CityBorderResource.Meta.resource_name">
+<code class="descname">resource_name</code><em class="property"> = 'cityborder'</em><a class="headerlink" href="#map.api.CityBorderResource.Meta.resource_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="attribute">
+<dt id="map.api.CityBorderResource.base_fields">
+<code class="descclassname">CityBorderResource.</code><code class="descname">base_fields</code><em class="property"> = {'box': &lt;tastypie.fields.DictField object at 0xaa96b7ec&gt;, 'shape_area': &lt;tastypie.fields.FloatField object at 0xaa96bb2c&gt;, 'center': &lt;tastypie.fields.CharField object at 0xaa96b7ac&gt;, 'objectid': &lt;tastypie.fields.IntegerField object at 0xaa96bacc&gt;, 'geojson': &lt;tastypie.fields.CharField object at 0xaa96b6ac&gt;, 'name': &lt;tastypie.fields.CharField object at 0xaa96bb0c&gt;, 'geom': &lt;tastypie.fields.CharField object at 0xaa96bbac&gt;, 'shape_len': &lt;tastypie.fields.FloatField object at 0xaa96bb6c&gt;, u'id': &lt;tastypie.fields.IntegerField object at 0xaa96baec&gt;, u'resource_uri': &lt;tastypie.fields.CharField object at 0xaa96ba0c&gt;}</em><a class="headerlink" href="#map.api.CityBorderResource.base_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="map.api.CityBorderResource.declared_fields">
+<code class="descclassname">CityBorderResource.</code><code class="descname">declared_fields</code><em class="property"> = {'box': &lt;tastypie.fields.DictField object at 0xaa96b7ec&gt;, 'center': &lt;tastypie.fields.CharField object at 0xaa96b7ac&gt;, 'geojson': &lt;tastypie.fields.CharField object at 0xaa96b6ac&gt;}</em><a class="headerlink" href="#map.api.CityBorderResource.declared_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-map.load">
+<span id="map-load-module"></span><h2>map.load module<a class="headerlink" href="#module-map.load" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="map.load.run">
+<code class="descclassname">map.load.</code><code class="descname">run</code><span class="sig-paren">(</span><em>verbose=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/map/load.html#run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#map.load.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>load the shape files to the database</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>verbose</strong> &#8211; control message outputs of the method</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-map.models">
+<span id="map-models-module"></span><h2>map.models module<a class="headerlink" href="#module-map.models" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="map.models.CityBorder">
+<em class="property">class </em><code class="descclassname">map.models.</code><code class="descname">CityBorder</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/map/models.html#CityBorder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#map.models.CityBorder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.db.models.base.Model</span></code></p>
+<p>A model holding the values and attributes of a city border or map</p>
+<dl class="exception">
+<dt id="map.models.CityBorder.DoesNotExist">
+<em class="property">exception </em><code class="descname">DoesNotExist</code><a class="headerlink" href="#map.models.CityBorder.DoesNotExist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.core.exceptions.ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="map.models.CityBorder.MultipleObjectsReturned">
+<em class="property">exception </em><code class="descclassname">CityBorder.</code><code class="descname">MultipleObjectsReturned</code><a class="headerlink" href="#map.models.CityBorder.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.core.exceptions.MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="map.models.CityBorder.box">
+<code class="descclassname">CityBorder.</code><code class="descname">box</code><a class="headerlink" href="#map.models.CityBorder.box" title="Permalink to this definition">¶</a></dt>
+<dd><p>get box or envelope of the city border</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">vertices of the box or envelope of the city border</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="map.models.CityBorder.center">
+<code class="descclassname">CityBorder.</code><code class="descname">center</code><a class="headerlink" href="#map.models.CityBorder.center" title="Permalink to this definition">¶</a></dt>
+<dd><p>get center point of the gemotry</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">center point of the geomtry in geojson format</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="map.models.CityBorder.generateGrid">
+<code class="descclassname">CityBorder.</code><code class="descname">generateGrid</code><span class="sig-paren">(</span><em>size</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/map/models.html#CityBorder.generateGrid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#map.models.CityBorder.generateGrid" title="Permalink to this definition">¶</a></dt>
+<dd><p>generate a grid overlaying the city</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>size</strong> &#8211; dimension of the cell for the grid</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">an array of cells that forms the grid</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="map.models.CityBorder.geojson">
+<code class="descclassname">CityBorder.</code><code class="descname">geojson</code><a class="headerlink" href="#map.models.CityBorder.geojson" title="Permalink to this definition">¶</a></dt>
+<dd><p>generate geojson of the CityBorder
+:rtype: city border&#8217;s geojson</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="map.models.CityBorder.geom">
+<code class="descclassname">CityBorder.</code><code class="descname">geom</code><a class="headerlink" href="#map.models.CityBorder.geom" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="map.models.CityBorder.objects">
+<code class="descclassname">CityBorder.</code><code class="descname">objects</code><em class="property"> = &lt;django.db.models.manager.Manager object&gt;</em><a class="headerlink" href="#map.models.CityBorder.objects" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-map.utils">
+<span id="map-utils-module"></span><h2>map.utils module<a class="headerlink" href="#module-map.utils" title="Permalink to this headline">¶</a></h2>
+<p>Utility methods to generate GeoJSON files and compute distances</p>
+<dl class="function">
+<dt id="map.utils.generateGeoJson">
+<code class="descclassname">map.utils.</code><code class="descname">generateGeoJson</code><span class="sig-paren">(</span><em>geometry</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/map/utils.html#generateGeoJson"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#map.utils.generateGeoJson" title="Permalink to this definition">¶</a></dt>
+<dd><p>generate GeoJSON from a geomtry for easy plotting of the borders</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>geometry</strong> &#8211; the generated GeoJSON of a geometry</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rtpye:</th><td class="field-body">GeoJson format of geometry</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="map.utils.getNextPoint">
+<code class="descclassname">map.utils.</code><code class="descname">getNextPoint</code><span class="sig-paren">(</span><em>point</em>, <em>offset</em>, <em>bearing</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/map/utils.html#getNextPoint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#map.utils.getNextPoint" title="Permalink to this definition">¶</a></dt>
+<dd><p>get next point from the given point at a distance and bearing</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>point</strong> &#8211; point to be based upon the next point</li>
+<li><strong>offset</strong> &#8211; the distance to be calculated to get the next point</li>
+<li><strong>bearing</strong> &#8211; the direction or angle to where the next point will be calculated</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">GEOS Point representing the longitude and latitude of the new point</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-map.views">
+<span id="map-views-module"></span><h2>map.views module<a class="headerlink" href="#module-map.views" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="map.views.FetchGridView">
+<em class="property">class </em><code class="descclassname">map.views.</code><code class="descname">FetchGridView</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/map/views.html#FetchGridView"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#map.views.FetchGridView" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.views.generic.base.View</span></code></p>
+<p>Fetch grid of a map</p>
+<dl class="method">
+<dt id="map.views.FetchGridView.get">
+<code class="descname">get</code><span class="sig-paren">(</span><em>request</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/map/views.html#FetchGridView.get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#map.views.FetchGridView.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>get the grid of the map based on supplied pk, size</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">HTTPResponse with the dumped geojson</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">map package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-map.api">map.api module</a></li>
+<li><a class="reference internal" href="#module-map.load">map.load module</a></li>
+<li><a class="reference internal" href="#module-map.models">map.models module</a></li>
+<li><a class="reference internal" href="#module-map.utils">map.utils module</a></li>
+<li><a class="reference internal" href="#module-map.views">map.views module</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="crimeprediction.html" title="previous chapter">crimeprediction package</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/api/map.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Jay Arnel D. Bilocura.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="../_sources/api/map.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

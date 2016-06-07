@@ -14,10 +14,16 @@ from map.models import CityBorder
 
 
 class HomeView(TemplateView):
+    '''
+    View for the home page
+    '''
     template_name = 'home/home.html'
 
 
 class MapView(TemplateView):
+    '''
+    View for showing the map
+    '''
     template_name = 'map/map.html'
 
     def get_context_data(self, **kwargs):
@@ -32,6 +38,9 @@ class MapView(TemplateView):
 
 
 class DashboardView(TemplateView):
+    '''
+    View for viewing dashboard or interface for the model
+    '''
     template_name = 'map/dashboard.html'
 
     def get_context_data(self, **kwargs):
@@ -52,7 +61,9 @@ class DashboardView(TemplateView):
 
 
 class TrainView(View):
-
+    '''
+    View for training a model whose parameters are chosen via web interface
+    '''
     def get(self, request, *args, **kwargs):
         crime_type = self.request.GET.get('crime_type')
         grid_size = self.request.GET.get('grid_size')
@@ -65,7 +76,9 @@ class TrainView(View):
 
 
 class PredictView(View):
-
+    '''
+    View for generating prediction of next hotspot
+    '''
     def get(self, request, *args, **kwargs):
         model, params = get_trained_model()
         msg = {}

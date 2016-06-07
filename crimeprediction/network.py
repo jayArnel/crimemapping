@@ -28,6 +28,14 @@ elif not os.path.exists(settings.MODEL_DIR):
 
 
 def run_network(grid_size, period, crime_type=None, seasonal=False):
+    '''Build, train and run LSTM network
+
+        :param grid_size: size of the cell dimension for the grid
+        :param period: timestep of crime data
+        :param crime_type: type of crime to be trained, None value will
+            train all
+        :param seasonal: implement seasonality or not
+    '''
     vectors = vectorize(
         grid_size, period, crime_type=crime_type, seasonal=seasonal)
     global_start_time = time.time()
@@ -143,6 +151,12 @@ def run_network(grid_size, period, crime_type=None, seasonal=False):
 
 
 def save_trained_model(model, params_string):
+    '''
+    saves trained model to directory and files depending on settings variables
+
+    :param model: model to be saved
+    :param params_string: a yaml string of parameters used for the model: crime_type, period, grid_size and seasonality
+    '''
     folder = settings.MODEL_DIR
     archi = folder + settings.MODEL_ARCHITECTURE
     weights = folder + settings.MODEL_WEIGHTS
@@ -154,6 +168,12 @@ def save_trained_model(model, params_string):
 
 
 def get_trained_model():
+    '''
+    reconstruct trained model from saved files
+
+    :rtype: a tuple of the model constructed and a yaml string of parameters
+    used
+    '''
     folder = settings.MODEL_DIR
     archi = folder + settings.MODEL_ARCHITECTURE
     weights = folder + settings.MODEL_WEIGHTS
@@ -166,6 +186,12 @@ def get_trained_model():
 
 
 def predict_next(model, **params):
+    '''
+    predicts next crime hotspots
+
+    :param model: the model to be used for prediction
+    :param **params: a yaml string of the parameters used by the model
+    '''
     vectors = vectorize(**params)
 
     print 'Loading Data...'

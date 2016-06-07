@@ -1,0 +1,188 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>map.models &mdash; Crime Modeling and Prediction 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Crime Modeling and Prediction 0.0.1 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for map.models</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">cPickle</span> <span class="kn">as</span> <span class="nn">pickle</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">from</span> <span class="nn">django.conf</span> <span class="kn">import</span> <span class="n">settings</span>
+<span class="kn">from</span> <span class="nn">django.contrib.gis.db</span> <span class="kn">import</span> <span class="n">models</span>
+<span class="kn">from</span> <span class="nn">django.contrib.gis.geos</span> <span class="kn">import</span> <span class="n">Point</span><span class="p">,</span> <span class="n">LinearRing</span><span class="p">,</span> <span class="n">Polygon</span>
+<span class="kn">from</span> <span class="nn">django.core.serializers</span> <span class="kn">import</span> <span class="n">serialize</span>
+
+<span class="kn">from</span> <span class="nn">map.utils</span> <span class="kn">import</span> <span class="n">getNextPoint</span>
+
+<span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="s1">&#39;GRIDS_DIR&#39;</span><span class="p">):</span>
+    <span class="k">raise</span> <span class="n">ImproperlyConfigured</span><span class="p">(</span>
+        <span class="s1">&#39;The directory to save grid pickles is missing from your settings&#39;</span><span class="p">)</span>
+<span class="k">elif</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">GRIDS_DIR</span><span class="p">):</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">GRIDS_DIR</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="CityBorder"><a class="viewcode-back" href="../../api/map.html#map.api.CityBorder">[docs]</a><span class="k">class</span> <span class="nc">CityBorder</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39; A model holding the values and attributes of a city border or map&#39;&#39;&#39;</span>
+    <span class="n">objectid</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">()</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
+    <span class="n">shape_area</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">FloatField</span><span class="p">()</span>
+    <span class="n">shape_len</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">FloatField</span><span class="p">()</span>
+    <span class="n">geom</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">MultiPolygonField</span><span class="p">(</span><span class="n">srid</span><span class="o">=</span><span class="mi">4326</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Use name as string</span>
+
+<span class="sd">        :rtype: city border&#39;s name</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">geojson</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; generate geojson of the CityBorder</span>
+<span class="sd">        :rtype: city border&#39;s geojson</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">serialize</span><span class="p">(</span>
+            <span class="s1">&#39;geojson&#39;</span><span class="p">,</span> <span class="n">CityBorder</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">pk</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">pk</span><span class="p">),</span>
+            <span class="n">geometry_field</span><span class="o">=</span><span class="s1">&#39;geom&#39;</span><span class="p">,</span> <span class="n">fields</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">center</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; get center point of the gemotry</span>
+
+<span class="sd">        :rtype: center point of the geomtry in geojson format</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span><span class="o">.</span><span class="n">centroid</span><span class="o">.</span><span class="n">geojson</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">box</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; get box or envelope of the city border</span>
+
+<span class="sd">        :rtype: vertices of the box or envelope of the city border</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">boxPoints</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">extent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span><span class="o">.</span><span class="n">extent</span>
+        <span class="n">boxPoints</span><span class="p">[</span><span class="s1">&#39;nw&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;lat&#39;</span><span class="p">:</span> <span class="n">extent</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="s1">&#39;lon&#39;</span><span class="p">:</span> <span class="n">extent</span><span class="p">[</span><span class="mi">0</span><span class="p">]}</span>
+        <span class="n">boxPoints</span><span class="p">[</span><span class="s1">&#39;ne&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;lat&#39;</span><span class="p">:</span> <span class="n">extent</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="s1">&#39;lon&#39;</span><span class="p">:</span> <span class="n">extent</span><span class="p">[</span><span class="mi">2</span><span class="p">]}</span>
+        <span class="n">boxPoints</span><span class="p">[</span><span class="s1">&#39;se&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;lat&#39;</span><span class="p">:</span> <span class="n">extent</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;lon&#39;</span><span class="p">:</span> <span class="n">extent</span><span class="p">[</span><span class="mi">2</span><span class="p">]}</span>
+        <span class="n">boxPoints</span><span class="p">[</span><span class="s1">&#39;sw&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;lat&#39;</span><span class="p">:</span> <span class="n">extent</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;lon&#39;</span><span class="p">:</span> <span class="n">extent</span><span class="p">[</span><span class="mi">0</span><span class="p">]}</span>
+        <span class="k">return</span> <span class="n">boxPoints</span>
+
+<div class="viewcode-block" id="CityBorder.generateGrid"><a class="viewcode-back" href="../../api/map.html#map.api.CityBorder.generateGrid">[docs]</a>    <span class="k">def</span> <span class="nf">generateGrid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; generate a grid overlaying the city</span>
+
+<span class="sd">        :param size: dimension of the cell for the grid</span>
+<span class="sd">        :rtype: an array of cells that forms the grid</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="nb">file</span> <span class="o">=</span> <span class="s1">&#39;city-{0}_size-{1}m.p&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">GRIDS_DIR</span> <span class="o">+</span> <span class="nb">file</span>
+        <span class="n">grids</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">grids</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">))</span>
+        <span class="k">except</span> <span class="ne">EnvironmentError</span><span class="p">:</span>
+            <span class="n">start</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">box</span><span class="p">[</span><span class="s1">&#39;nw&#39;</span><span class="p">][</span><span class="s1">&#39;lon&#39;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">box</span><span class="p">[</span><span class="s1">&#39;nw&#39;</span><span class="p">][</span><span class="s1">&#39;lat&#39;</span><span class="p">])</span>
+            <span class="n">lat</span> <span class="o">=</span> <span class="n">lon</span> <span class="o">=</span> <span class="n">start</span>
+            <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span><span class="o">.</span><span class="n">envelope</span><span class="o">.</span><span class="n">intersects</span><span class="p">(</span><span class="n">lat</span><span class="p">):</span>
+                <span class="n">nw</span> <span class="o">=</span> <span class="n">lat</span>
+                <span class="n">ne</span> <span class="o">=</span> <span class="n">getNextPoint</span><span class="p">(</span><span class="n">nw</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="mi">90</span><span class="p">)</span>
+                <span class="n">sw</span> <span class="o">=</span> <span class="n">getNextPoint</span><span class="p">(</span><span class="n">nw</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="mi">180</span><span class="p">)</span>
+                <span class="n">se</span> <span class="o">=</span> <span class="n">getNextPoint</span><span class="p">(</span><span class="n">ne</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="mi">180</span><span class="p">)</span>
+                <span class="n">lat</span> <span class="o">=</span> <span class="n">ne</span>
+                <span class="n">linearRing</span> <span class="o">=</span> <span class="n">LinearRing</span><span class="p">(</span><span class="n">nw</span><span class="p">,</span> <span class="n">ne</span><span class="p">,</span> <span class="n">se</span><span class="p">,</span> <span class="n">sw</span><span class="p">,</span> <span class="n">nw</span><span class="p">)</span>
+                <span class="n">polygon</span> <span class="o">=</span> <span class="n">Polygon</span><span class="p">(</span><span class="n">linearRing</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">polygon</span><span class="o">.</span><span class="n">intersects</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">geom</span><span class="p">):</span>
+                    <span class="n">grids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">polygon</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">geom</span><span class="o">.</span><span class="n">envelope</span><span class="o">.</span><span class="n">intersects</span><span class="p">(</span><span class="n">lat</span><span class="p">):</span>
+                    <span class="n">lon</span> <span class="o">=</span> <span class="n">getNextPoint</span><span class="p">(</span><span class="n">lon</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="mi">180</span><span class="p">)</span>
+                    <span class="n">lat</span> <span class="o">=</span> <span class="n">lon</span>
+            <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">grids</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">grids</span></div></div>
+
+
+<span class="c1"># Auto-generated `LayerMapping` dictionary for CityBorder model</span>
+<span class="n">cityborder_mapping</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;objectid&#39;</span><span class="p">:</span> <span class="s1">&#39;OBJECTID&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;NAME&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;shape_area&#39;</span><span class="p">:</span> <span class="s1">&#39;SHAPE_AREA&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;shape_len&#39;</span><span class="p">:</span> <span class="s1">&#39;SHAPE_LEN&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;geom&#39;</span><span class="p">:</span> <span class="s1">&#39;MULTIPOLYGON&#39;</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Jay Arnel D. Bilocura.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

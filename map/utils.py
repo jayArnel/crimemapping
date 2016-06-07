@@ -1,3 +1,6 @@
+'''
+    Utility methods to generate GeoJSON files and compute distances
+'''
 import yaml
 
 from geopy import distance, Point
@@ -6,6 +9,14 @@ from django.contrib.gis import geos
 
 
 def getNextPoint(point, offset, bearing):
+    '''
+    get next point from the given point at a distance and bearing
+
+    :param point: point to be based upon the next point
+    :param offset: the distance to be calculated to get the next point
+    :param bearing: the direction or angle to where the next point will be calculated
+    :rtype: GEOS Point representing the longitude and latitude of the new point
+    '''
     lat = point.y
     lon = point.x
     pnt = Point(latitude=lat, longitude=lon)
@@ -15,6 +26,13 @@ def getNextPoint(point, offset, bearing):
 
 
 def generateGeoJson(geometry):
+    '''
+    generate GeoJSON from a geomtry for easy plotting of the borders
+
+    :param geometry: the generated GeoJSON of a geometry
+    :rtpye: GeoJson format of geometry
+    '''
+
     if type(geometry) != list:
         geometry = [geometry]
     features = []

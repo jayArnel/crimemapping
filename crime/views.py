@@ -1,3 +1,6 @@
+'''
+    Views for the Crime module
+'''
 from datetime import datetime
 
 from sodapy import Socrata
@@ -11,8 +14,9 @@ from crime.models import CriminalRecord
 
 
 class FetchCrimesView(View):
-
+    ''' Fetch criminal records from online data portal '''
     def get(self, request, *args, **kwargs):
+        ''' Get criminal records from the dataset and save them the database as CriminalRecord objects'''
         ids = CriminalRecord.objects.values_list('case_id', flat=True)
         domain = settings.SOCRATA_DOMAIN
         token = settings.SOCRATA_APP_TOKEN
@@ -92,8 +96,23 @@ class FetchCrimesView(View):
         return HttpResponse(status=status)
 
     def get_from_dict(self, dic, key):
+        '''
+        get an value from the dictionary using a key but instead of None
+        return an empty string if it does not exist
+
+        :param dic: the dictionary to be search
+        :param key: key of the value to be obtained
+        :rtype: value of the key in the dictionary or empty string
+        '''
+
         return dic.get(key) if dic.get(key) else ''
 
     def to_int(self, data):
+        '''
+        converts data to interger, return None instead of number
+
+        :param data: data to be converted
+        :rtype: interger converstion of the data or None
+        '''
         num = data.strip()
         return int(num) if num else None

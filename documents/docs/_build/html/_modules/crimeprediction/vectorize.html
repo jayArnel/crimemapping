@@ -1,0 +1,303 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>crimeprediction.vectorize &mdash; Crime Modeling and Prediction 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Crime Modeling and Prediction 0.0.1 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for crimeprediction.vectorize</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">cPickle</span> <span class="kn">as</span> <span class="nn">pickle</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">from</span> <span class="nn">dateutil</span> <span class="kn">import</span> <span class="n">rrule</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+
+<span class="kn">from</span> <span class="nn">django.conf</span> <span class="kn">import</span> <span class="n">settings</span>
+<span class="kn">from</span> <span class="nn">django.core.exceptions</span> <span class="kn">import</span> <span class="n">ImproperlyConfigured</span>
+<span class="kn">from</span> <span class="nn">django.db.models</span> <span class="kn">import</span> <span class="n">Count</span>
+
+<span class="kn">from</span> <span class="nn">map.models</span> <span class="kn">import</span> <span class="n">CityBorder</span>
+<span class="kn">from</span> <span class="nn">crime.models</span> <span class="kn">import</span> <span class="n">CriminalRecord</span>
+
+<span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="s1">&#39;VECTORS_DIR&#39;</span><span class="p">):</span>
+    <span class="k">raise</span> <span class="n">ImproperlyConfigured</span><span class="p">(</span>
+        <span class="s1">&#39;The directory to save vector pickles is missing from your settings&#39;</span><span class="p">)</span>
+<span class="k">elif</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">VECTORS_DIR</span><span class="p">):</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">VECTORS_DIR</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="vectorize"><a class="viewcode-back" href="../../api/crimeprediction.html#crimeprediction.vectorize.vectorize">[docs]</a><span class="k">def</span> <span class="nf">vectorize</span><span class="p">(</span><span class="n">grid_size</span><span class="p">,</span> <span class="n">period</span><span class="p">,</span> <span class="n">crime_type</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">seasonal</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">new</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Vectorize crime data fetched from the database. The vector is saved to a</span>
+<span class="sd">        pickle file and then retrieved later</span>
+
+<span class="sd">    :param grid_size: size of the cell dimension for the grid</span>
+<span class="sd">    :param period: timestep of crime data</span>
+<span class="sd">    :param crime_type: type of crime to be trained, None value will</span>
+<span class="sd">        train all</span>
+<span class="sd">    :param seasonal: implement seasonality or not</span>
+<span class="sd">    :param new: will override the old one pickle file if and if True</span>
+<span class="sd">    :raises: EnvironmentError, NotImplementedError</span>
+<span class="sd">    :rtype: returns the resulting vector</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">type_verbose</span> <span class="o">=</span> <span class="s1">&#39;ALL&#39;</span> <span class="k">if</span> <span class="n">crime_type</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span> <span class="n">crime_type</span>
+    <span class="nb">file</span> <span class="o">=</span> <span class="s1">&#39;type-{0}_grid_size-{1}_period-{2}_seasonal-{3}.p&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+        <span class="n">type_verbose</span><span class="p">,</span> <span class="n">grid_size</span><span class="p">,</span> <span class="n">period</span><span class="p">,</span> <span class="n">seasonal</span><span class="p">)</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">VECTORS_DIR</span> <span class="o">+</span> <span class="nb">file</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">new</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">EnvironmentError</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">vectors</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">))</span>
+    <span class="k">except</span> <span class="ne">EnvironmentError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">first_data</span> <span class="o">=</span> <span class="n">CriminalRecord</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+        <span class="n">last_data</span> <span class="o">=</span> <span class="n">CriminalRecord</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">last</span><span class="p">()</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="n">first_data</span><span class="o">.</span><span class="n">date</span>
+        <span class="n">end</span> <span class="o">=</span> <span class="n">last_data</span><span class="o">.</span><span class="n">date</span>
+        <span class="n">city</span> <span class="o">=</span> <span class="n">CityBorder</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;Chicago&#39;</span><span class="p">)</span>
+        <span class="n">grid</span> <span class="o">=</span> <span class="n">city</span><span class="o">.</span><span class="n">generateGrid</span><span class="p">(</span><span class="n">grid_size</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">period</span> <span class="o">==</span> <span class="s1">&#39;daily&#39;</span><span class="p">:</span>
+            <span class="n">rule</span> <span class="o">=</span> <span class="n">rrule</span><span class="o">.</span><span class="n">DAILY</span>
+            <span class="n">extra_query</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;day&#39;</span><span class="p">:</span> <span class="s2">&quot;EXTRACT(day FROM date)&quot;</span><span class="p">,</span>
+                <span class="s1">&#39;month&#39;</span><span class="p">:</span> <span class="s2">&quot;EXTRACT(month FROM date)&quot;</span><span class="p">,</span>
+                <span class="s1">&#39;year&#39;</span><span class="p">:</span> <span class="s2">&quot;EXTRACT(year FROM date)&quot;</span>
+            <span class="p">}</span>
+        <span class="k">elif</span> <span class="n">period</span> <span class="o">==</span> <span class="s1">&#39;weekly&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">vectorize_weekly</span><span class="p">(</span>
+                <span class="n">grid</span><span class="p">,</span> <span class="n">crime_type</span><span class="o">=</span><span class="n">crime_type</span><span class="p">,</span> <span class="n">seasonal</span><span class="o">=</span><span class="n">seasonal</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">period</span> <span class="o">==</span> <span class="s1">&#39;monthly&#39;</span><span class="p">:</span>
+            <span class="n">rule</span> <span class="o">=</span> <span class="n">rrule</span><span class="o">.</span><span class="n">MONTHLY</span>
+            <span class="n">extra_query</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;month&#39;</span><span class="p">:</span> <span class="s2">&quot;EXTRACT(month FROM date)&quot;</span><span class="p">,</span>
+                <span class="s1">&#39;year&#39;</span><span class="p">:</span> <span class="s2">&quot;EXTRACT(year FROM date)&quot;</span>
+            <span class="p">}</span>
+        <span class="k">elif</span> <span class="n">period</span> <span class="o">==</span> <span class="s1">&#39;yearly&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">seasonal</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+                    <span class="s1">&#39;Seasonality is not applicable on a yearly period&#39;</span><span class="p">)</span>
+            <span class="n">rule</span> <span class="o">=</span> <span class="n">rrule</span><span class="o">.</span><span class="n">YEARLY</span>
+            <span class="n">extra_query</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;year&#39;</span><span class="p">:</span> <span class="s2">&quot;EXTRACT(year FROM date)&quot;</span>
+            <span class="p">}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+                <span class="s1">&#39;Vectorization by &quot;{0}&quot; time step is not yet implemented.&#39;</span><span class="o">.</span>
+                <span class="n">format</span><span class="p">(</span><span class="n">period</span><span class="p">))</span>
+
+        <span class="n">timesteps</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">seasonal</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">dt</span> <span class="ow">in</span> <span class="n">rrule</span><span class="o">.</span><span class="n">rrule</span><span class="p">(</span><span class="n">rule</span><span class="p">,</span> <span class="n">dtstart</span><span class="o">=</span><span class="n">start</span><span class="p">,</span> <span class="n">until</span><span class="o">=</span><span class="n">end</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">period</span> <span class="o">==</span> <span class="s1">&#39;daily&#39;</span><span class="p">:</span>
+                    <span class="n">season_key</span> <span class="o">=</span> <span class="s1">&#39;-&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                        <span class="p">[</span><span class="s2">&quot;</span><span class="si">%02d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;month&#39;</span><span class="p">,</span> <span class="s1">&#39;day&#39;</span><span class="p">]])</span>
+                <span class="k">elif</span> <span class="n">period</span> <span class="o">==</span> <span class="s1">&#39;monthly&#39;</span><span class="p">:</span>
+                    <span class="n">season_key</span> <span class="o">=</span> <span class="s1">&#39;-&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                        <span class="p">[</span><span class="s2">&quot;</span><span class="si">%02d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;month&#39;</span><span class="p">]])</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">season</span> <span class="o">=</span> <span class="n">timesteps</span><span class="p">[</span><span class="n">season_key</span><span class="p">]</span>
+                <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                    <span class="n">timesteps</span><span class="p">[</span><span class="n">season_key</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="n">step_key</span> <span class="o">=</span> <span class="s1">&#39;-&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                    <span class="p">[</span><span class="s2">&quot;</span><span class="si">%02d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;year&#39;</span><span class="p">]])</span>
+                <span class="n">timesteps</span><span class="p">[</span><span class="n">season_key</span><span class="p">][</span><span class="n">step_key</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="p">)):</span>
+                <span class="n">g</span> <span class="o">=</span> <span class="n">grid</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="n">crimes</span> <span class="o">=</span> <span class="n">CriminalRecord</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+                    <span class="n">location__intersects</span><span class="o">=</span><span class="n">g</span><span class="p">)</span><span class="o">.</span><span class="n">extra</span><span class="p">(</span>
+                    <span class="n">select</span><span class="o">=</span><span class="n">extra_query</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">(</span>
+                    <span class="o">*</span><span class="n">extra_query</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">count_items</span><span class="o">=</span><span class="n">Count</span><span class="p">(</span><span class="s1">&#39;date&#39;</span><span class="p">))</span>
+                <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">crimes</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">period</span> <span class="o">==</span> <span class="s1">&#39;daily&#39;</span><span class="p">:</span>
+                        <span class="n">season_key</span> <span class="o">=</span> <span class="s1">&#39;-&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                            <span class="p">[</span><span class="s2">&quot;</span><span class="si">%02d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">c</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;month&#39;</span><span class="p">,</span> <span class="s1">&#39;day&#39;</span><span class="p">]])</span>
+                    <span class="k">elif</span> <span class="n">period</span> <span class="o">==</span> <span class="s1">&#39;monthly&#39;</span><span class="p">:</span>
+                        <span class="n">season_key</span> <span class="o">=</span> <span class="s1">&#39;-&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                            <span class="p">[</span><span class="s2">&quot;</span><span class="si">%02d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">c</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;month&#39;</span><span class="p">]])</span>
+                    <span class="n">step_key</span> <span class="o">=</span> <span class="s1">&#39;-&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                        <span class="p">[</span><span class="s2">&quot;</span><span class="si">%02d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">c</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;year&#39;</span><span class="p">]])</span>
+                    <span class="n">timesteps</span><span class="p">[</span><span class="n">season_key</span><span class="p">][</span><span class="n">step_key</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="n">vectors</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">k1</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">timesteps</span><span class="p">):</span>
+                <span class="n">season</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">k2</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">timesteps</span><span class="p">[</span><span class="n">k1</span><span class="p">]):</span>
+                    <span class="n">season</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">timesteps</span><span class="p">[</span><span class="n">k1</span><span class="p">][</span><span class="n">k2</span><span class="p">])</span>
+                <span class="n">vectors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">season</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">dt</span> <span class="ow">in</span> <span class="n">rrule</span><span class="o">.</span><span class="n">rrule</span><span class="p">(</span><span class="n">rule</span><span class="p">,</span> <span class="n">dtstart</span><span class="o">=</span><span class="n">start</span><span class="p">,</span> <span class="n">until</span><span class="o">=</span><span class="n">end</span><span class="p">):</span>
+                <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;-&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                    <span class="p">[</span><span class="s2">&quot;</span><span class="si">%02d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">extra_query</span><span class="o">.</span><span class="n">keys</span><span class="p">()])</span>
+                <span class="n">timesteps</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="p">)):</span>
+                <span class="n">g</span> <span class="o">=</span> <span class="n">grid</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="n">crimes</span> <span class="o">=</span> <span class="n">CriminalRecord</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+                    <span class="n">location__intersects</span><span class="o">=</span><span class="n">g</span><span class="p">,</span> <span class="n">date__lte</span><span class="o">=</span><span class="n">end</span><span class="p">)</span><span class="o">.</span><span class="n">extra</span><span class="p">(</span>
+                    <span class="n">select</span><span class="o">=</span><span class="n">extra_query</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">(</span>
+                    <span class="o">*</span><span class="n">extra_query</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">count_items</span><span class="o">=</span><span class="n">Count</span><span class="p">(</span><span class="s1">&#39;date&#39;</span><span class="p">))</span>
+                <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">crimes</span><span class="p">:</span>
+                    <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;-&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                        <span class="p">[</span><span class="s2">&quot;</span><span class="si">%02d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">c</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">extra_query</span><span class="o">.</span><span class="n">keys</span><span class="p">()])</span>
+                    <span class="n">timesteps</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="n">vectors</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">k1</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">timesteps</span><span class="p">):</span>
+                <span class="n">vectors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">timesteps</span><span class="p">[</span><span class="n">k1</span><span class="p">])</span>
+        <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">vectors</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">vectors</span></div>
+
+
+<div class="viewcode-block" id="vectorize_weekly"><a class="viewcode-back" href="../../api/crimeprediction.html#crimeprediction.vectorize.vectorize_weekly">[docs]</a><span class="k">def</span> <span class="nf">vectorize_weekly</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">crime_type</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">seasonal</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Special vectorization for weekly data</span>
+
+<span class="sd">    :param grid_size: size of the cell dimension for the grid</span>
+<span class="sd">    :param crime_type: type of crime to be trained, None value will</span>
+<span class="sd">        train all</span>
+<span class="sd">    :param seasonal: implement seasonality or not</span>
+<span class="sd">    :rtype: returns the resulting vector</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">filters</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">if</span> <span class="n">crime_type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">filters</span><span class="p">[</span><span class="s1">&#39;primary_type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">crime_type</span>
+    <span class="n">first_data</span> <span class="o">=</span> <span class="n">CriminalRecord</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+    <span class="n">last_data</span> <span class="o">=</span> <span class="n">CriminalRecord</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">last</span><span class="p">()</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">first_data</span><span class="o">.</span><span class="n">date</span>
+    <span class="n">dtstart</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+    <span class="n">end</span> <span class="o">=</span> <span class="n">last_data</span><span class="o">.</span><span class="n">date</span>
+    <span class="k">if</span> <span class="n">seasonal</span><span class="p">:</span>
+        <span class="n">timesteps</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">dt</span> <span class="ow">in</span> <span class="n">rrule</span><span class="o">.</span><span class="n">rrule</span><span class="p">(</span><span class="n">rrule</span><span class="o">.</span><span class="n">WEEKLY</span><span class="p">,</span> <span class="n">dtstart</span><span class="o">=</span><span class="n">dtstart</span><span class="p">,</span> <span class="n">until</span><span class="o">=</span><span class="n">end</span><span class="p">):</span>
+            <span class="n">season_key</span> <span class="o">=</span> <span class="s1">&#39;-&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                <span class="p">[</span><span class="s2">&quot;</span><span class="si">%02d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;month&#39;</span><span class="p">,</span> <span class="s1">&#39;day&#39;</span><span class="p">]])</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">season</span> <span class="o">=</span> <span class="n">timesteps</span><span class="p">[</span><span class="n">season_key</span><span class="p">]</span>
+            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                <span class="n">timesteps</span><span class="p">[</span><span class="n">season_key</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">vector</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="p">)):</span>
+                <span class="n">g</span> <span class="o">=</span> <span class="n">grid</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="n">filters</span><span class="p">[</span><span class="s1">&#39;date__range&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
+                <span class="n">filters</span><span class="p">[</span><span class="s1">&#39;date__lte&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">end</span>
+                <span class="n">filters</span><span class="p">[</span><span class="s1">&#39;location__intersects&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">g</span>
+                <span class="n">crimes</span> <span class="o">=</span> <span class="n">CriminalRecord</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="o">**</span><span class="n">filters</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+                <span class="n">has_crime</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">crimes</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="o">-</span><span class="mi">1</span>
+                <span class="n">vector</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">has_crime</span><span class="p">)</span>
+            <span class="n">start</span> <span class="o">=</span> <span class="n">dt</span>
+            <span class="n">timesteps</span><span class="p">[</span><span class="n">season_key</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vector</span><span class="p">)</span>
+        <span class="k">print</span> <span class="n">timesteps</span>
+        <span class="n">vectors</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">k1</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">timesteps</span><span class="p">):</span>
+            <span class="n">vectors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">timesteps</span><span class="p">[</span><span class="n">k1</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">vectors</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">dt</span> <span class="ow">in</span> <span class="n">rrule</span><span class="o">.</span><span class="n">rrule</span><span class="p">(</span><span class="n">rrule</span><span class="o">.</span><span class="n">WEEKLY</span><span class="p">,</span> <span class="n">dtstart</span><span class="o">=</span><span class="n">dtstart</span><span class="p">,</span> <span class="n">until</span><span class="o">=</span><span class="n">end</span><span class="p">):</span>
+            <span class="n">vector</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">grid</span><span class="p">)):</span>
+                <span class="n">g</span> <span class="o">=</span> <span class="n">grid</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="n">filters</span><span class="p">[</span><span class="s1">&#39;date__range&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
+                <span class="n">filters</span><span class="p">[</span><span class="s1">&#39;location__intersects&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">g</span>
+                <span class="n">crimes</span> <span class="o">=</span> <span class="n">CriminalRecord</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="o">**</span><span class="n">filters</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+                <span class="n">has_crime</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">crimes</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="o">-</span><span class="mi">1</span>
+                <span class="n">vector</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">has_crime</span><span class="p">)</span>
+            <span class="n">start</span> <span class="o">=</span> <span class="n">dt</span>
+            <span class="n">vectors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vector</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">vectors</span></div>
+
+
+<span class="k">def</span> <span class="nf">_generate_all_vectors</span><span class="p">(</span><span class="n">new</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="n">crime_types</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">CriminalRecord</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">values</span><span class="p">(</span><span class="s1">&#39;primary_type&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span>
+        <span class="n">count</span><span class="o">=</span><span class="n">Count</span><span class="p">(</span><span class="s1">&#39;primary_type&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;-count&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">values_list</span><span class="p">(</span>
+        <span class="s1">&#39;primary_type&#39;</span><span class="p">,</span> <span class="n">flat</span><span class="o">=</span><span class="bp">True</span><span class="p">)[:</span><span class="mi">3</span><span class="p">])</span>
+    <span class="n">crime_types</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">None</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">crime_type</span> <span class="ow">in</span> <span class="n">crime_types</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">size</span> <span class="ow">in</span> <span class="n">settings</span><span class="o">.</span><span class="n">GRID_SIZES</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">period</span> <span class="ow">in</span> <span class="n">settings</span><span class="o">.</span><span class="n">PERIODS</span><span class="p">:</span>
+                <span class="k">print</span> <span class="s1">&#39;generating data for grid cell dimension: &#39;</span>\
+                    <span class="s1">&#39;{0} meters, period: {1}, type: {2} and &#39;</span>\
+                    <span class="s1">&#39;seasonality: True&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">period</span><span class="p">,</span> <span class="n">crime_type</span><span class="p">)</span>
+                <span class="n">vectorize</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">period</span><span class="p">,</span> <span class="n">crime_type</span><span class="o">=</span><span class="n">crime_type</span><span class="p">,</span>
+                          <span class="n">seasonal</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">new</span><span class="o">=</span><span class="n">new</span><span class="p">)</span>
+                <span class="k">print</span> <span class="s1">&#39;generating data for grid cell dimension: &#39;</span>\
+                    <span class="s1">&#39;{0} meters, period: {1}, type: {2} and &#39;</span>\
+                    <span class="s1">&#39;seasonality: False&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">period</span><span class="p">,</span> <span class="n">crime_type</span><span class="p">)</span>
+                <span class="n">vectorize</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">period</span><span class="p">,</span> <span class="n">crime_type</span><span class="o">=</span><span class="n">crime_type</span><span class="p">,</span>
+                          <span class="n">seasonal</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">new</span><span class="o">=</span><span class="n">new</span><span class="p">)</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Jay Arnel D. Bilocura.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -6,6 +6,9 @@ from crimeprediction.network import run_network
 
 
 def run_experiments():
+    '''
+    Perfrom all experiments by running network under all possible conditions
+    '''
     crime_types = list(CriminalRecord.objects.values('primary_type').annotate(
         count=Count('primary_type')).order_by('-count').values_list(
         'primary_type', flat=True)[:3])

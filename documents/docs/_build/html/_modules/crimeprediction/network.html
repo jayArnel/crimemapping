@@ -1,0 +1,288 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>crimeprediction.network &mdash; Crime Modeling and Prediction 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Crime Modeling and Prediction 0.0.1 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for crimeprediction.network</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">yaml</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.learning_curve</span> <span class="kn">import</span> <span class="n">learning_curve</span>
+<span class="kn">from</span> <span class="nn">keras.layers.core</span> <span class="kn">import</span> <span class="n">Dense</span><span class="p">,</span> <span class="n">Activation</span><span class="p">,</span> <span class="n">Dropout</span>
+<span class="kn">from</span> <span class="nn">keras.layers.recurrent</span> <span class="kn">import</span> <span class="n">LSTM</span>
+<span class="kn">from</span> <span class="nn">keras.models</span> <span class="kn">import</span> <span class="n">Sequential</span><span class="p">,</span> <span class="n">model_from_yaml</span>
+<span class="kn">from</span> <span class="nn">keras.wrappers.scikit_learn</span> <span class="kn">import</span> <span class="n">KerasRegressor</span>
+<span class="kn">from</span> <span class="nn">django.conf</span> <span class="kn">import</span> <span class="n">settings</span>
+
+<span class="kn">from</span> <span class="nn">crimeprediction.vectorize</span> <span class="kn">import</span> <span class="n">vectorize</span>
+
+
+<span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="s1">&#39;OUTPUTS_DIR&#39;</span><span class="p">):</span>
+    <span class="k">raise</span> <span class="n">ImproperlyConfigured</span><span class="p">(</span>
+        <span class="s1">&#39;The directory to save output files is missing from your settings&#39;</span><span class="p">)</span>
+<span class="k">elif</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">OUTPUTS_DIR</span><span class="p">):</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">OUTPUTS_DIR</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="s1">&#39;MODEL_DIR&#39;</span><span class="p">):</span>
+    <span class="k">raise</span> <span class="n">ImproperlyConfigured</span><span class="p">(</span>
+        <span class="s1">&#39;The directory to save the model is missing from your settings&#39;</span><span class="p">)</span>
+<span class="k">elif</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">MODEL_DIR</span><span class="p">):</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">MODEL_DIR</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="run_network"><a class="viewcode-back" href="../../api/crimeprediction.html#crimeprediction.network.run_network">[docs]</a><span class="k">def</span> <span class="nf">run_network</span><span class="p">(</span><span class="n">grid_size</span><span class="p">,</span> <span class="n">period</span><span class="p">,</span> <span class="n">crime_type</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">seasonal</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Build, train and run LSTM network</span>
+
+<span class="sd">        :param grid_size: size of the cell dimension for the grid</span>
+<span class="sd">        :param period: timestep of crime data</span>
+<span class="sd">        :param crime_type: type of crime to be trained, None value will</span>
+<span class="sd">            train all</span>
+<span class="sd">        :param seasonal: implement seasonality or not</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">vectors</span> <span class="o">=</span> <span class="n">vectorize</span><span class="p">(</span>
+        <span class="n">grid_size</span><span class="p">,</span> <span class="n">period</span><span class="p">,</span> <span class="n">crime_type</span><span class="o">=</span><span class="n">crime_type</span><span class="p">,</span> <span class="n">seasonal</span><span class="o">=</span><span class="n">seasonal</span><span class="p">)</span>
+    <span class="n">global_start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+    <span class="k">print</span> <span class="s1">&#39;Loading Data...&#39;</span>
+    <span class="n">dim</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">vectors</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">vectors</span><span class="p">)</span>
+
+    <span class="k">print</span> <span class="s2">&quot;Data  : &quot;</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">shape</span>
+
+    <span class="n">row</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="mf">0.7</span> <span class="o">*</span> <span class="n">result</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+    <span class="n">train</span> <span class="o">=</span> <span class="n">result</span><span class="p">[:</span><span class="n">row</span><span class="p">]</span>
+    <span class="n">X_train</span> <span class="o">=</span> <span class="n">train</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">y_train</span> <span class="o">=</span> <span class="n">train</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+    <span class="n">test</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="n">row</span><span class="p">:]</span>
+    <span class="n">X_test</span> <span class="o">=</span> <span class="n">test</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">y_test</span> <span class="o">=</span> <span class="n">test</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+
+    <span class="n">X_train</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">X_test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="p">(</span><span class="n">X_test</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">X_test</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="k">print</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Data Loaded. Compiling...</span><span class="se">\n</span><span class="s1">&#39;</span>
+    <span class="k">print</span> <span class="n">X_train</span>
+    <span class="k">print</span> <span class="n">y_train</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">()</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">LSTM</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">input_shape</span><span class="o">=</span><span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:]))</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="s1">&#39;mse&#39;</span><span class="p">,</span> <span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;rmsprop&#39;</span><span class="p">,)</span>
+
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Train...&quot;</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">nb_epoch</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+        <span class="k">pass</span>
+
+    <span class="k">print</span> <span class="s1">&#39;Training duration (s) : &#39;</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">global_start_time</span>
+    <span class="n">predicted</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+    <span class="n">norm_predicted</span> <span class="o">=</span> <span class="n">predicted</span>
+    <span class="n">accuracy</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">f1scr</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">y_test</span><span class="p">):</span>
+        <span class="k">print</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">print</span> <span class="nb">len</span><span class="p">(</span><span class="n">predicted</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
+        <span class="n">correct</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">truepos</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">falsepos</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">trueneg</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">falseneg</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">for</span> <span class="n">y</span><span class="p">,</span> <span class="n">node</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+            <span class="n">total</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">predicted</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">norm_predicted</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+                <span class="k">if</span> <span class="n">node</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">correct</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="n">truepos</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">falsepos</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">norm_predicted</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+                <span class="k">if</span> <span class="n">node</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                    <span class="n">correct</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="n">trueneg</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">falseneg</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">print</span> <span class="s2">&quot;correct&quot;</span><span class="p">,</span> <span class="n">correct</span>
+        <span class="k">print</span> <span class="s2">&quot;total&quot;</span><span class="p">,</span> <span class="n">total</span>
+        <span class="n">act</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">correct</span><span class="p">)</span> <span class="o">/</span> <span class="n">total</span>
+        <span class="k">print</span> <span class="n">act</span>
+        <span class="n">accuracy</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">act</span><span class="p">)</span>
+
+        <span class="n">precision</span> <span class="o">=</span> <span class="n">truepos</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">truepos</span><span class="o">+</span><span class="n">falsepos</span><span class="p">)</span>
+        <span class="n">recall</span> <span class="o">=</span> <span class="n">truepos</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">truepos</span><span class="o">+</span><span class="n">falseneg</span><span class="p">)</span>
+
+        <span class="n">f1</span> <span class="o">=</span> <span class="p">(</span><span class="n">precision</span> <span class="o">*</span> <span class="n">recall</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">precision</span> <span class="o">+</span> <span class="n">recall</span><span class="p">)</span>
+
+        <span class="n">f1scr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span>
+
+        <span class="k">print</span> <span class="n">accuracy</span>
+        <span class="k">print</span> <span class="n">f1</span>
+
+    <span class="n">crime_verbose</span> <span class="o">=</span> <span class="n">crime_type</span> <span class="k">if</span> <span class="n">crime_type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="k">else</span> <span class="s2">&quot;ALL&quot;</span>
+    <span class="n">output_folder</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">OUTPUTS_DIR</span> <span class="o">+</span> \
+        <span class="s1">&#39;Results_{0}_{1}_{2}_{3}/&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">grid_size</span><span class="p">,</span> <span class="n">crime_verbose</span><span class="p">,</span> <span class="n">period</span><span class="p">,</span> <span class="n">seasonal</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">output_folder</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">output_folder</span><span class="p">)</span>
+
+    <span class="n">results_file</span> <span class="o">=</span> <span class="n">output_folder</span> <span class="o">+</span> <span class="s1">&#39;results.txt&#39;</span>
+    <span class="n">predicted_file</span> <span class="o">=</span> <span class="n">output_folder</span> <span class="o">+</span> <span class="s1">&#39;predicted.txt&#39;</span>
+    <span class="n">X_train_file</span> <span class="o">=</span> <span class="n">output_folder</span> <span class="o">+</span> <span class="s1">&#39;X_train.txt&#39;</span>
+    <span class="n">y_train_file</span> <span class="o">=</span> <span class="n">output_folder</span> <span class="o">+</span> <span class="s1">&#39;y_train.txt&#39;</span>
+    <span class="n">X_test_file</span> <span class="o">=</span> <span class="n">output_folder</span> <span class="o">+</span> <span class="s1">&#39;X_test.txt&#39;</span>
+    <span class="n">y_test_file</span> <span class="o">=</span> <span class="n">output_folder</span> <span class="o">+</span> <span class="s1">&#39;y_test.txt&#39;</span>
+
+    <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="n">X_train_file</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="n">y_train_file</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="n">X_test_file</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="n">y_test_file</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="n">predicted_file</span><span class="p">,</span> <span class="n">norm_predicted</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="s2">&quot;Average Accuracy:&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">accuracy</span><span class="p">))</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+    <span class="n">results</span> <span class="o">+=</span> <span class="s2">&quot;Average F1 Score:&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">f1scr</span><span class="p">))</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">results_file</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">output_file</span><span class="p">:</span>
+        <span class="n">output_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;grid_size&#39;</span><span class="p">:</span> <span class="n">grid_size</span><span class="p">,</span>
+        <span class="s1">&#39;period&#39;</span><span class="p">:</span> <span class="n">period</span><span class="p">,</span>
+        <span class="s1">&#39;crime_type&#39;</span><span class="p">:</span> <span class="n">crime_type</span> <span class="k">if</span> <span class="n">crime_type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="k">else</span> <span class="s1">&#39;all&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;seasonal&#39;</span><span class="p">:</span> <span class="n">seasonal</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="n">save_trained_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">yaml</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">params</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="save_trained_model"><a class="viewcode-back" href="../../api/crimeprediction.html#crimeprediction.network.save_trained_model">[docs]</a><span class="k">def</span> <span class="nf">save_trained_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">params_string</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    saves trained model to directory and files depending on settings variables</span>
+
+<span class="sd">    :param model: model to be saved</span>
+<span class="sd">    :param params_string: a yaml string of parameters used for the model: crime_type, period, grid_size and seasonality</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">folder</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">MODEL_DIR</span>
+    <span class="n">archi</span> <span class="o">=</span> <span class="n">folder</span> <span class="o">+</span> <span class="n">settings</span><span class="o">.</span><span class="n">MODEL_ARCHITECTURE</span>
+    <span class="n">weights</span> <span class="o">=</span> <span class="n">folder</span> <span class="o">+</span> <span class="n">settings</span><span class="o">.</span><span class="n">MODEL_WEIGHTS</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="n">folder</span> <span class="o">+</span> <span class="n">settings</span><span class="o">.</span><span class="n">MODEL_PARAMS</span>
+    <span class="n">yaml_string</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">to_yaml</span><span class="p">()</span>
+    <span class="nb">open</span><span class="p">(</span><span class="n">archi</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">yaml_string</span><span class="p">)</span>
+    <span class="nb">open</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">params_string</span><span class="p">)</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">save_weights</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="get_trained_model"><a class="viewcode-back" href="../../api/crimeprediction.html#crimeprediction.network.get_trained_model">[docs]</a><span class="k">def</span> <span class="nf">get_trained_model</span><span class="p">():</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    reconstruct trained model from saved files</span>
+
+<span class="sd">    :rtype: a tuple of the model constructed and a yaml string of parameters</span>
+<span class="sd">    used</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">folder</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">MODEL_DIR</span>
+    <span class="n">archi</span> <span class="o">=</span> <span class="n">folder</span> <span class="o">+</span> <span class="n">settings</span><span class="o">.</span><span class="n">MODEL_ARCHITECTURE</span>
+    <span class="n">weights</span> <span class="o">=</span> <span class="n">folder</span> <span class="o">+</span> <span class="n">settings</span><span class="o">.</span><span class="n">MODEL_WEIGHTS</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="n">folder</span> <span class="o">+</span> <span class="n">settings</span><span class="o">.</span><span class="n">MODEL_PARAMS</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">params</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">model_from_yaml</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">archi</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">load_weights</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="s1">&#39;mse&#39;</span><span class="p">,</span> <span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;rmsprop&#39;</span><span class="p">,)</span>
+    <span class="k">return</span> <span class="n">model</span><span class="p">,</span> <span class="n">params</span></div>
+
+
+<div class="viewcode-block" id="predict_next"><a class="viewcode-back" href="../../api/crimeprediction.html#crimeprediction.network.predict_next">[docs]</a><span class="k">def</span> <span class="nf">predict_next</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    predicts next crime hotspots</span>
+
+<span class="sd">    :param model: the model to be used for prediction</span>
+<span class="sd">    :param **params: a yaml string of the parameters used by the model</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">vectors</span> <span class="o">=</span> <span class="n">vectorize</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
+
+    <span class="k">print</span> <span class="s1">&#39;Loading Data...&#39;</span>
+    <span class="n">dim</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">vectors</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">vectors</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">result</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">predicted</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">predicted</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Jay Arnel D. Bilocura.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

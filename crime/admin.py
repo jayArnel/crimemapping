@@ -1,9 +1,14 @@
+'''
+    Admin configuration for the Crime module
+'''
+
 from django.contrib import admin
 
 import models
 
 
 class CriminalRecordAdmin(admin.ModelAdmin):
+    ''' display CriminalRecord Model in admin page '''
     list_display = (
         'primary_type', 'crime_description', 'location_description', 'date',
         'latitude', 'longitude')

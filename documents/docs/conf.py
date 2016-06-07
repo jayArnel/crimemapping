@@ -29,6 +29,17 @@
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
+import django
+import os
+import sys
+
+sys.path.append(os.path.abspath('.'))
+sys.path.append(os.path.abspath('..'))
+sys.path.append(os.path.abspath('../../'))
+sys.path.append(os.path.abspath('../../lib/python2.7/site-packages/'))
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "crimemapping.settings")
+django.setup()
+
 extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.doctest',

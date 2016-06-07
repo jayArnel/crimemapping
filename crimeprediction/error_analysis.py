@@ -13,6 +13,13 @@ from crimeprediction.vectorize import vectorize
 
 
 def build_model(dim, X):
+    '''
+    build function required by Scikit-Learn's learning curve function
+
+    :param dim: dimension of the inputs
+    :param X: data vector
+    :rtype: contructed model
+    '''
     print '\nData Loaded. Compiling...\n'
     model = Sequential()
     model.add(LSTM(dim, input_shape=X.shape[1:]))
@@ -21,6 +28,16 @@ def build_model(dim, X):
 
 
 def plot_learning_curve(grid_size, period, crime_type=None, seasonal=False):
+    '''
+    Plots the learning curve using Scikit-Learn's learning_curve function,
+        plots the graph using matplotlib and save sit
+
+        :param grid_size: size of the cell dimension for the grid
+        :param period: timestep of crime data
+        :param crime_type: type of crime to be trained, None value will
+            train all
+        :param seasonal: implement seasonality or not
+    '''
     vectors = vectorize(
         grid_size, period, crime_type=crime_type, seasonal=seasonal)
 

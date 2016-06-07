@@ -1,0 +1,305 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>crime package &mdash; Crime Modeling and Prediction 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Crime Modeling and Prediction 0.0.1 documentation" href="../index.html" />
+    <link rel="next" title="crimeprediction package" href="crimeprediction.html" />
+    <link rel="prev" title="core.finders package" href="core.finders.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="crime-package">
+<h1>crime package<a class="headerlink" href="#crime-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-crime.admin">
+<span id="crime-admin-module"></span><h2>crime.admin module<a class="headerlink" href="#module-crime.admin" title="Permalink to this headline">¶</a></h2>
+<p>Admin configuration for the Crime module</p>
+<dl class="class">
+<dt id="crime.admin.CriminalRecordAdmin">
+<em class="property">class </em><code class="descclassname">crime.admin.</code><code class="descname">CriminalRecordAdmin</code><span class="sig-paren">(</span><em>model</em>, <em>admin_site</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crime/admin.html#CriminalRecordAdmin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crime.admin.CriminalRecordAdmin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.contrib.admin.options.ModelAdmin</span></code></p>
+<p>display CriminalRecord Model in admin page</p>
+<dl class="attribute">
+<dt id="crime.admin.CriminalRecordAdmin.date_hierarchy">
+<code class="descname">date_hierarchy</code><em class="property"> = 'date'</em><a class="headerlink" href="#crime.admin.CriminalRecordAdmin.date_hierarchy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crime.admin.CriminalRecordAdmin.list_display">
+<code class="descname">list_display</code><em class="property"> = ('primary_type', 'crime_description', 'location_description', 'date', 'latitude', 'longitude')</em><a class="headerlink" href="#crime.admin.CriminalRecordAdmin.list_display" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crime.admin.CriminalRecordAdmin.list_filter">
+<code class="descname">list_filter</code><em class="property"> = ('date',)</em><a class="headerlink" href="#crime.admin.CriminalRecordAdmin.list_filter" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crime.admin.CriminalRecordAdmin.media">
+<code class="descname">media</code><a class="headerlink" href="#crime.admin.CriminalRecordAdmin.media" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crime.admin.CriminalRecordAdmin.search_fields">
+<code class="descname">search_fields</code><em class="property"> = ('primary_type', 'crime_description', 'location_description', 'date', 'latitude', 'longitude')</em><a class="headerlink" href="#crime.admin.CriminalRecordAdmin.search_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-crime.api">
+<span id="crime-api-module"></span><h2>crime.api module<a class="headerlink" href="#module-crime.api" title="Permalink to this headline">¶</a></h2>
+<p>API resources for the Crime module</p>
+<dl class="class">
+<dt id="crime.api.CriminalRecordResource">
+<em class="property">class </em><code class="descclassname">crime.api.</code><code class="descname">CriminalRecordResource</code><span class="sig-paren">(</span><em>api_name=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crime/api.html#CriminalRecordResource"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crime.api.CriminalRecordResource" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">tastypie.resources.ModelResource</span></code></p>
+<p>Api resource for CriminalRecord Model</p>
+<dl class="class">
+<dt id="crime.api.CriminalRecordResource.Meta">
+<em class="property">class </em><code class="descname">Meta</code><a class="reference internal" href="../_modules/crime/api.html#CriminalRecordResource.Meta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crime.api.CriminalRecordResource.Meta" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="attribute">
+<dt id="crime.api.CriminalRecordResource.Meta.filtering">
+<code class="descname">filtering</code><em class="property"> = {'date': ['range', 'exact', 'gt', 'gte', 'lt', 'lte'], 'primary_type': ['exact', 'in']}</em><a class="headerlink" href="#crime.api.CriminalRecordResource.Meta.filtering" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crime.api.CriminalRecordResource.Meta.object_class">
+<code class="descname">object_class</code><a class="headerlink" href="#crime.api.CriminalRecordResource.Meta.object_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal"><span class="pre">CriminalRecord</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="crime.api.CriminalRecordResource.Meta.queryset">
+<code class="descname">queryset</code><em class="property"> = [&lt;CriminalRecord: CriminalRecord object&gt;, &lt;CriminalRecord: CriminalRecord object&gt;, &lt;CriminalRecord: CriminalRecord object&gt;, &lt;CriminalRecord: CriminalRecord object&gt;, &lt;CriminalRecord: CriminalRecord object&gt;, &lt;CriminalRecord: CriminalRecord object&gt;, &lt;CriminalRecord: CriminalRecord object&gt;, &lt;CriminalRecord: CriminalRecord object&gt;, &lt;CriminalRecord: CriminalRecord object&gt;, &lt;CriminalRecord: CriminalRecord object&gt;, &lt;CriminalRecord: CriminalRecord object&gt;, &lt;CriminalRecord: CriminalRecord object&gt;, &lt;CriminalRecord: CriminalRecord object&gt;, &lt;CriminalRecord: CriminalRecord object&gt;, &lt;CriminalRecord: CriminalRecord object&gt;, &lt;CriminalRecord: CriminalRecord object&gt;, &lt;CriminalRecord: CriminalRecord object&gt;, &lt;CriminalRecord: CriminalRecord object&gt;, &lt;CriminalRecord: CriminalRecord object&gt;, &lt;CriminalRecord: CriminalRecord object&gt;, '...(remaining elements truncated)...']</em><a class="headerlink" href="#crime.api.CriminalRecordResource.Meta.queryset" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crime.api.CriminalRecordResource.Meta.resource_name">
+<code class="descname">resource_name</code><em class="property"> = 'criminalrecord'</em><a class="headerlink" href="#crime.api.CriminalRecordResource.Meta.resource_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="attribute">
+<dt id="crime.api.CriminalRecordResource.base_fields">
+<code class="descclassname">CriminalRecordResource.</code><code class="descname">base_fields</code><em class="property"> = {'primary_type': &lt;tastypie.fields.CharField object at 0xaa9a3fcc&gt;, 'beat': &lt;tastypie.fields.CharField object at 0xaa9ab12c&gt;, 'y_coordinate': &lt;tastypie.fields.IntegerField object at 0xaa9ab2ac&gt;, 'year': &lt;tastypie.fields.IntegerField object at 0xaa9ab2ec&gt;, 'has_arrested': &lt;tastypie.fields.BooleanField object at 0xaa9ab0ac&gt;, 'case_number': &lt;tastypie.fields.CharField object at 0xaa9a3eec&gt;, 'date': &lt;tastypie.fields.DateTimeField object at 0xaa9a3f0c&gt;, 'ward': &lt;tastypie.fields.IntegerField object at 0xaa9ab1ac&gt;, 'x_coordinate': &lt;tastypie.fields.IntegerField object at 0xaa9ab26c&gt;, 'crime_description': &lt;tastypie.fields.CharField object at 0xaa9ab02c&gt;, u'id': &lt;tastypie.fields.IntegerField object at 0xaa9a3eac&gt;, 'district': &lt;tastypie.fields.CharField object at 0xaa9ab16c&gt;, 'iucr': &lt;tastypie.fields.CharField object at 0xaa9a3f8c&gt;, 'longitude': &lt;tastypie.fields.FloatField object at 0xaa9ab3ac&gt;, 'location_description': &lt;tastypie.fields.CharField object at 0xaa9ab06c&gt;, 'case_id': &lt;tastypie.fields.IntegerField object at 0xaa99bbac&gt;, 'is_domestic': &lt;tastypie.fields.BooleanField object at 0xaa9ab0ec&gt;, 'location': &lt;tastypie.fields.CharField object at 0xaa9ab3ec&gt;, 'community_area': &lt;tastypie.fields.CharField object at 0xaa9ab1ec&gt;, 'latitude': &lt;tastypie.fields.FloatField object at 0xaa9ab36c&gt;, 'updated_on': &lt;tastypie.fields.DateTimeField object at 0xaa9ab32c&gt;, 'fbi_code': &lt;tastypie.fields.CharField object at 0xaa9ab22c&gt;, 'block': &lt;tastypie.fields.CharField object at 0xaa9a3f4c&gt;, u'resource_uri': &lt;tastypie.fields.CharField object at 0xaa9a3e2c&gt;}</em><a class="headerlink" href="#crime.api.CriminalRecordResource.base_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crime.api.CriminalRecordResource.declared_fields">
+<code class="descclassname">CriminalRecordResource.</code><code class="descname">declared_fields</code><em class="property"> = {}</em><a class="headerlink" href="#crime.api.CriminalRecordResource.declared_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-crime.models">
+<span id="crime-models-module"></span><h2>crime.models module<a class="headerlink" href="#module-crime.models" title="Permalink to this headline">¶</a></h2>
+<p>Models for the Crime module</p>
+<dl class="class">
+<dt id="crime.models.CriminalRecord">
+<em class="property">class </em><code class="descclassname">crime.models.</code><code class="descname">CriminalRecord</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crime/models.html#CriminalRecord"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crime.models.CriminalRecord" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.db.models.base.Model</span></code></p>
+<p>a model for a single criminal record</p>
+<dl class="exception">
+<dt id="crime.models.CriminalRecord.DoesNotExist">
+<em class="property">exception </em><code class="descname">DoesNotExist</code><a class="headerlink" href="#crime.models.CriminalRecord.DoesNotExist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.core.exceptions.ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="crime.models.CriminalRecord.MultipleObjectsReturned">
+<em class="property">exception </em><code class="descclassname">CriminalRecord.</code><code class="descname">MultipleObjectsReturned</code><a class="headerlink" href="#crime.models.CriminalRecord.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.core.exceptions.MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="crime.models.CriminalRecord.get_next_by_date">
+<code class="descclassname">CriminalRecord.</code><code class="descname">get_next_by_date</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#crime.models.CriminalRecord.get_next_by_date" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crime.models.CriminalRecord.get_next_by_updated_on">
+<code class="descclassname">CriminalRecord.</code><code class="descname">get_next_by_updated_on</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#crime.models.CriminalRecord.get_next_by_updated_on" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crime.models.CriminalRecord.get_previous_by_date">
+<code class="descclassname">CriminalRecord.</code><code class="descname">get_previous_by_date</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#crime.models.CriminalRecord.get_previous_by_date" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="crime.models.CriminalRecord.get_previous_by_updated_on">
+<code class="descclassname">CriminalRecord.</code><code class="descname">get_previous_by_updated_on</code><span class="sig-paren">(</span><em>*moreargs</em>, <em>**morekwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#crime.models.CriminalRecord.get_previous_by_updated_on" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crime.models.CriminalRecord.location">
+<code class="descclassname">CriminalRecord.</code><code class="descname">location</code><a class="headerlink" href="#crime.models.CriminalRecord.location" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crime.models.CriminalRecord.objects">
+<code class="descclassname">CriminalRecord.</code><code class="descname">objects</code><em class="property"> = &lt;django.db.models.manager.Manager object&gt;</em><a class="headerlink" href="#crime.models.CriminalRecord.objects" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-crime.views">
+<span id="crime-views-module"></span><h2>crime.views module<a class="headerlink" href="#module-crime.views" title="Permalink to this headline">¶</a></h2>
+<p>Views for the Crime module</p>
+<dl class="class">
+<dt id="crime.views.FetchCrimesView">
+<em class="property">class </em><code class="descclassname">crime.views.</code><code class="descname">FetchCrimesView</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crime/views.html#FetchCrimesView"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crime.views.FetchCrimesView" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.views.generic.base.View</span></code></p>
+<p>Fetch criminal records from online data portal</p>
+<dl class="method">
+<dt id="crime.views.FetchCrimesView.get">
+<code class="descname">get</code><span class="sig-paren">(</span><em>request</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crime/views.html#FetchCrimesView.get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crime.views.FetchCrimesView.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get criminal records from the dataset and save them the database as CriminalRecord objects</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="crime.views.FetchCrimesView.get_from_dict">
+<code class="descname">get_from_dict</code><span class="sig-paren">(</span><em>dic</em>, <em>key</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crime/views.html#FetchCrimesView.get_from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crime.views.FetchCrimesView.get_from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>get an value from the dictionary using a key but instead of None
+return an empty string if it does not exist</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>dic</strong> &#8211; the dictionary to be search</li>
+<li><strong>key</strong> &#8211; key of the value to be obtained</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">value of the key in the dictionary or empty string</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="crime.views.FetchCrimesView.to_int">
+<code class="descname">to_int</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crime/views.html#FetchCrimesView.to_int"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crime.views.FetchCrimesView.to_int" title="Permalink to this definition">¶</a></dt>
+<dd><p>converts data to interger, return None instead of number</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data</strong> &#8211; data to be converted</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">interger converstion of the data or None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">crime package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-crime.admin">crime.admin module</a></li>
+<li><a class="reference internal" href="#module-crime.api">crime.api module</a></li>
+<li><a class="reference internal" href="#module-crime.models">crime.models module</a></li>
+<li><a class="reference internal" href="#module-crime.views">crime.views module</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="core.finders.html" title="previous chapter">core.finders package</a></li>
+      <li>Next: <a href="crimeprediction.html" title="next chapter">crimeprediction package</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/api/crime.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Jay Arnel D. Bilocura.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="../_sources/api/crime.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

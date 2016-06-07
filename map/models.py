@@ -16,6 +16,7 @@ elif not os.path.exists(settings.GRIDS_DIR):
 
 
 class CityBorder(models.Model):
+    ''' A model holding the values and attributes of a city border or map'''
     objectid = models.IntegerField()
     name = models.CharField(max_length=25)
     shape_area = models.FloatField()
@@ -23,20 +24,35 @@ class CityBorder(models.Model):
     geom = models.MultiPolygonField(srid=4326)
 
     def __str__(self):
+        '''Use name as string
+
+        :rtype: city border's name
+        '''
         return self.name
 
     @property
     def geojson(self):
+        ''' generate geojson of the CityBorder
+        :rtype: city border's geojson
+        '''
         return serialize(
             'geojson', CityBorder.objects.filter(pk=self.pk),
             geometry_field='geom', fields=('name',))
 
     @property
     def center(self):
+        ''' get center point of the gemotry
+
+        :rtype: center point of the geomtry in geojson format
+        '''
         return self.geom.centroid.geojson
 
     @property
     def box(self):
+        ''' get box or envelope of the city border
+
+        :rtype: vertices of the box or envelope of the city border
+        '''
         boxPoints = {}
         extent = self.geom.extent
         boxPoints['nw'] = {'lat': extent[3], 'lon': extent[0]}
@@ -46,6 +62,11 @@ class CityBorder(models.Model):
         return boxPoints
 
     def generateGrid(self, size):
+        ''' generate a grid overlaying the city
+
+        :param size: dimension of the cell for the grid
+        :rtype: an array of cells that forms the grid
+        '''
         file = 'city-{0}_size-{1}m.p'.format(self.name, size)
         path = settings.GRIDS_DIR + file
         grids = []

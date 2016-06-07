@@ -15,6 +15,10 @@ city_shp = os.path.abspath(os.path.join(
 
 
 def run(verbose=True):
+    ''' load the shape files to the database
+
+    :param verbose: control message outputs of the method
+    '''
     lm = LayerMapping(CityBorder, city_shp, cityborder_mapping,
                       transform=True, encoding='iso-8859-1')
 

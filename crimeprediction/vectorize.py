@@ -19,6 +19,19 @@ elif not os.path.exists(settings.VECTORS_DIR):
 
 
 def vectorize(grid_size, period, crime_type=None, seasonal=False, new=False):
+    '''
+    Vectorize crime data fetched from the database. The vector is saved to a
+        pickle file and then retrieved later
+
+    :param grid_size: size of the cell dimension for the grid
+    :param period: timestep of crime data
+    :param crime_type: type of crime to be trained, None value will
+        train all
+    :param seasonal: implement seasonality or not
+    :param new: will override the old one pickle file if and if True
+    :raises: EnvironmentError, NotImplementedError
+    :rtype: returns the resulting vector
+    '''
     type_verbose = 'ALL' if crime_type is None else crime_type
     file = 'type-{0}_grid_size-{1}_period-{2}_seasonal-{3}.p'.format(
         type_verbose, grid_size, period, seasonal)
@@ -127,6 +140,15 @@ def vectorize(grid_size, period, crime_type=None, seasonal=False, new=False):
 
 
 def vectorize_weekly(grid, crime_type=None, seasonal=False):
+    '''
+    Special vectorization for weekly data
+
+    :param grid_size: size of the cell dimension for the grid
+    :param crime_type: type of crime to be trained, None value will
+        train all
+    :param seasonal: implement seasonality or not
+    :rtype: returns the resulting vector
+    '''
     filters = {}
     if crime_type is not None:
         filters['primary_type'] = crime_type
@@ -175,7 +197,7 @@ def vectorize_weekly(grid, crime_type=None, seasonal=False):
     return vectors
 
 
-def generate_all_vectors(new=False):
+def _generate_all_vectors(new=False):
     crime_types = list(CriminalRecord.objects.values('primary_type').annotate(
         count=Count('primary_type')).order_by('-count').values_list(
         'primary_type', flat=True)[:3])

@@ -1,0 +1,381 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>crimeprediction package &mdash; Crime Modeling and Prediction 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Crime Modeling and Prediction 0.0.1 documentation" href="../index.html" />
+    <link rel="next" title="map package" href="map.html" />
+    <link rel="prev" title="crime package" href="crime.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="crimeprediction-package">
+<h1>crimeprediction package<a class="headerlink" href="#crimeprediction-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-crimeprediction.error_analysis">
+<span id="crimeprediction-error-analysis-module"></span><h2>crimeprediction.error_analysis module<a class="headerlink" href="#module-crimeprediction.error_analysis" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="crimeprediction.error_analysis.build_model">
+<code class="descclassname">crimeprediction.error_analysis.</code><code class="descname">build_model</code><span class="sig-paren">(</span><em>dim</em>, <em>X</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crimeprediction/error_analysis.html#build_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crimeprediction.error_analysis.build_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>build function required by Scikit-Learn&#8217;s learning curve function</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>dim</strong> &#8211; dimension of the inputs</li>
+<li><strong>X</strong> &#8211; data vector</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">contructed model</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="crimeprediction.error_analysis.plot_learning_curve">
+<code class="descclassname">crimeprediction.error_analysis.</code><code class="descname">plot_learning_curve</code><span class="sig-paren">(</span><em>grid_size</em>, <em>period</em>, <em>crime_type=None</em>, <em>seasonal=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crimeprediction/error_analysis.html#plot_learning_curve"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crimeprediction.error_analysis.plot_learning_curve" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Plots the learning curve using Scikit-Learn&#8217;s learning_curve function,</dt>
+<dd><p class="first">plots the graph using matplotlib and save sit</p>
+<table class="last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">param grid_size:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">size of the cell dimension for the grid</td>
+</tr>
+<tr class="field-even field"><th class="field-name">param period:</th><td class="field-body">timestep of crime data</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">param crime_type:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">type of crime to be trained, None value will
+train all</td>
+</tr>
+<tr class="field-even field"><th class="field-name">param seasonal:</th><td class="field-body">implement seasonality or not</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-crimeprediction.experiments">
+<span id="crimeprediction-experiments-module"></span><h2>crimeprediction.experiments module<a class="headerlink" href="#module-crimeprediction.experiments" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="crimeprediction.experiments.run_experiments">
+<code class="descclassname">crimeprediction.experiments.</code><code class="descname">run_experiments</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crimeprediction/experiments.html#run_experiments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crimeprediction.experiments.run_experiments" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perfrom all experiments by running network under all possible conditions</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-crimeprediction.network">
+<span id="crimeprediction-network-module"></span><h2>crimeprediction.network module<a class="headerlink" href="#module-crimeprediction.network" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="crimeprediction.network.get_trained_model">
+<code class="descclassname">crimeprediction.network.</code><code class="descname">get_trained_model</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crimeprediction/network.html#get_trained_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crimeprediction.network.get_trained_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>reconstruct trained model from saved files</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">a tuple of the model constructed and a yaml string of parameters</td>
+</tr>
+</tbody>
+</table>
+<p>used</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="crimeprediction.network.predict_next">
+<code class="descclassname">crimeprediction.network.</code><code class="descname">predict_next</code><span class="sig-paren">(</span><em>model</em>, <em>**params</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crimeprediction/network.html#predict_next"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crimeprediction.network.predict_next" title="Permalink to this definition">¶</a></dt>
+<dd><p>predicts next crime hotspots</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>model</strong> &#8211; the model to be used for prediction</li>
+<li><strong>**params</strong> &#8211; <p>a yaml string of the parameters used by the model</p>
+</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="crimeprediction.network.run_network">
+<code class="descclassname">crimeprediction.network.</code><code class="descname">run_network</code><span class="sig-paren">(</span><em>grid_size</em>, <em>period</em>, <em>crime_type=None</em>, <em>seasonal=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crimeprediction/network.html#run_network"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crimeprediction.network.run_network" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build, train and run LSTM network</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>grid_size</strong> &#8211; size of the cell dimension for the grid</li>
+<li><strong>period</strong> &#8211; timestep of crime data</li>
+<li><strong>crime_type</strong> &#8211; type of crime to be trained, None value will
+train all</li>
+<li><strong>seasonal</strong> &#8211; implement seasonality or not</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="crimeprediction.network.save_trained_model">
+<code class="descclassname">crimeprediction.network.</code><code class="descname">save_trained_model</code><span class="sig-paren">(</span><em>model</em>, <em>params_string</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crimeprediction/network.html#save_trained_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crimeprediction.network.save_trained_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>saves trained model to directory and files depending on settings variables</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>model</strong> &#8211; model to be saved</li>
+<li><strong>params_string</strong> &#8211; a yaml string of parameters used for the model: crime_type, period, grid_size and seasonality</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-crimeprediction.vectorize">
+<span id="crimeprediction-vectorize-module"></span><h2>crimeprediction.vectorize module<a class="headerlink" href="#module-crimeprediction.vectorize" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="crimeprediction.vectorize.vectorize">
+<code class="descclassname">crimeprediction.vectorize.</code><code class="descname">vectorize</code><span class="sig-paren">(</span><em>grid_size</em>, <em>period</em>, <em>crime_type=None</em>, <em>seasonal=False</em>, <em>new=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crimeprediction/vectorize.html#vectorize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crimeprediction.vectorize.vectorize" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Vectorize crime data fetched from the database. The vector is saved to a</dt>
+<dd>pickle file and then retrieved later</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>grid_size</strong> &#8211; size of the cell dimension for the grid</li>
+<li><strong>period</strong> &#8211; timestep of crime data</li>
+<li><strong>crime_type</strong> &#8211; type of crime to be trained, None value will
+train all</li>
+<li><strong>seasonal</strong> &#8211; implement seasonality or not</li>
+<li><strong>new</strong> &#8211; will override the old one pickle file if and if True</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first">EnvironmentError, NotImplementedError</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">returns the resulting vector</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="crimeprediction.vectorize.vectorize_weekly">
+<code class="descclassname">crimeprediction.vectorize.</code><code class="descname">vectorize_weekly</code><span class="sig-paren">(</span><em>grid</em>, <em>crime_type=None</em>, <em>seasonal=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crimeprediction/vectorize.html#vectorize_weekly"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crimeprediction.vectorize.vectorize_weekly" title="Permalink to this definition">¶</a></dt>
+<dd><p>Special vectorization for weekly data</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>grid_size</strong> &#8211; size of the cell dimension for the grid</li>
+<li><strong>crime_type</strong> &#8211; type of crime to be trained, None value will
+train all</li>
+<li><strong>seasonal</strong> &#8211; implement seasonality or not</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">returns the resulting vector</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-crimeprediction.views">
+<span id="crimeprediction-views-module"></span><h2>crimeprediction.views module<a class="headerlink" href="#module-crimeprediction.views" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="crimeprediction.views.DashboardView">
+<em class="property">class </em><code class="descclassname">crimeprediction.views.</code><code class="descname">DashboardView</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crimeprediction/views.html#DashboardView"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crimeprediction.views.DashboardView" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.views.generic.base.TemplateView</span></code></p>
+<p>View for viewing dashboard or interface for the model</p>
+<dl class="method">
+<dt id="crimeprediction.views.DashboardView.get_context_data">
+<code class="descname">get_context_data</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crimeprediction/views.html#DashboardView.get_context_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crimeprediction.views.DashboardView.get_context_data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crimeprediction.views.DashboardView.template_name">
+<code class="descname">template_name</code><em class="property"> = 'map/dashboard.html'</em><a class="headerlink" href="#crimeprediction.views.DashboardView.template_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="crimeprediction.views.HomeView">
+<em class="property">class </em><code class="descclassname">crimeprediction.views.</code><code class="descname">HomeView</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crimeprediction/views.html#HomeView"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crimeprediction.views.HomeView" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.views.generic.base.TemplateView</span></code></p>
+<p>View for the home page</p>
+<dl class="attribute">
+<dt id="crimeprediction.views.HomeView.template_name">
+<code class="descname">template_name</code><em class="property"> = 'home/home.html'</em><a class="headerlink" href="#crimeprediction.views.HomeView.template_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="crimeprediction.views.MapView">
+<em class="property">class </em><code class="descclassname">crimeprediction.views.</code><code class="descname">MapView</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crimeprediction/views.html#MapView"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crimeprediction.views.MapView" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.views.generic.base.TemplateView</span></code></p>
+<p>View for showing the map</p>
+<dl class="method">
+<dt id="crimeprediction.views.MapView.get_context_data">
+<code class="descname">get_context_data</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crimeprediction/views.html#MapView.get_context_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crimeprediction.views.MapView.get_context_data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="crimeprediction.views.MapView.template_name">
+<code class="descname">template_name</code><em class="property"> = 'map/map.html'</em><a class="headerlink" href="#crimeprediction.views.MapView.template_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="crimeprediction.views.PredictView">
+<em class="property">class </em><code class="descclassname">crimeprediction.views.</code><code class="descname">PredictView</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crimeprediction/views.html#PredictView"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crimeprediction.views.PredictView" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.views.generic.base.View</span></code></p>
+<p>View for generating prediction of next hotspot</p>
+<dl class="method">
+<dt id="crimeprediction.views.PredictView.get">
+<code class="descname">get</code><span class="sig-paren">(</span><em>request</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crimeprediction/views.html#PredictView.get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crimeprediction.views.PredictView.get" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="crimeprediction.views.TrainView">
+<em class="property">class </em><code class="descclassname">crimeprediction.views.</code><code class="descname">TrainView</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crimeprediction/views.html#TrainView"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crimeprediction.views.TrainView" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.views.generic.base.View</span></code></p>
+<p>View for training a model whose parameters are chosen via web interface</p>
+<dl class="method">
+<dt id="crimeprediction.views.TrainView.get">
+<code class="descname">get</code><span class="sig-paren">(</span><em>request</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/crimeprediction/views.html#TrainView.get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crimeprediction.views.TrainView.get" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">crimeprediction package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-crimeprediction.error_analysis">crimeprediction.error_analysis module</a></li>
+<li><a class="reference internal" href="#module-crimeprediction.experiments">crimeprediction.experiments module</a></li>
+<li><a class="reference internal" href="#module-crimeprediction.network">crimeprediction.network module</a></li>
+<li><a class="reference internal" href="#module-crimeprediction.vectorize">crimeprediction.vectorize module</a></li>
+<li><a class="reference internal" href="#module-crimeprediction.views">crimeprediction.views module</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="crime.html" title="previous chapter">crime package</a></li>
+      <li>Next: <a href="map.html" title="next chapter">map package</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/api/crimeprediction.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Jay Arnel D. Bilocura.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="../_sources/api/crimeprediction.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
