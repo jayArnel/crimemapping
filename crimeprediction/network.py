@@ -2,13 +2,13 @@ import matplotlib.pyplot as plt
 import numpy as np
 import os
 import time
+import yaml
 
 from sklearn.learning_curve import learning_curve
 from keras.layers.core import Dense, Activation, Dropout
 from keras.layers.recurrent import LSTM
-from keras.models import Sequential
+from keras.models import Sequential, model_from_yaml
 from keras.wrappers.scikit_learn import KerasRegressor
-
 from django.conf import settings
 
 from crimeprediction.vectorize import vectorize
@@ -19,6 +19,12 @@ if not hasattr(settings, 'OUTPUTS_DIR'):
         'The directory to save output files is missing from your settings')
 elif not os.path.exists(settings.OUTPUTS_DIR):
     os.makedirs(settings.OUTPUTS_DIR)
+
+if not hasattr(settings, 'MODEL_DIR'):
+    raise ImproperlyConfigured(
+        'The directory to save the model is missing from your settings')
+elif not os.path.exists(settings.MODEL_DIR):
+    os.makedirs(settings.MODEL_DIR)
 
 
 def run_network(grid_size, period, crime_type=None, seasonal=False):
@@ -127,3 +133,21 @@ def run_network(grid_size, period, crime_type=None, seasonal=False):
     results += "Average F1 Score:" + str(np.average(f1scr))
     with open(results_file, "w") as output_file:
         output_file.write(results)
+    params = {
+        'grid_size': grid_size,
+        'period': period,
+        'crime_type': crime_type if crime_type is not None else 'all',
+        'seasonal': seasonal,
+    }
+    save_trained_model(model, yaml.dump(params))
+
+
+def save_trained_model(model, params_string):
+    folder = settings.MODEL_DIR
+    archi = folder + settings.MODEL_ARCHITECTURE
+    weights = folder + settings.MODEL_WEIGHTS
+    params = folder + settings.MODEL_PARAMS
+    yaml_string = model.to_yaml()
+    open(archi, 'w').write(yaml_string)
+    open(params, 'w').write(params_string)
+    model.save_weights(weights, overwrite=True)
