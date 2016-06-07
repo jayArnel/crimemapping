@@ -1,9 +1,11 @@
 require([
-    'jquery', 'model', 'hammerjs', 'jquery-hammerjs', 'materialize',
-], function($, Model) {
+    'jquery', 'model', 'crimeprediction/js/overlay/overlay', 'hammerjs',
+    'jquery-hammerjs', 'materialize',
+], function($, Model, overlay) {
 
     $('.modal-trigger').on('click', populateCityPopup);
     $('#map-popup').on('click', '.city', activateItem);
+    $('#map-popup').on('click', '.proceed', linkToMap);
 
     function populateCityPopup() {
         var popup = $('#map-popup');
@@ -32,4 +34,9 @@ require([
         $(this).closest('#map-popup').find('.modal-footer a.proceed').removeClass('disabled');
         $(this).closest('#map-popup').find('.modal-footer a.proceed').attr('href', 'map/'+city);
     }
+
+    function linkToMap(e){
+        overlay.indeterminate('Redirecting to map... Please Wait.');
+    }
+
 });
