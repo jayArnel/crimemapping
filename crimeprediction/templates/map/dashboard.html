@@ -1,0 +1,64 @@
+{% extends 'core/base.html' %}
+{% block page_content %}
+{% include 'nav/nav.html' %}
+    <div class="container">
+        <h4 class="header">Crime Mapping for Chicago</h4>
+        {% if has_model %}
+            <p><a class="waves-effect waves-light btn-large">Predict Using Current Model</a></p>
+            Model Details:
+            <ul>
+                <li>Crime type: {{ crime_type|capfirst }}</li>
+                <li>Cell dimensions: {{ grid_size }}mx{{ grid_size }}m</li>
+                <li>Timestep: {{ period|capfirst }} </li>
+                <li> Seasonal: {{seasonal}}</li>
+            </ul>
+        {% endif %}
+        <a class="modal-trigger waves-effect waves-light btn-large" href="#model-popup" id="new-model">Create New Model</a>
+        <div>Train a model that will predict future crime hotspots</div>
+    </div>
+
+    <div id="model-popup" class="modal modal-fixed-footer">
+        <div class="modal-content row">
+            <h4 class="col s12">Create New Model</h4>
+            <div class="input-field col s12">
+              <select>
+                <option value="All" selected>All</option>
+                {% for crime in crime_types %}
+                <option value="{{crime}}">{{crime}}</option>
+                {% endfor %}
+              </select>
+              <label>Crime Type</label>
+            </div>
+            <div class="input-field col s12">
+              <select>
+                {% for size in grid_sizes %}
+                <option value="{{size}}">{{size}}mx{{size}}m</option>
+                {% endfor %}
+              </select>
+              <label>Cell Dimension</label>
+            </div>
+            <div class="input-field col s12">
+              <select>
+                {% for period in periods %}
+                <option value="{{period}}">{{period}}</option>
+                {% endfor %}
+              </select>
+              <label>Timestep</label>
+            </div>
+            Seaonality
+            <div class="switch">
+                <label>
+                  False
+                  <input type="checkbox">
+                  <span class="lever"></span>
+                  True
+                </label>
+              </div>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-action proceed waves-effect waves-green btn green">Train</a>
+            <a href="#!" class="modal-action modal-close waves-effect waves-green btn red">Cancel</a>
+        </div>
+    </div>
+{% endblock %}
+{% block page_javascript %}<script src="{{ STATIC_URL }}crimeprediction/js/map/dashboard.js"></script>{% endblock %}
