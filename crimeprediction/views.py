@@ -1,3 +1,4 @@
+import json
 import os
 import yaml
 
@@ -7,7 +8,8 @@ from django.shortcuts import get_object_or_404
 from django.views.generic import TemplateView, View
 
 from crime.models import CriminalRecord
-from crimeprediction.network import run_network
+from crimeprediction.network import(
+    run_network, get_trained_model, predict_next)
 from map.models import CityBorder
 
 
@@ -59,4 +61,13 @@ class TrainView(View):
         seasonal = True if seasonality == 'true' else False
         run_network(
             grid_size, period, crime_type=crime_type, seasonal=seasonal)
-        return HttpResponse(200)
+        return HttpResponse(status=200)
+
+
+class PredictView(View):
+
+    def get(self, request, *args, **kwargs):
+        model, params = get_trained_model()
+        msg = {}
+        msg['prediction'] = predict_next(model, **params)
+        return HttpResponse(json.dumps(msg))

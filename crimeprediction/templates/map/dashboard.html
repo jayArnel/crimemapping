@@ -4,7 +4,7 @@
     <div class="container">
         <h4 class="header">Crime Mapping for Chicago</h4>
         {% if has_model %}
-            <p><a class="waves-effect waves-light btn-large">Predict Using Current Model</a></p>
+            <p><a class="waves-effect waves-light btn-large" id="predict">Predict Using Current Model</a></p>
             Model Details:
             <ul>
                 <li>Crime type: {{ crime_type|capfirst }}</li>

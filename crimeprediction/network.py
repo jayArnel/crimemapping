@@ -151,3 +151,26 @@ def save_trained_model(model, params_string):
     open(archi, 'w').write(yaml_string)
     open(params, 'w').write(params_string)
     model.save_weights(weights, overwrite=True)
+
+
+def get_trained_model():
+    folder = settings.MODEL_DIR
+    archi = folder + settings.MODEL_ARCHITECTURE
+    weights = folder + settings.MODEL_WEIGHTS
+    params = folder + settings.MODEL_PARAMS
+    params = yaml.safe_load(open(params).read())
+    model = model_from_yaml(open(archi).read())
+    model.load_weights(weights)
+    model.compile(loss='mse', optimizer='rmsprop',)
+    return model, params
+
+
+def predict_next(model, **params):
+    vectors = vectorize(**params)
+
+    print 'Loading Data...'
+    dim = len(vectors[0])
+    result = np.array(vectors)
+    result = np.reshape(result, (result.shape[0], result.shape[1], 1))
+    predicted = model.predict(result)
+    return predicted[-1]
