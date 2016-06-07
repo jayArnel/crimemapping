@@ -65,6 +65,7 @@ node_modules/
 crimemapping/local_settings.py
 crimeprediction/data/
 crimeprediction/outputs/
+crimeprediction/model/
 map/data/grids/
 
 # pickles
