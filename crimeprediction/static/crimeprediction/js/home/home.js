@@ -28,5 +28,8 @@ require([
         $(this).closest('#map-popup').find('.city span').removeClass('white-text');
         $(this).addClass('teal');
         $(this).find('span').addClass('white-text');
+        var city = $(this).find('span').text();
+        $(this).closest('#map-popup').find('.modal-footer a.proceed').removeClass('disabled');
+        $(this).closest('#map-popup').find('.modal-footer a.proceed').attr('href', 'map/'+city);
     }
 });
