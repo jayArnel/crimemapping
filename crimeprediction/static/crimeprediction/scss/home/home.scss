@@ -9,3 +9,15 @@ nav.home-nav {
         margin: 0 auto; 
     }
 }
+
+#map-popup{
+    .city {
+        cursor: pointer;
+    }
+
+    .modal-footer {
+        .btn {
+            margin: 0px 2px;
+        }
+    }
+}
