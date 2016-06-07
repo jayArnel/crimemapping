@@ -15,6 +15,8 @@
         {% endif %}
         <a class="modal-trigger waves-effect waves-light btn-large" href="#model-popup" id="new-model">Create New Model</a>
         <div>Train a model that will predict future crime hotspots</div>
+        <br><br>
+        <a class="waves-effect waves-light btn-large" href="{% url 'map' 'Chicago' %}">Go to Map</a>
     </div>
 
     <div id="model-popup" class="modal modal-fixed-footer">
