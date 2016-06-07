@@ -1,4 +1,4 @@
-# Crime Modelling and Prediction
+# Crime Modeling and Prediction
 ## Libraries
 NOTE: Some of this libraries may fail to install depending on the ubuntu version you have on your machine.
 ``` shell
