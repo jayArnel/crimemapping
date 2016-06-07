@@ -4,6 +4,16 @@ from tastypie import fields
 from models import CityBorder
 
 
+class CityBorderDetailResource(ModelResource):
+    class Meta:
+        queryset = CityBorder.objects.all()
+        resource_name = 'cityborder-detail'
+        filtering = {
+            "name": "exact",
+        }
+        excludes = ['geom']
+
+
 class CityBorderResource(ModelResource):
 
     geojson = fields.CharField(attribute='geojson', readonly=True)
