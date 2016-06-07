@@ -14,15 +14,21 @@ require([
         var CityBorder = new Model('cityborder-detail');
 
         CityBorder.objects.filter({}, function(data) {
+            if (data.length === 1) {
+                location.href = 'map/'+data[0].name;
+                overlay.indeterminate('Redirecting to map... Please Wait.');
+                return false;
+            }
+
             for (var i = 0; i < data.length; i++) {
                 var city = data[i];
                 var container = $('<div class="col s12 m6"><div class="card-panel city"></div></div>');
                 var content = container.find('.card-panel').append($('<span>'+city.name+'</span>'));
                 popupContent.append(container);
             }
+            popup.openModal();
         });
 
-        popup.openModal();
     }
 
     function activateItem(e) {
