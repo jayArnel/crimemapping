@@ -2,10 +2,12 @@ import os
 import yaml
 
 from django.conf import settings
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, View
 
 from crime.models import CriminalRecord
+from crimeprediction.network import run_network
 from map.models import CityBorder
 
 
@@ -45,3 +47,16 @@ class DashboardView(TemplateView):
         context['grid_sizes'] = settings.GRID_SIZES
         context['periods'] = settings.PERIODS
         return context
+
+
+class TrainView(View):
+
+    def get(self, request, *args, **kwargs):
+        crime_type = self.request.GET.get('crime_type')
+        grid_size = self.request.GET.get('grid_size')
+        period = self.request.GET.get('period')
+        seasonality = self.request.GET.get('seasonality')
+        seasonal = True if seasonality == 'true' else False
+        run_network(
+            grid_size, period, crime_type=crime_type, seasonal=seasonal)
+        return HttpResponse(200)
