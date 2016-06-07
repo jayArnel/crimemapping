@@ -7,6 +7,7 @@ require([
     function populateCityPopup() {
         var popup = $('#map-popup');
         var popupContent = popup.find('.modal-content');
+        popupContent.children().slice(1).remove();
         var CityBorder = new Model('cityborder-detail');
 
         CityBorder.objects.filter({}, function(data) {
