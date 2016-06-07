@@ -21,7 +21,7 @@
         <div class="modal-content row">
             <h4 class="col s12">Create New Model</h4>
             <div class="input-field col s12">
-              <select>
+              <select id="crime_type">
                 <option value="All" selected>All</option>
                 {% for crime in crime_types %}
                 <option value="{{crime}}">{{crime}}</option>
@@ -30,7 +30,7 @@
               <label>Crime Type</label>
             </div>
             <div class="input-field col s12">
-              <select>
+              <select id="grid_size">
                 {% for size in grid_sizes %}
                 <option value="{{size}}">{{size}}mx{{size}}m</option>
                 {% endfor %}
@@ -38,7 +38,7 @@
               <label>Cell Dimension</label>
             </div>
             <div class="input-field col s12">
-              <select>
+              <select id="period">
                 {% for period in periods %}
                 <option value="{{period}}">{{period}}</option>
                 {% endfor %}
@@ -46,7 +46,7 @@
               <label>Timestep</label>
             </div>
             Seaonality
-            <div class="switch">
+            <div class="switch" id="seasonality">
                 <label>
                   False
                   <input type="checkbox">
@@ -56,7 +56,7 @@
               </div>
         </div>
         <div class="modal-footer">
-            <a href="#!" class="modal-action proceed waves-effect waves-green btn green">Train</a>
+            <a href="#!" class="modal-action proceed waves-effect waves-green btn green" id="train">Train</a>
             <a href="#!" class="modal-action modal-close waves-effect waves-green btn red">Cancel</a>
         </div>
     </div>
