@@ -140,13 +140,18 @@ SOCRATA_DATASET_ENDPOINT = 'ijzp-q8t2'
 
 TASTYPIE_DEFAULT_FORMATS = ['json']
 
-GRID_SIZES = [250, 500, 750, 1000]
-PERIODS = ['daily', 'weekly', 'monthly', 'yearly']
+GRID_SIZES = [1000, 750, 500]
+PERIODS = ['yearly', 'monthly', 'weekly']
 
 VECTORS_DIR = 'crimeprediction/data/vectors/'
 GRIDS_DIR = 'map/data/grids/'
 
 OUTPUTS_DIR = 'crimeprediction/outputs/'
+
+MODEL_DIR = 'crimeprediction/model/'
+MODEL_ARCHITECTURE = 'architecture.json'
+MODEL_WEIGHTS = 'weights.h5'
+MODEL_PARAMS = 'params.json'
 
 try:
     from local_settings import *
